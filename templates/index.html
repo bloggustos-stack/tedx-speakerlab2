@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Speaker Lab AI – TEDxBrașov</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        textarea { width: 100%; height: 200px; }
+        .result { margin-top: 20px; white-space: pre-wrap; background: #f5f5f5; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Speaker Lab AI – TEDxBrașov</h1>
+    <form method="post">
+        <textarea name="speech_text" placeholder="Paste your speech here..."></textarea><br>
+        <button type="submit">Analizează discursul</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+        {% for crit, data in result.items() %}
+            <b>{{ crit }}:</b> {{ data['score'] }}/10<br>
+            Recomandare: {{ data['recommendation'] }}<br><br>
+        {% endfor %}
+    </div>
+    <a href="/download/{{ pdf_file }}" target="_blank">Descarcă PDF Scorecard</a>
+    <canvas id="radarChart" width="400" height="400"></canvas>
+    <script>
+        const labels = ['Idea Strength', 'Structural Integrity', 'Cognitive Load', 'Emotional Arc', 'Memorability Factor'];
+        const scores = [
+            {% for crit, data in result.items() %}
+                {{ data['score'] }},
+            {% endfor %}
+        ];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Scoruri TEDx',
+                data: scores,
+                fill: true,
+                backgroundColor: 'rgba(54,162,235,0.2)',
+                borderColor: 'rgba(54,162,235,1)',
+                pointBackgroundColor: 'rgba(54,162,235,1)'
+            }]
+        };
+        const config = { type: 'radar', data: data, options: { responsive: true } };
+        new Chart(document.getElementById('radarChart'), config);
+    </script>
+    {% endif %}
+</body>
+</html>
