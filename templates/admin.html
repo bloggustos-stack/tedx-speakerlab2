@@ -1,0 +1,11 @@
+TEDxBrașov · Admin
+← Dashboard
+Gestionează utilizatorii
+{{ users|length }} utilizatori înregistrați · Modifică nivelul de acces direct din tabel.
+
+{% for email, u in users.items() %} {% endfor %}
+Email	Nume	Nivel curent	Înregistrat	Schimbă nivelul
+{{ email }}	{{ u.get('name', '—') }}	{{ tiers[u.tier].name }}	{{ u.get('created', '—')[:10] }}	
+
+{{ tier_val.name }}
+Salvează
