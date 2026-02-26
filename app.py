@@ -1,4 +1,5 @@
 import os
+
 from flask import Flask, render_template, request, send_file, redirect, url_for, session, flash
 from openai import OpenAI
 from fpdf import FPDF
