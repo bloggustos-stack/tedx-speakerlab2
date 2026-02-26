@@ -1,51 +1,86 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Speaker Lab AI – TEDxBrașov</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body { font-family: Arial; margin: 40px; }
-        textarea { width: 100%; height: 200px; }
-        .result { margin-top: 20px; white-space: pre-wrap; background: #f5f5f5; padding: 15px; border-radius: 5px; }
-    </style>
-</head>
-<body>
-    <h1>Speaker Lab AI – TEDxBrașov</h1>
-    <form method="post">
-        <textarea name="speech_text" placeholder="Paste your speech here..."></textarea><br>
-        <button type="submit">Analizează discursul</button>
-    </form>
+TEDxBrașov · Speaker Lab AI
+{% if user %}
+{{ tiers[user.tier].name }}
+{% endif %}
+{% if user %}
+{{ user.get('name', user.email) }}
+{% if user.tier == 'paid3' %}
+Admin
+{% endif %}
+Upgrade
+Ieși
+{% endif %}
+Analizează
+discursul tău
+{% if user %}
+Nivel activ: {{ tiers[user.tier].name }} — {% if user.tier == 'free' %}analiză de bază pe 5 criterii (GPT-3.5) {% elif user.tier == 'paid1' %}analiză completă pe 9 principii Gallo (GPT-4o) {% elif user.tier == 'paid2' %}coaching personalizat pe 9 sesiuni (GPT-4o) {% elif user.tier == 'paid3' %}feedback personal de curator TEDxBrașov (GPT-4o) {% endif %}
 
-    {% if result %}
-    <div class="result">
-        {% for crit, data in result.items() %}
-            <b>{{ crit }}:</b> {{ data['score'] }}/10<br>
-            Recomandare: {{ data['recommendation'] }}<br><br>
-        {% endfor %}
-    </div>
-    <a href="/download/{{ pdf_file }}" target="_blank">Descarcă PDF Scorecard</a>
-    <canvas id="radarChart" width="400" height="400"></canvas>
-    <script>
-        const labels = ['Idea Strength', 'Structural Integrity', 'Cognitive Load', 'Emotional Arc', 'Memorability Factor'];
-        const scores = [
-            {% for crit, data in result.items() %}
-                {{ data['score'] }},
-            {% endfor %}
-        ];
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: 'Scoruri TEDx',
-                data: scores,
-                fill: true,
-                backgroundColor: 'rgba(54,162,235,0.2)',
-                borderColor: 'rgba(54,162,235,1)',
-                pointBackgroundColor: 'rgba(54,162,235,1)'
-            }]
-        };
-        const config = { type: 'radar', data: data, options: { responsive: true } };
-        new Chart(document.getElementById('radarChart'), config);
-    </script>
-    {% endif %}
-</body>
-</html>
+{% endif %}
+Textul discursului tău
+Lipește sau scrie textul discursului tău aici. Cu cât e mai complet, cu atât analiza va fi mai precisă...
+Analizezi cu {{ tiers[user.tier].name }} {% if user.tier == 'free' %} · Upgrade pentru analiză avansată →{% endif %}
+Analizează discursul →
+{% if result %}
+Rezultatele analizei
+{% if pdf_file %}
+↓ Descarcă PDF
+{% endif %}
+{# ── FREE TIER ── #} {% if result.tier == 'free' and result.analysis %}
+{% for crit, data in result.analysis.items() %}
+{{ crit }}
+{{ data.score }}/10
+{{ data.recommendation }}
+{% endfor %}
+Profil vizual
+Vrei mai mult? Nivelul Speaker analizează discursul prin cele 9 principii ale lui Carmine Gallo cu GPT-4o.
+Vezi planurile →
+{% endif %} {# ── PAID 1 — 9 PRINCIPLES ── #} {% if result.tier == 'paid1' and result.analysis %}
+{% for crit, data in result.analysis.items() %}
+{{ crit }}
+{{ data.score }}/10
+{{ '✓ Prezent în discurs' if data.present else '✗ Lipsește din discurs' }}
+{{ data.recommendation }}
+{% endfor %}
+Radar — 9 principii Gallo
+{% endif %} {# ── PAID 2 — COACHING ── #} {% if result.tier == 'paid2' and result.analysis %} {% set a = result.analysis %}
+Scor general
+{{ a.overall_score }}/10
+Puncte forte
+{{ a.strengths|length }}
+identificate
+Sesiuni plan
+9
+zile de coaching
+Rezumat
+{{ a.summary }}
+
+Plan de coaching — 9 sesiuni
+{% for s in a.coaching_sessions %}
+{{ s.day }}
+{{ s.principle }}
+{{ s.exercise }}
+{% if s.example_question %}
+{{ s.example_question }}
+{% endif %} {% if s.ted_example %}
+TED exemplu: {{ s.ted_example }}
+{% endif %}
+{% endfor %}
+{% endif %} {# ── PAID 3 — CURATOR MODE ── #} {% if result.tier == 'paid3' and result.analysis %} {% set a = result.analysis %} {{ a.curator_verdict }}
+Tibi Ruczui — Curator TEDxBrașov
+{{ a.curator_message }}
+Ce m-a impresionat
+{{ a.what_moved_me }}
+Ce mă îngrijorează
+{{ a.what_worries_me }}
+{% for principle, data in a.nine_principles_check.items() %}
+{{ principle }}
+{{ data.score }}/10
+{{ data.curator_note }}
+{% endfor %}
+{% if a.stage_readiness %}
+Pregătire pentru scenă: {{ 'Gata de urcat pe scenă! 🎤' if a.stage_readiness.ready_to_present else a.stage_readiness.priority_action }} {% if not a.stage_readiness.ready_to_present %} · {{ a.stage_readiness.estimated_sessions_needed }} sesiuni recomandate {% endif %}
+{% endif %}
+Radar curator — 9 principii
+{% endif %}
+{% endif %}
+{% if result and result.analysis and not result.get('error') %} {% endif %}
