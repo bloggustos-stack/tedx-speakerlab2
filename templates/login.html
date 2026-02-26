@@ -1,13 +1,32 @@
-TEDxBrașov
-Speaker
-Lab AI
-{% with messages = get_flashed_messages() %} {% if messages %} {% for msg in messages %}
-{{ msg }}
-{% endfor %} {% endif %} {% endwith %}
-Email
-speaker@email.com
-Parolă
-••••••••
- Intră în cont →
-Nu ai cont? Înregistrează-te gratuit
-SPEAKER LAB AI · V2
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Speaker Lab AI – Login</title>
+<style>
+body{font-family:Arial;background:#0a0a0a;color:#e8e0d5;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+.card{width:380px;background:#111;border:1px solid #222;padding:40px}
+h1{font-size:28px;margin-bottom:24px}
+label{display:block;font-size:11px;color:#888;margin-bottom:6px;margin-top:16px}
+input{width:100%;background:#000;border:1px solid #333;color:#e8e0d5;font-size:14px;padding:10px;box-sizing:border-box;outline:none}
+button{width:100%;background:#be123c;color:white;border:none;padding:12px;font-size:13px;cursor:pointer;margin-top:20px}
+.flash{background:#3f0000;color:#fca5a5;padding:10px;margin-bottom:16px;font-size:12px}
+a{color:#e8e0d5}
+.foot{margin-top:20px;text-align:center;font-size:12px;color:#666}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Speaker Lab AI</h1>
+{% with messages = get_flashed_messages() %}{% if messages %}{% for msg in messages %}<div class="flash">{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}
+<form method="post">
+<label>Email</label>
+<input type="email" name="email" required placeholder="speaker@email.com">
+<label>Parolă</label>
+<input type="password" name="password" required>
+<button type="submit">Intră în cont</button>
+</form>
+<div class="foot">Nu ai cont? <a href="/register">Înregistrează-te gratuit</a></div>
+</div>
+</body>
+</html>
