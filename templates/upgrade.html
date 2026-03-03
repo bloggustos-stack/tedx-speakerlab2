@@ -1,44 +1,211 @@
-TEDxBrașov · Speaker Lab AI
-← Înapoi
-Alege
-nivelul tău
-Fiecare nivel deblochează o dimensiune nouă a pregătirii tale pentru scenă.
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Upgrade – Speaker Lab AI TEDxBrașov</title>
+<style>
+body{font-family:Arial;background:#0a0a0a;color:#e8e0d5;margin:0;padding:0}
+nav{background:#111;border-bottom:1px solid #222;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:52px}
+nav a{color:#e8e0d5;text-decoration:none;font-size:12px;margin-left:16px}
+nav a:hover{color:#be123c}
+.badge{font-size:10px;padding:3px 8px;border:1px solid #333;color:#aaa;margin-left:12px}
+.container{max-width:960px;margin:0 auto;padding:48px 24px}
+.page-header{text-align:center;margin-bottom:48px}
+.page-header h1{font-size:36px;margin-bottom:12px}
+.page-header h1 em{color:#666;font-weight:300}
+.page-header p{font-size:13px;color:#666;max-width:480px;margin:0 auto}
+.motto{font-size:11px;color:#555;font-style:italic;margin:16px auto 0;border-left:2px solid #be123c;padding-left:12px;max-width:480px;text-align:left}
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
+.plan{background:#111;border:1px solid #222;padding:24px;position:relative;display:flex;flex-direction:column}
+.plan.featured{border-color:#be123c;border-width:2px}
+.plan-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#be123c;color:white;font-size:9px;padding:3px 10px;text-transform:uppercase;letter-spacing:0.1em;white-space:nowrap}
+.plan-tier{font-size:10px;color:#be123c;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px}
+.plan-name{font-size:20px;font-weight:bold;color:#e8e0d5;margin-bottom:4px}
+.plan-subtitle{font-size:11px;color:#555;margin-bottom:20px}
+.plan-price{font-size:38px;font-weight:bold;color:#e8e0d5;margin-bottom:4px}
+.plan-price span{font-size:13px;color:#666;font-weight:normal}
+.plan-divider{border:none;border-top:1px solid #222;margin:20px 0}
+.plan-features{list-style:none;padding:0;margin:0 0 24px;flex:1}
+.plan-features li{font-size:11px;color:#888;padding:5px 0;border-bottom:1px solid #1a1a1a;display:flex;align-items:flex-start;gap:8px;line-height:1.4}
+.plan-features li:last-child{border-bottom:none}
+.plan-features li::before{content:"✓";color:#4ade80;font-size:10px;margin-top:1px;flex-shrink:0}
+.plan-features li.neutral::before{content:"·";color:#555}
+.plan-features li.archetype::before{content:"🧠";font-size:10px}
+.plan-btn{display:block;text-align:center;padding:10px;font-size:11px;text-decoration:none;border:1px solid #333;color:#888;margin-top:auto}
+.plan-btn.active{background:#1a1a1a;color:#4ade80;border-color:#4ade80;cursor:default}
+.plan-btn.primary{background:#be123c;color:white;border-color:#be123c}
+.plan-btn.primary:hover{background:#9f1239}
+.plan-btn.secondary{border-color:#333;color:#e8e0d5}
+.plan-btn.secondary:hover{border-color:#be123c;color:#be123c}
+.archetype-highlight{background:#111;border:1px solid #333;border-left:3px solid #be123c;padding:20px 24px;margin-bottom:40px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+.archetype-icon{font-size:40px}
+.archetype-text h3{font-size:14px;color:#be123c;margin:0 0 6px}
+.archetype-text p{font-size:12px;color:#888;margin:0;line-height:1.6}
+.contact-box{background:#111;border:1px solid #222;padding:24px;text-align:center;margin-bottom:24px}
+.contact-box h3{font-size:14px;margin-bottom:8px}
+.contact-box p{font-size:12px;color:#666;margin-bottom:16px}
+.contact-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.contact-link{font-size:12px;color:#be123c;text-decoration:none;border:1px solid rgba(190,18,60,0.3);padding:8px 18px}
+.contact-link:hover{background:rgba(190,18,60,0.1)}
+.guarantee{text-align:center;font-size:11px;color:#555;margin-top:16px}
+@media(max-width:700px){
+  .plans{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .plans{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div>
+    <strong>TEDxBrașov · Speaker Lab AI</strong>
+    {% if user %}<span class="badge">{{ tiers[user.tier].name }}</span>{% endif %}
+  </div>
+  <div>
+    {% if user %}
+    <span style="font-size:12px;color:#666">{{ user.get('name', user.email) }}</span>
+    {% if user.tier == 'paid3' %}<a href="/admin">Admin</a>{% endif %}
+    <a href="/">Înapoi</a>
+    <a href="/logout" style="color:#be123c">Ieși</a>
+    {% endif %}
+  </div>
+</nav>
 
-Explorer
-Nivel gratuit
-0 € / lună
-Analiză pe 5 criterii de bază
-Scor 0-10 per criteriu
-Radar chart vizual
-Export PDF
-GPT-3.5
-Activ gratuit
-Speaker
-Principii Gallo
-9 € / lună
-Analiză pe 9 principii Carmine Gallo
-GPT-4o (mult mai precis)
-Verificare prezență per principiu
-Recomandări detaliate
-Radar 9 principii
-Contactează →
-Coach
-Talk Builder
-19 € / lună
-Plan coaching 9 sesiuni (zi cu zi)
-Exerciții practice personalizate
-Întrebări de reflecție
-Exemple TED relevante
-GPT-4o · Pași următori clari
-Contactează →
-Curator
-Vocea lui Tibi
-39 € / lună
-Feedback personal de curator
-Verdict scenă: gata / nu gata
-Ce m-a impresionat & îngrijorat
-Toate cele 9 principii + note curator
-GPT-4o · Cel mai avansat nivel
-Contactează →
-Pentru upgrade, contactează-l pe Tibi Ruczui la tibiruczui@yahoo.com
-sau pe +40 729 161 230 · Upgrade activat manual în 24h.
+<div class="container">
+
+  <div class="page-header">
+    <h1>Alege <em>nivelul tău</em></h1>
+    <p>Fiecare nivel deblochează o dimensiune nouă a pregătirii tale pentru scenă.</p>
+    <p class="motto">What you are speaks so loudly that I cannot hear what you say. — Ralph Waldo Emerson</p>
+  </div>
+
+  <!-- Archetype highlight -->
+  <div class="archetype-highlight">
+    <div class="archetype-icon">🧠</div>
+    <div class="archetype-text">
+      <h3>Nou: Identificare Arhetip (Carol S. Pearson / Carl Jung)</h3>
+      <p>Toate nivelurile plătite includ acum identificarea arhetipului tău de speaker — dominant și secundar — bazat pe cele 12 arhetipuri ale lui Carol S. Pearson și Carl Jung. Coaching-ul amplifică arhetipul tău natural, nu încearcă să îl schimbe. Un Bufon nu devine Înțelept — devine cel mai bun Bufon posibil.</p>
+    </div>
+  </div>
+
+  <div class="plans">
+
+    <!-- FREE -->
+    <div class="plan {% if user.tier == 'free' %}featured{% endif %}">
+      {% if user.tier == 'free' %}<div class="plan-badge">Nivelul tău actual</div>{% endif %}
+      <div class="plan-tier">Explorer</div>
+      <div class="plan-name">Gratuit</div>
+      <div class="plan-subtitle">Primul pas</div>
+      <div class="plan-price">0 €<span> / lună</span></div>
+      <hr class="plan-divider">
+      <ul class="plan-features">
+        <li>Analiză pe 5 criterii de bază</li>
+        <li>Scor 0-10 per criteriu</li>
+        <li>Radar chart vizual</li>
+        <li>Export PDF</li>
+        <li class="neutral">GPT-3.5</li>
+        <li class="neutral">Fără identificare arhetip</li>
+        <li class="neutral">Fără principii Gallo</li>
+      </ul>
+      {% if user.tier == 'free' %}
+      <span class="plan-btn active">✓ Activ acum</span>
+      {% else %}
+      <a href="/" class="plan-btn secondary">Folosește gratuit</a>
+      {% endif %}
+    </div>
+
+    <!-- PAID1 -->
+    <div class="plan {% if user.tier == 'paid1' %}featured{% endif %}">
+      {% if user.tier == 'paid1' %}<div class="plan-badge">Nivelul tău actual</div>{% endif %}
+      <div class="plan-tier">Speaker</div>
+      <div class="plan-name">Principii Gallo</div>
+      <div class="plan-subtitle">Analiză profundă</div>
+      <div class="plan-price">9 €<span> / lună</span></div>
+      <hr class="plan-divider">
+      <ul class="plan-features">
+        <li>Analiză pe 9 principii Carmine Gallo</li>
+        <li>GPT-4o (mult mai precis)</li>
+        <li>Verificare prezență per principiu</li>
+        <li>Recomandări detaliate cu citate din text</li>
+        <li>Studii de caz TED recomandate</li>
+        <li class="archetype">Arhetip dominant + secundar</li>
+        <li class="archetype">Autenticitate arhetipală scorată</li>
+        <li class="archetype">Umbra arhetipului detectată</li>
+        <li>Radar 9 principii + PDF</li>
+      </ul>
+      {% if user.tier == 'paid1' %}
+      <span class="plan-btn active">✓ Activ acum</span>
+      {% else %}
+      <a href="mailto:tibiruczui@yahoo.com?subject=Upgrade Speaker Lab AI - Speaker" class="plan-btn primary">Contactează →</a>
+      {% endif %}
+    </div>
+
+    <!-- PAID2 -->
+    <div class="plan {% if user.tier == 'paid2' %}featured{% endif %}">
+      {% if user.tier == 'paid2' %}<div class="plan-badge">Nivelul tău actual</div>{% endif %}
+      <div class="plan-tier">Coach</div>
+      <div class="plan-name">Talk Builder</div>
+      <div class="plan-subtitle">Plan pas cu pas</div>
+      <div class="plan-price">19 €<span> / lună</span></div>
+      <hr class="plan-divider">
+      <ul class="plan-features">
+        <li>Tot ce include Speaker +</li>
+        <li>Plan coaching 9 sesiuni (zi cu zi)</li>
+        <li>Exerciții practice personalizate</li>
+        <li>Citat din textul tău per sesiune</li>
+        <li>Studii de caz TED per sesiune</li>
+        <li class="archetype">Coaching bazat pe arhetipul tău</li>
+        <li class="archetype">Amplifică arhetipul, nu îl schimbă</li>
+        <li>Întrebări de reflecție profundă</li>
+        <li>GPT-4o · Pași următori clari</li>
+      </ul>
+      {% if user.tier == 'paid2' %}
+      <span class="plan-btn active">✓ Activ acum</span>
+      {% else %}
+      <a href="mailto:tibiruczui@yahoo.com?subject=Upgrade Speaker Lab AI - Coach" class="plan-btn primary">Contactează →</a>
+      {% endif %}
+    </div>
+
+    <!-- PAID3 -->
+    <div class="plan {% if user.tier == 'paid3' %}featured{% endif %}">
+      {% if user.tier == 'paid3' %}<div class="plan-badge">Nivelul tău actual</div>{% endif %}
+      <div class="plan-tier">Curator</div>
+      <div class="plan-name">Vocea lui Tibi</div>
+      <div class="plan-subtitle">Cel mai avansat</div>
+      <div class="plan-price">39 €<span> / lună</span></div>
+      <hr class="plan-divider">
+      <ul class="plan-features">
+        <li>Tot ce include Coach +</li>
+        <li>Feedback personal în vocea curatorului</li>
+        <li>Verdict scenă: Gata / Nu gata</li>
+        <li>Ce m-a impresionat & îngrijorat</li>
+        <li>Note curator per principiu</li>
+        <li class="archetype">Mesaj personal despre arhetipul tău</li>
+        <li class="archetype">Speaker TED cu același arhetip</li>
+        <li class="archetype">Umbra arhetipului analizată profund</li>
+        <li>GPT-4o · Cel mai avansat nivel</li>
+      </ul>
+      {% if user.tier == 'paid3' %}
+      <span class="plan-btn active">✓ Activ acum</span>
+      {% else %}
+      <a href="mailto:tibiruczui@yahoo.com?subject=Upgrade Speaker Lab AI - Curator" class="plan-btn primary">Contactează →</a>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- Contact box -->
+  <div class="contact-box">
+    <h3>Cum faci upgrade?</h3>
+    <p>Contactează-l pe Tibi Ruczui direct — upgrade activat manual în 24 ore.</p>
+    <div class="contact-links">
+      <a href="mailto:tibiruczui@yahoo.com" class="contact-link">✉️ tibiruczui@yahoo.com</a>
+      <a href="tel:+40729161230" class="contact-link">📞 +40 729 161 230</a>
+    </div>
+    <p class="guarantee" style="margin-top:16px">Bazat pe metodologia Carmine Gallo · Psihologia arhetipurilor Carol S. Pearson / Carl Jung · 10+ ani experiență TEDxBrașov</p>
+  </div>
+
+</div>
+</body>
+</html>
