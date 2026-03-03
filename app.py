@@ -68,6 +68,95 @@ def get_current_user():
     user["email"] = email
     return user
 
+MOTTO = "What you are speaks so loudly that I cannot hear what you say. - Ralph Waldo Emerson"
+
+ARCHETYPES = {
+    "Bufonul": {
+        "emoji": "🤡",
+        "description": "Foloseste umorul si ironia pentru a critica si a elibera. Rade de ceea ce e inadecvat pentru a schimba perspectivele.",
+        "ted_example": "Sir Ken Robinson",
+        "superpower": "Spune adevaruri incomode prin ras",
+        "shadow": "Poate fi perceput ca neserios"
+    },
+    "Eroul": {
+        "emoji": "🦁",
+        "description": "Depaseste obstacole, inspira prin curaj si actiune. Povestea lui e despre transformare prin lupta.",
+        "ted_example": "Simon Sinek",
+        "superpower": "Inspira actiune si curaj",
+        "shadow": "Poate parea arogant sau distantiat"
+    },
+    "Inteleptul": {
+        "emoji": "🔮",
+        "description": "Aduce claritate, cunoastere profunda si perspective noi. Vorbeste din experienta si cercetare.",
+        "ted_example": "Hans Rosling",
+        "superpower": "Transforma complexul in simplu si clar",
+        "shadow": "Poate fi perceput ca prea academic"
+    },
+    "Ingrijitorul": {
+        "emoji": "❤️",
+        "description": "Empatia si conexiunea umana sunt motorul sau. Vorbeste din dorinta de a ajuta si vindeca.",
+        "ted_example": "Brene Brown",
+        "superpower": "Creeaza conexiune emotionala profunda",
+        "shadow": "Poate parea prea vulnerabil sau sentimental"
+    },
+    "Exploratorul": {
+        "emoji": "🚀",
+        "description": "Curiozitate, descoperire, aventura intelectuala. Impinge granitele cunoasterii.",
+        "ted_example": "Richard Feynman",
+        "superpower": "Infecteaza audienta cu curiozitate",
+        "shadow": "Poate pierde firul narativ"
+    },
+    "Rebelul": {
+        "emoji": "⚡",
+        "description": "Contesta status quo-ul, provoaca conventiile, deschide drumuri noi.",
+        "ted_example": "Elon Musk",
+        "superpower": "Schimba paradigme si sparge tipare",
+        "shadow": "Poate aliena audienta conservatoare"
+    },
+    "Creatorul": {
+        "emoji": "🎨",
+        "description": "Imagineaza, construieste, aduce frumusete si inovatie in lume.",
+        "ted_example": "Jony Ive",
+        "superpower": "Inspira prin viziune si estetica",
+        "shadow": "Poate fi prea abstract sau idealist"
+    },
+    "Magicianul": {
+        "emoji": "✨",
+        "description": "Transforma realitatea, aduce solutii neasteptate, face imposibilul posibil.",
+        "ted_example": "Steve Jobs",
+        "superpower": "Surprinde si transforma perspectivele",
+        "shadow": "Poate parea manipulator"
+    },
+    "Conducatorul": {
+        "emoji": "👑",
+        "description": "Viziune clara, autoritate naturala, capacitatea de a uni oamenii in jurul unei cauze.",
+        "ted_example": "Nelson Mandela",
+        "superpower": "Creeaza miscare si schimbare la scara mare",
+        "shadow": "Poate fi perceput ca rigid sau autoritar"
+    },
+    "Inocentul": {
+        "emoji": "🌱",
+        "description": "Puritate, optimism, credinta in bine. Vede lumea prin ochi proaspeti.",
+        "ted_example": "Malala Yousafzai",
+        "superpower": "Inspira prin simplitate si sinceritate",
+        "shadow": "Poate parea naiv sau nepregatit"
+    },
+    "Amanul": {
+        "emoji": "🤝",
+        "description": "Conecteaza oameni si idei, construieste punti intre lumi diferite.",
+        "ted_example": "Tim Berners-Lee",
+        "superpower": "Creeaza retele si colaborare",
+        "shadow": "Poate lipsi de voce proprie puternica"
+    },
+    "Umbrele": {
+        "emoji": "🌊",
+        "description": "Adancime emotionala, complexitate, curajul de a explora teritorii intunecate.",
+        "ted_example": "Gabor Mate",
+        "superpower": "Atinge straturi profunde ale experientei umane",
+        "shadow": "Poate fi prea intens pentru unele audiente"
+    },
+}
+
 GALLO_9_PRINCIPLES = """
 Cele 9 principii Talk Like TED (Carmine Gallo):
 1. PASIUNEA - Ce iti face sufletul sa cante? Discursul porneste de la motivatia autentica.
@@ -78,23 +167,29 @@ Cele 9 principii Talk Like TED (Carmine Gallo):
 6. UMOR - Sare si piper: creierul retine mai bine cand rade.
 7. REGULA CELOR 18 MINUTE + REGULA CELOR 3 - Titlu, 3 mesaje cheie, structura clara.
 8. MULTISENZORIAL - Vorbeste prin imagine, metafore vizuale, experiente senzoriale.
-9. AUTENTICITATE - Fii transparent, scopul nu e prezentarea ci inspirarea.
+9. AUTENTICITATE - Ceea ce esti vorbeste atat de tare incat nu pot auzi ceea ce spui. (Emerson)
+   Autenticitatea nu se antreneaza - se descopera. Este arhetipul tau profund.
 """
 
 SCORING_GUIDE = """
-GHID STRICT DE ACORDARE A SCORURILOR — respecta-l cu strictete:
-- Scor 1-2: Principiul LIPSESTE COMPLET din text. Nu exista nicio urma a lui.
-- Scor 3-4: Principiul este FOARTE SLAB prezent. O singura mentiune vaga, fara dezvoltare.
-- Scor 5-6: Principiul este PARTIAL prezent. Exista elemente dar sunt insuficient dezvoltate.
+GHID STRICT DE ACORDARE A SCORURILOR:
+- Scor 1-2: Principiul LIPSESTE COMPLET din text.
+- Scor 3-4: Principiul este FOARTE SLAB prezent. O singura mentiune vaga.
+- Scor 5-6: Principiul este PARTIAL prezent. Elemente insuficient dezvoltate.
 - Scor 7-8: Principiul este BINE implementat. Clar prezent si eficient.
 - Scor 9-10: Principiul este EXCEPTIONAL, de nivel TED global. Rar intalnit.
 
 REGULI IMPORTANTE:
-1. Scorurile TREBUIE sa fie diferite intre ele — nu da acelasi scor la mai mult de 2 principii.
+1. Scorurile TREBUIE sa fie diferite intre ele.
 2. Citeaza INTOTDEAUNA un fragment concret din text pentru a justifica scorul.
-3. Daca textul e scurt sau vag, scorurile trebuie sa fie mici (3-5), nu medii.
-4. Fii critic si onest — un scor de 9-10 se acorda doar pentru discursuri exceptionale.
-5. Analizeaza DOAR ce este efectiv scris in text, nu ce ar putea fi sau ce intentiona speakerul.
+3. Daca textul e scurt sau vag, scorurile trebuie sa fie mici (3-5).
+4. Fii critic si onest - un scor de 9-10 se acorda doar pentru discursuri exceptionale.
+5. Analizeaza DOAR ce este efectiv scris in text.
+
+SPECIAL PENTRU AUTENTICITATE:
+- Nu da recomandari tehnice pentru autenticitate.
+- In schimb, ofera 3 intrebari de reflectie profunda personalizate pe textul speakerului.
+- Intrebarile trebuie sa il ajute sa se descopere pe sine, nu sa bifeze un criteriu.
 """
 
 TED_CASE_STUDIES = {
@@ -168,6 +263,11 @@ TED_CASE_STUDIES = {
     ],
 }
 
+ARCHETYPES_FOR_PROMPT = "\n".join([
+    f"- {name} {data['emoji']}: {data['description']} (exemplu TED: {data['ted_example']})"
+    for name, data in ARCHETYPES.items()
+])
+
 def format_case_studies_for_prompt():
     result = "\nSTUDII DE CAZ TED selectate curatorial de Tibi Ruczui, Curator TEDxBrasov (10+ ani):\n"
     for principle, talks in TED_CASE_STUDIES.items():
@@ -214,6 +314,7 @@ def analyze_speech_paid1(text):
     prompt = f"""
 Esti un evaluator strict de discursuri TEDx, expert in metodologia Carmine Gallo.
 Analizeaza textul urmator prin prisma celor 9 principii si acorda scoruri DIFERENTIATE si JUSTIFICATE.
+De asemenea, identifica ARHETIPUL speakerului din text.
 
 {GALLO_9_PRINCIPLES}
 
@@ -221,14 +322,27 @@ Analizeaza textul urmator prin prisma celor 9 principii si acorda scoruri DIFERE
 
 {case_studies}
 
+ARHETIPURILE POSIBILE ALE SPEAKERULUI:
+{ARCHETYPES_FOR_PROMPT}
+
 IMPORTANT:
 - Citeaza fragmente CONCRETE din text pentru fiecare scor.
-- Cand scorul e sub 7, recomanda un studiu de caz TED din lista de mai sus.
-- Scorurile TREBUIE sa fie diferite — reflecta realitatea textului, nu o medie.
+- Cand scorul e sub 7 (exceptand Autenticitate), recomanda un studiu de caz TED.
+- Pentru Autenticitate: ofera 3 intrebari de reflectie profunda, nu recomandari tehnice.
+- Identifica arhetipul dominant al speakerului bazat pe tonul, stilul si continutul textului.
+- Scorurile TREBUIE sa fie diferite.
 
 Returneaza DOAR un JSON valid:
 {{
-  "Pasiunea": {{ "score": 0, "present": false, "recommendation": "Citat din text + explicatie scor + studiu de caz daca scorul < 7" }},
+  "archetype": {{
+    "name": "Numele arhetipului identificat",
+    "emoji": "emoji-ul arhetipului",
+    "confidence": "mare|medie|mica",
+    "evidence": "Ce din text indica acest arhetip",
+    "superpower": "Superputerea acestui arhetip pe scena TED",
+    "reflection": "O intrebare profunda legata de arhetip pentru speaker"
+  }},
+  "Pasiunea": {{ "score": 0, "present": false, "recommendation": "Citat + explicatie + studiu de caz daca scorul < 7" }},
   "Povestea": {{ "score": 0, "present": false, "recommendation": "..." }},
   "Conversatia": {{ "score": 0, "present": false, "recommendation": "..." }},
   "Ceva Nou": {{ "score": 0, "present": false, "recommendation": "..." }},
@@ -236,7 +350,7 @@ Returneaza DOAR un JSON valid:
   "Umor": {{ "score": 0, "present": false, "recommendation": "..." }},
   "Regula celor 18 min": {{ "score": 0, "present": false, "recommendation": "..." }},
   "Multisenzorial": {{ "score": 0, "present": false, "recommendation": "..." }},
-  "Autenticitate": {{ "score": 0, "present": false, "recommendation": "..." }}
+  "Autenticitate": {{ "score": 0, "present": false, "reflection_questions": ["intrebare profunda 1", "intrebare profunda 2", "intrebare profunda 3"] }}
 }}
 
 Text de analizat: {text}
@@ -261,7 +375,7 @@ def analyze_speech_paid2(text):
     prompt = f"""
 Esti un coach avansat de TED talks, cu experienta curatorului TEDxBrasov.
 Analizeaza textul si creeaza un plan de coaching structurat pe 9 sesiuni.
-Fii CRITIC si SPECIFIC — bazeaza-te exclusiv pe ce este scris in text.
+Identifica si arhetipul speakerului - acesta e fundamentul coaching-ului.
 
 {GALLO_9_PRINCIPLES}
 
@@ -269,16 +383,25 @@ Fii CRITIC si SPECIFIC — bazeaza-te exclusiv pe ce este scris in text.
 
 {case_studies}
 
+ARHETIPURILE POSIBILE ALE SPEAKERULUI:
+{ARCHETYPES_FOR_PROMPT}
+
 IMPORTANT:
-- Pentru fiecare sesiune, citeaza un fragment concret din text care justifica nivelul principiului.
-- Include un studiu de caz TED din lista de mai sus pentru fiecare sesiune.
-- Exercitiile trebuie sa fie SPECIFICE pentru acest text, nu generice.
+- Identifica arhetipul dominant - coaching-ul trebuie sa amplifice arhetipul, nu sa il schimbe.
+- Pentru sesiunea Autenticitate: ofera intrebari de reflectie profunda, nu exercitii tehnice.
+- Pentru celelalte sesiuni: citeaza fragmente din text si recomanda studii de caz TED.
 
 Returneaza DOAR un JSON valid:
 {{
+  "archetype": {{
+    "name": "Numele arhetipului",
+    "emoji": "emoji",
+    "evidence": "Ce din text indica acest arhetip",
+    "coaching_note": "Cum sa amplifice acest arhetip pe scena TED"
+  }},
   "overall_score": 0,
-  "summary": "Analiza critica si specifica a discursului in 2-3 propozitii, cu referinte la text.",
-  "strengths": ["punct forte specific din text 1", "punct forte specific 2", "punct forte specific 3"],
+  "summary": "Analiza critica si specifica in 2-3 propozitii cu referinte la text.",
+  "strengths": ["punct forte specific 1", "punct forte specific 2", "punct forte specific 3"],
   "coaching_sessions": [
     {{
       "day": 1,
@@ -288,11 +411,11 @@ Returneaza DOAR un JSON valid:
       "text_evidence": "Citat sau referinta concreta din text",
       "exercise": "Exercitiu specific bazat pe textul analizat",
       "example_question": "Intrebare de reflectie personalizata",
-      "ted_example": "Titlul TED talk-ului recomandat din lista",
+      "ted_example": "Titlul TED talk-ului recomandat",
       "ted_speaker": "Numele speakerului"
     }}
   ],
-  "next_steps": ["actiune concreta 1 bazata pe text", "actiune concreta 2", "actiune concreta 3"]
+  "next_steps": ["actiune concreta 1", "actiune concreta 2", "actiune concreta 3"]
 }}
 
 Text de analizat: {text}
@@ -317,7 +440,8 @@ def analyze_speech_paid3(text):
     prompt = f"""
 Esti Tibi Ruczui, curatorul TEDxBrasov, cu 10+ ani de experienta.
 Vorbesti direct cu speakerul, ca un mentor personal, cald dar EXIGENT si CRITIC.
-Bazeaza-te EXCLUSIV pe ce este scris in text — nu presupune, nu completa, nu inventa.
+Motto-ul tau: "{MOTTO}"
+Bazeaza-te EXCLUSIV pe ce este scris in text.
 
 {GALLO_9_PRINCIPLES}
 
@@ -325,15 +449,29 @@ Bazeaza-te EXCLUSIV pe ce este scris in text — nu presupune, nu completa, nu i
 
 {case_studies}
 
+ARHETIPURILE POSIBILE ALE SPEAKERULUI:
+{ARCHETYPES_FOR_PROMPT}
+
 IMPORTANT:
-- Fiecare scor trebuie sa fie JUSTIFICAT cu un citat sau referinta concreta din text.
-- Scorurile TREBUIE sa fie diferite — reflecta realitatea textului.
-- Pentru fiecare principiu cu scor sub 7, recomanda personal un studiu de caz TED.
-- Fii sincer chiar daca scorul general e mic — un curator bun nu minte.
+- Identifica arhetipul speakerului - acesta e CEL MAI IMPORTANT insight pe care il poti oferi.
+- Pentru Autenticitate: nu da recomandari tehnice, ci 3 intrebari de reflectie profunda.
+- Fiecare scor trebuie justificat cu citat concret din text.
+- Scorurile TREBUIE sa fie diferite.
+- Fii sincer chiar daca scorul general e mic.
 
 Returneaza DOAR un JSON valid:
 {{
-  "curator_message": "Mesaj personal direct catre speaker, bazat pe ce ai citit efectiv in text (3-4 propozitii sincere)",
+  "archetype": {{
+    "name": "Numele arhetipului identificat",
+    "emoji": "emoji",
+    "confidence": "mare|medie|mica",
+    "evidence": "Ce anume din text indica acest arhetip, cu citat",
+    "curator_message_about_archetype": "Mesajul tau personal catre speaker despre arhetipul sau (2-3 propozitii calde)",
+    "ted_example": "Un speaker TED celebru cu acelasi arhetip",
+    "superpower": "Superputerea acestui arhetip pe scena TED",
+    "shadow": "Riscul acestui arhetip de care speakerul trebuie sa fie constient"
+  }},
+  "curator_message": "Mesaj personal direct catre speaker, bazat pe ce ai citit in text (3-4 propozitii sincere)",
   "overall_score": 0,
   "curator_verdict": "Gata pentru scena|Aproape gata|Mai avem de lucru|Revenim de la zero",
   "what_moved_me": "Ce anume din text te-a impresionat, cu citat",
@@ -347,7 +485,7 @@ Returneaza DOAR un JSON valid:
     "Umor": {{ "score": 0, "curator_note": "..." }},
     "Regula celor 18 min": {{ "score": 0, "curator_note": "..." }},
     "Multisenzorial": {{ "score": 0, "curator_note": "..." }},
-    "Autenticitate": {{ "score": 0, "curator_note": "..." }}
+    "Autenticitate": {{ "score": 0, "reflection_questions": ["intrebare profunda 1 personalizata pe text", "intrebare profunda 2", "intrebare profunda 3"] }}
   }},
   "stage_readiness": {{
     "ready_to_present": false,
@@ -432,7 +570,7 @@ def generate_pdf(text, result, user_name, tier):
     if tier == "free":
         scores = {k: v.get("score", 0) for k, v in analysis.items() if isinstance(v, dict)}
     elif tier == "paid1":
-        scores = {k: v.get("score", 0) for k, v in analysis.items() if isinstance(v, dict)}
+        scores = {k: v.get("score", 0) for k, v in analysis.items() if isinstance(v, dict) and k != "archetype"}
     elif tier == "paid2":
         sessions = analysis.get("coaching_sessions", [])
         scores = {s["principle"]: s.get("score", 7) for s in sessions}
@@ -446,9 +584,21 @@ def generate_pdf(text, result, user_name, tier):
     pdf.add_page()
     pdf.set_font("Arial", "B", 18)
     pdf.cell(0, 12, "Speaker Lab AI - TEDxBrasov", ln=True, align="C")
+    pdf.set_font("Arial", "I", 9)
+    pdf.multi_cell(0, 6, clean(MOTTO))
     pdf.set_font("Arial", "", 10)
     pdf.cell(0, 6, clean(f"Speaker: {user_name} | Tier: {TIERS[tier]['name']} | {datetime.now().strftime('%d.%m.%Y %H:%M')}"), ln=True, align="C")
     pdf.ln(8)
+    archetype = analysis.get("archetype")
+    if archetype and isinstance(archetype, dict):
+        pdf.set_font("Arial", "B", 13)
+        pdf.cell(0, 8, clean(f"Arhetipul tau: {archetype.get('name', '')}"), ln=True)
+        pdf.set_font("Arial", "", 10)
+        pdf.multi_cell(0, 6, clean(archetype.get("evidence", "")))
+        pdf.multi_cell(0, 6, clean(f"Superputere: {archetype.get('superpower', '')}"))
+        if archetype.get("curator_message_about_archetype"):
+            pdf.multi_cell(0, 6, clean(archetype.get("curator_message_about_archetype", "")))
+        pdf.ln(4)
     pdf.set_font("Arial", "B", 12)
     pdf.cell(0, 8, "Discurs analizat:", ln=True)
     pdf.set_font("Arial", "", 10)
@@ -464,14 +614,25 @@ def generate_pdf(text, result, user_name, tier):
                 pdf.ln(2)
     elif tier == "paid1" and isinstance(analysis, dict):
         for crit, data in analysis.items():
-            if isinstance(data, dict):
+            if isinstance(data, dict) and crit != "archetype":
                 present = "+" if data.get("present") else "-"
                 pdf.set_font("Arial", "B", 11)
                 pdf.cell(0, 7, clean(f"{present} {crit}: {data.get('score', 0)}/10"), ln=True)
                 pdf.set_font("Arial", "", 10)
-                pdf.multi_cell(0, 6, clean(data.get("recommendation", "")))
+                if crit == "Autenticitate" and data.get("reflection_questions"):
+                    for q in data.get("reflection_questions", []):
+                        pdf.multi_cell(0, 6, clean(f"- {q}"))
+                else:
+                    pdf.multi_cell(0, 6, clean(data.get("recommendation", "")))
                 pdf.ln(2)
     elif tier == "paid2" and isinstance(analysis, dict):
+        arch = analysis.get("archetype", {})
+        if arch:
+            pdf.set_font("Arial", "B", 12)
+            pdf.cell(0, 8, clean(f"Coaching bazat pe arhetipul: {arch.get('name','')}"), ln=True)
+            pdf.set_font("Arial", "", 10)
+            pdf.multi_cell(0, 6, clean(arch.get("coaching_note", "")))
+            pdf.ln(4)
         pdf.set_font("Arial", "B", 13)
         pdf.cell(0, 8, clean(f"Scor general: {analysis.get('overall_score', 'N/A')}/10"), ln=True)
         pdf.set_font("Arial", "", 10)
@@ -479,7 +640,7 @@ def generate_pdf(text, result, user_name, tier):
         pdf.ln(4)
         for session in analysis.get("coaching_sessions", []):
             pdf.set_font("Arial", "B", 11)
-            pdf.cell(0, 7, clean(f"Ziua {session.get('day', '')}: {session.get('principle', '')} — {session.get('score', 0)}/10"), ln=True)
+            pdf.cell(0, 7, clean(f"Ziua {session.get('day', '')}: {session.get('principle', '')} - {session.get('score', 0)}/10"), ln=True)
             pdf.set_font("Arial", "", 10)
             if session.get("text_evidence"):
                 pdf.multi_cell(0, 6, clean(f"Din textul tau: {session.get('text_evidence', '')}"))
@@ -507,7 +668,11 @@ def generate_pdf(text, result, user_name, tier):
             pdf.set_font("Arial", "B", 11)
             pdf.cell(0, 7, clean(f"{principle}: {data.get('score', 0)}/10"), ln=True)
             pdf.set_font("Arial", "", 10)
-            pdf.multi_cell(0, 6, clean(data.get("curator_note", "")))
+            if principle == "Autenticitate" and data.get("reflection_questions"):
+                for q in data.get("reflection_questions", []):
+                    pdf.multi_cell(0, 6, clean(f"- {q}"))
+            else:
+                pdf.multi_cell(0, 6, clean(data.get("curator_note", "")))
             pdf.ln(2)
     if radar_img:
         pdf.ln(5)
