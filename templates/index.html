@@ -66,11 +66,17 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 .archetype-emoji{font-size:42px}
 .archetype-title{font-size:10px;color:#be123c;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px}
 .archetype-name{font-size:24px;font-weight:bold;color:#e8e0d5}
+.archetype-secondary{font-size:13px;color:#666;margin-top:3px}
+.archetype-group{font-size:10px;color:#be123c;margin-top:2px;text-transform:uppercase;letter-spacing:0.08em}
 .archetype-body{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
 .archetype-item{background:#0a0a0a;padding:12px}
 .archetype-item-label{font-size:10px;color:#666;text-transform:uppercase;margin-bottom:4px}
 .archetype-item-val{font-size:12px;color:#e8e0d5;line-height:1.5}
 .archetype-evidence{font-size:12px;color:#888;line-height:1.5;margin-top:10px;font-style:italic}
+.archetype-auth{background:#0a0a0a;border:1px solid #be123c;padding:12px;margin-top:12px;display:flex;align-items:center;gap:14px}
+.archetype-auth-score{font-size:32px;font-weight:bold;color:#be123c;min-width:48px}
+.archetype-auth-note{font-size:11px;color:#888;line-height:1.5}
+.shadow-alert{background:#1a0a0a;border:1px solid #7f1d1d;padding:10px 14px;margin-top:10px;font-size:11px;color:#f87171}
 /* REFLECTION QUESTIONS */
 .reflection-box{background:#0a0a0a;border:1px solid #333;padding:14px;margin-top:8px}
 .reflection-label{font-size:10px;color:#be123c;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px}
@@ -102,9 +108,9 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
   <p class="subtitle">
     Nivel activ: <strong>{{ tiers[user.tier].name }}</strong> —
     {% if user.tier == 'free' %}analiză de bază pe 5 criterii (GPT-3.5)
-    {% elif user.tier == 'paid1' %}analiză pe 9 principii Gallo + Arhetip (GPT-4o)
-    {% elif user.tier == 'paid2' %}coaching personalizat pe 9 sesiuni + Arhetip (GPT-4o)
-    {% elif user.tier == 'paid3' %}feedback personal de curator TEDxBrașov + Arhetip (GPT-4o)
+    {% elif user.tier == 'paid1' %}analiză pe 9 principii Gallo + Arhetip Pearson/Jung (GPT-4o)
+    {% elif user.tier == 'paid2' %}coaching personalizat pe 9 sesiuni + Arhetip Pearson/Jung (GPT-4o)
+    {% elif user.tier == 'paid3' %}feedback personal de curator TEDxBrașov + Arhetip Pearson/Jung (GPT-4o)
     {% endif %}
   </p>
 
@@ -133,47 +139,67 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
       <div class="archetype-header">
         <div class="archetype-emoji">{{ arch.emoji }}</div>
         <div>
-          <div class="archetype-title">Arhetipul tău de speaker</div>
-          <div class="archetype-name">{{ arch.name }}</div>
-          {% if arch.confidence %}<div style="font-size:10px;color:#666;margin-top:2px">Încredere: {{ arch.confidence }}</div>{% endif %}
+          <div class="archetype-title">Arhetipul tău de speaker — Carol S. Pearson / Carl Jung</div>
+          <div class="archetype-name">{{ arch.primary }}</div>
+          {% if arch.secondary %}<div class="archetype-secondary">Arhetip secundar: {{ arch.secondary }}</div>{% endif %}
+          {% if arch.group %}<div class="archetype-group">{{ arch.group }}</div>{% endif %}
+          {% if arch.confidence %}<div style="font-size:10px;color:#555;margin-top:2px">Încredere identificare: {{ arch.confidence }}</div>{% endif %}
         </div>
       </div>
+
       <div class="archetype-evidence">{{ arch.evidence }}</div>
+
       <div class="archetype-body">
+        <div class="archetype-item">
+          <div class="archetype-item-label">💚 Dorința principală</div>
+          <div class="archetype-item-val">{{ arch.desire }}</div>
+        </div>
+        <div class="archetype-item">
+          <div class="archetype-item-label">⚠️ Teama / Umbra</div>
+          <div class="archetype-item-val">{{ arch.fear }}</div>
+        </div>
         <div class="archetype-item">
           <div class="archetype-item-label">⚡ Superputere pe scenă</div>
           <div class="archetype-item-val">{{ arch.superpower }}</div>
         </div>
-        {% if arch.shadow %}
-        <div class="archetype-item">
-          <div class="archetype-item-label">⚠️ Umbra arhetipului</div>
-          <div class="archetype-item-val">{{ arch.shadow }}</div>
-        </div>
-        {% endif %}
         {% if arch.ted_example %}
         <div class="archetype-item">
-          <div class="archetype-item-label">🎤 Speaker TED similar</div>
+          <div class="archetype-item-label">🎤 Speaker TED cu același arhetip</div>
           <div class="archetype-item-val">{{ arch.ted_example }}</div>
         </div>
         {% endif %}
         {% if arch.curator_message_about_archetype %}
-        <div class="archetype-item">
-          <div class="archetype-item-label">💬 Nota curatorului</div>
+        <div class="archetype-item" style="grid-column:1/-1">
+          <div class="archetype-item-label">💬 Nota curatorului despre arhetipul tău</div>
           <div class="archetype-item-val">{{ arch.curator_message_about_archetype }}</div>
-        </div>
-        {% elif arch.reflection %}
-        <div class="archetype-item">
-          <div class="archetype-item-label">🔍 Întrebare de reflecție</div>
-          <div class="archetype-item-val">{{ arch.reflection }}</div>
         </div>
         {% endif %}
         {% if arch.coaching_note %}
         <div class="archetype-item" style="grid-column:1/-1">
-          <div class="archetype-item-label">🧭 Cum să îl amplifici</div>
+          <div class="archetype-item-label">🧭 Cum să îl amplifici pe scenă</div>
           <div class="archetype-item-val">{{ arch.coaching_note }}</div>
         </div>
         {% endif %}
       </div>
+
+      <!-- Autenticitate arhetipala -->
+      {% if arch.archetype_authenticity_score is defined %}
+      <div class="archetype-auth">
+        <div class="archetype-auth-score">{{ arch.archetype_authenticity_score }}<span style="font-size:14px;color:#666">/10</span></div>
+        <div>
+          <div style="font-size:10px;color:#be123c;text-transform:uppercase;margin-bottom:4px">Autenticitate Arhetipală</div>
+          <div class="archetype-auth-note">{{ arch.archetype_authenticity_note }}</div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Umbra prezenta in text -->
+      {% if arch.shadow_present and arch.shadow_present != 'Nu' %}
+      <div class="shadow-alert">
+        ⚠️ <strong>Umbra arhetipului detectată:</strong> {{ arch.shadow_present }}
+      </div>
+      {% endif %}
+
     </div>
     {% endif %}
 
@@ -193,7 +219,7 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
       <canvas id="radarChart" height="260"></canvas>
     </div>
     <div class="upgrade-box">
-      <p><strong>Vrei mai mult?</strong> Nivelul Speaker analizează prin cele 9 principii Gallo cu GPT-4o + identifică arhetipul tău.</p>
+      <p><strong>Vrei mai mult?</strong> Nivelul Speaker analizează prin cele 9 principii Gallo + identifică arhetipul tău Pearson/Jung.</p>
       <a href="/upgrade">Vezi planurile →</a>
     </div>
     {% endif %}
