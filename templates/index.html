@@ -14,6 +14,7 @@ nav a:hover{color:#be123c}
 h1{font-size:36px;margin-bottom:8px}
 h1 em{color:#666;font-weight:300}
 .subtitle{font-size:12px;color:#666;margin-bottom:32px}
+.motto{font-size:11px;color:#555;font-style:italic;margin-bottom:24px;border-left:2px solid #be123c;padding-left:12px}
 .form-card{background:#111;border:1px solid #222;padding:24px;margin-bottom:24px}
 textarea{width:100%;height:180px;background:#0a0a0a;border:1px solid #333;color:#e8e0d5;font-family:Arial;font-size:13px;padding:14px;box-sizing:border-box;outline:none;resize:vertical}
 textarea:focus{border-color:#be123c}
@@ -59,6 +60,24 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 .upgrade-box a{font-size:10px;color:#b45309;text-decoration:none;border:1px solid rgba(180,83,9,0.4);padding:7px 14px}
 .loading{display:none;font-size:12px;color:#888;margin-top:12px}
 .loading.active{display:block}
+/* ARCHETYPE */
+.archetype-card{background:#111;border:2px solid #be123c;padding:24px;margin-bottom:24px}
+.archetype-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.archetype-emoji{font-size:42px}
+.archetype-title{font-size:10px;color:#be123c;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px}
+.archetype-name{font-size:24px;font-weight:bold;color:#e8e0d5}
+.archetype-body{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.archetype-item{background:#0a0a0a;padding:12px}
+.archetype-item-label{font-size:10px;color:#666;text-transform:uppercase;margin-bottom:4px}
+.archetype-item-val{font-size:12px;color:#e8e0d5;line-height:1.5}
+.archetype-evidence{font-size:12px;color:#888;line-height:1.5;margin-top:10px;font-style:italic}
+/* REFLECTION QUESTIONS */
+.reflection-box{background:#0a0a0a;border:1px solid #333;padding:14px;margin-top:8px}
+.reflection-label{font-size:10px;color:#be123c;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px}
+.reflection-q{font-size:12px;color:#e8e0d5;line-height:1.7;padding:4px 0;border-bottom:1px solid #1a1a1a}
+.reflection-q:last-child{border-bottom:none}
+/* TED CASE STUDY */
+.ted-case{font-size:11px;color:#b45309;margin-top:6px;font-style:italic}
 </style>
 </head>
 <body>
@@ -79,12 +98,13 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 
 <div class="container">
   <h1>Analizează <em>discursul tău</em></h1>
+  <p class="motto">What you are speaks so loudly that I cannot hear what you say. — Ralph Waldo Emerson</p>
   <p class="subtitle">
     Nivel activ: <strong>{{ tiers[user.tier].name }}</strong> —
     {% if user.tier == 'free' %}analiză de bază pe 5 criterii (GPT-3.5)
-    {% elif user.tier == 'paid1' %}analiză pe 9 principii Gallo (GPT-4o)
-    {% elif user.tier == 'paid2' %}coaching personalizat pe 9 sesiuni (GPT-4o)
-    {% elif user.tier == 'paid3' %}feedback personal de curator TEDxBrașov (GPT-4o)
+    {% elif user.tier == 'paid1' %}analiză pe 9 principii Gallo + Arhetip (GPT-4o)
+    {% elif user.tier == 'paid2' %}coaching personalizat pe 9 sesiuni + Arhetip (GPT-4o)
+    {% elif user.tier == 'paid3' %}feedback personal de curator TEDxBrașov + Arhetip (GPT-4o)
     {% endif %}
   </p>
 
@@ -106,6 +126,58 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
       {% if pdf_file %}<a href="/download/{{ pdf_file }}" class="download-btn" target="_blank">↓ Descarcă PDF</a>{% endif %}
     </div>
 
+    <!-- ARCHETYPE BLOCK (paid1/2/3) -->
+    {% if result.analysis and result.analysis.archetype %}
+    {% set arch = result.analysis.archetype %}
+    <div class="archetype-card">
+      <div class="archetype-header">
+        <div class="archetype-emoji">{{ arch.emoji }}</div>
+        <div>
+          <div class="archetype-title">Arhetipul tău de speaker</div>
+          <div class="archetype-name">{{ arch.name }}</div>
+          {% if arch.confidence %}<div style="font-size:10px;color:#666;margin-top:2px">Încredere: {{ arch.confidence }}</div>{% endif %}
+        </div>
+      </div>
+      <div class="archetype-evidence">{{ arch.evidence }}</div>
+      <div class="archetype-body">
+        <div class="archetype-item">
+          <div class="archetype-item-label">⚡ Superputere pe scenă</div>
+          <div class="archetype-item-val">{{ arch.superpower }}</div>
+        </div>
+        {% if arch.shadow %}
+        <div class="archetype-item">
+          <div class="archetype-item-label">⚠️ Umbra arhetipului</div>
+          <div class="archetype-item-val">{{ arch.shadow }}</div>
+        </div>
+        {% endif %}
+        {% if arch.ted_example %}
+        <div class="archetype-item">
+          <div class="archetype-item-label">🎤 Speaker TED similar</div>
+          <div class="archetype-item-val">{{ arch.ted_example }}</div>
+        </div>
+        {% endif %}
+        {% if arch.curator_message_about_archetype %}
+        <div class="archetype-item">
+          <div class="archetype-item-label">💬 Nota curatorului</div>
+          <div class="archetype-item-val">{{ arch.curator_message_about_archetype }}</div>
+        </div>
+        {% elif arch.reflection %}
+        <div class="archetype-item">
+          <div class="archetype-item-label">🔍 Întrebare de reflecție</div>
+          <div class="archetype-item-val">{{ arch.reflection }}</div>
+        </div>
+        {% endif %}
+        {% if arch.coaching_note %}
+        <div class="archetype-item" style="grid-column:1/-1">
+          <div class="archetype-item-label">🧭 Cum să îl amplifici</div>
+          <div class="archetype-item-val">{{ arch.coaching_note }}</div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- FREE TIER -->
     {% if result.tier == 'free' and result.analysis %}
     <div class="grid">
       {% for crit, data in result.analysis.items() %}
@@ -121,20 +193,34 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
       <canvas id="radarChart" height="260"></canvas>
     </div>
     <div class="upgrade-box">
-      <p><strong>Vrei mai mult?</strong> Nivelul Speaker analizează prin cele 9 principii Gallo cu GPT-4o.</p>
+      <p><strong>Vrei mai mult?</strong> Nivelul Speaker analizează prin cele 9 principii Gallo cu GPT-4o + identifică arhetipul tău.</p>
       <a href="/upgrade">Vezi planurile →</a>
     </div>
     {% endif %}
 
+    <!-- PAID1 TIER -->
     {% if result.tier == 'paid1' and result.analysis %}
     <div class="grid">
       {% for crit, data in result.analysis.items() %}
+      {% if crit != 'archetype' %}
       <div class="score-card">
         <div class="score-name">{{ crit }}</div>
         <div class="score-val">{{ data.score }}<span>/10</span></div>
+        {% if data.present is defined %}
         <div class="score-present {{ 'yes' if data.present else 'no' }}">{{ '✓ Prezent' if data.present else '✗ Lipsește' }}</div>
+        {% endif %}
+        {% if crit == 'Autenticitate' and data.reflection_questions %}
+        <div class="reflection-box">
+          <div class="reflection-label">Întrebări de reflecție profundă</div>
+          {% for q in data.reflection_questions %}
+          <div class="reflection-q">{{ loop.index }}. {{ q }}</div>
+          {% endfor %}
+        </div>
+        {% else %}
         <div class="score-rec">{{ data.recommendation }}</div>
+        {% endif %}
       </div>
+      {% endif %}
       {% endfor %}
     </div>
     <div class="chart-card">
@@ -143,6 +229,7 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
     </div>
     {% endif %}
 
+    <!-- PAID2 TIER -->
     {% if result.tier == 'paid2' and result.analysis %}
     {% set a = result.analysis %}
     <div class="summary-row">
@@ -150,21 +237,29 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
       <div class="summary-card"><div class="summary-label">Puncte forte</div><div class="summary-val">{{ a.strengths|length }}</div></div>
       <div class="summary-card"><div class="summary-label">Sesiuni plan</div><div class="summary-val">9</div></div>
     </div>
-    <div class="score-card" style="margin-bottom:16px"><div class="score-name">Rezumat</div><p style="font-size:12px;margin-top:8px;line-height:1.6">{{ a.summary }}</p></div>
+    <div class="score-card" style="margin-bottom:16px">
+      <div class="score-name">Rezumat</div>
+      <p style="font-size:12px;margin-top:8px;line-height:1.6">{{ a.summary }}</p>
+    </div>
     <div class="sessions">
       {% for s in a.coaching_sessions %}
       <div class="session-card">
         <div class="session-day">{{ s.day }}</div>
         <div>
-          <div class="session-principle">{{ s.principle }}</div>
+          <div class="session-principle">{{ s.principle }} {% if s.score is defined %}— {{ s.score }}/10{% endif %}</div>
+          {% if s.text_evidence %}<div style="font-size:11px;color:#555;font-style:italic;margin-bottom:4px">"{{ s.text_evidence }}"</div>{% endif %}
           <div class="session-ex">{{ s.exercise }}</div>
           {% if s.example_question %}<div style="font-size:11px;color:#555;font-style:italic;margin-top:4px">{{ s.example_question }}</div>{% endif %}
+          {% if s.ted_example %}
+          <div class="ted-case">📺 Studiu de caz: {{ s.ted_example }} — {{ s.ted_speaker }}</div>
+          {% endif %}
         </div>
       </div>
       {% endfor %}
     </div>
     {% endif %}
 
+    <!-- PAID3 TIER -->
     {% if result.tier == 'paid3' and result.analysis %}
     {% set a = result.analysis %}
     <div class="verdict">{{ a.curator_verdict }}</div>
@@ -181,7 +276,16 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
       <div class="score-card">
         <div class="score-name">{{ principle }}</div>
         <div class="score-val">{{ data.score }}<span>/10</span></div>
+        {% if principle == 'Autenticitate' and data.reflection_questions %}
+        <div class="reflection-box">
+          <div class="reflection-label">Întrebări de reflecție profundă</div>
+          {% for q in data.reflection_questions %}
+          <div class="reflection-q">{{ loop.index }}. {{ q }}</div>
+          {% endfor %}
+        </div>
+        {% else %}
         <div class="score-rec">{{ data.curator_note }}</div>
+        {% endif %}
       </div>
       {% endfor %}
     </div>
@@ -206,13 +310,13 @@ const ctx = document.getElementById('radarChart');
 if(ctx){
   {% if result.tier == 'free' %}
   const labels = {{ result.analysis.keys()|list|tojson }};
-  const scores = [{% for k,v in result.analysis.items() %}{{ v.score }},{% endfor %}];
+  const scores = [{% for k,v in result.analysis.items() %}{{ v.score if v.score is defined else 0 }},{% endfor %}];
   {% elif result.tier == 'paid1' %}
-  const labels = {{ result.analysis.keys()|list|tojson }};
-  const scores = [{% for k,v in result.analysis.items() %}{{ v.score }},{% endfor %}];
+  const labels = [{% for k,v in result.analysis.items() %}{% if k != 'archetype' %}"{{ k }}",{% endif %}{% endfor %}];
+  const scores = [{% for k,v in result.analysis.items() %}{% if k != 'archetype' %}{{ v.score if v.score is defined else 0 }},{% endif %}{% endfor %}];
   {% elif result.tier == 'paid3' %}
   const labels = {{ result.analysis.nine_principles_check.keys()|list|tojson }};
-  const scores = [{% for k,v in result.analysis.nine_principles_check.items() %}{{ v.score }},{% endfor %}];
+  const scores = [{% for k,v in result.analysis.nine_principles_check.items() %}{{ v.score if v.score is defined else 0 }},{% endfor %}];
   {% else %}
   const labels = [];const scores = [];
   {% endif %}
