@@ -70,90 +70,139 @@ def get_current_user():
 
 MOTTO = "What you are speaks so loudly that I cannot hear what you say. - Ralph Waldo Emerson"
 
+# 12 Arhetipuri Carol S. Pearson / Carl Jung
 ARCHETYPES = {
-    "Bufonul": {
-        "emoji": "🤡",
-        "description": "Foloseste umorul si ironia pentru a critica si a elibera. Rade de ceea ce e inadecvat pentru a schimba perspectivele.",
-        "ted_example": "Sir Ken Robinson",
-        "superpower": "Spune adevaruri incomode prin ras",
-        "shadow": "Poate fi perceput ca neserios"
+    "Inocentul": {
+        "emoji": "🌱",
+        "group": "Ego-ul",
+        "desire": "Sa fie fericit si in siguranta",
+        "fear": "Sa fie pedepsit pentru o greseala",
+        "description": "Puritate, optimism, credinta in bine. Vede lumea prin ochi proaspeti si inspira prin simplitate si sinceritate.",
+        "ted_example": "Malala Yousafzai",
+        "superpower": "Inspira prin simplitate si autenticitate pura",
+        "shadow": "Poate parea naiv, evita realitatea dificila",
+        "qualities": ["optimism", "simplitate", "sinceritate", "incredere", "puritate"]
     },
-    "Eroul": {
+    "Orfanul": {
+        "emoji": "🌿",
+        "group": "Ego-ul",
+        "desire": "Sa apartina, sa fie conectat",
+        "fear": "Sa fie abandonat sau exploatat",
+        "description": "Realistul care intelege suferinta, cauta conexiunea si vorbeste din experienta vulnerabilitatii.",
+        "ted_example": "Brene Brown",
+        "superpower": "Creeaza conexiune profunda prin vulnerabilitate si realitate",
+        "shadow": "Poate cadea in victimizare sau cinism",
+        "qualities": ["vulnerabilitate", "realitate", "conexiune", "empatie", "solidaritate"]
+    },
+    "Razboinicul": {
         "emoji": "🦁",
+        "group": "Ego-ul",
+        "desire": "Sa-si dovedeasca valoarea prin curaj",
+        "fear": "Sa para slab sau vulnerabil",
         "description": "Depaseste obstacole, inspira prin curaj si actiune. Povestea lui e despre transformare prin lupta.",
         "ted_example": "Simon Sinek",
-        "superpower": "Inspira actiune si curaj",
-        "shadow": "Poate parea arogant sau distantiat"
-    },
-    "Inteleptul": {
-        "emoji": "🔮",
-        "description": "Aduce claritate, cunoastere profunda si perspective noi. Vorbeste din experienta si cercetare.",
-        "ted_example": "Hans Rosling",
-        "superpower": "Transforma complexul in simplu si clar",
-        "shadow": "Poate fi perceput ca prea academic"
+        "superpower": "Inspira actiune si curaj in fata obstacolelor",
+        "shadow": "Poate parea arogant, nu cere ajutor, duce la epuizare",
+        "qualities": ["curaj", "disciplina", "determinare", "actiune", "depasirea obstacolelor"]
     },
     "Ingrijitorul": {
         "emoji": "❤️",
+        "group": "Ego-ul",
+        "desire": "Sa ii ajute pe ceilalti",
+        "fear": "Egoismul si ingratitudinea",
         "description": "Empatia si conexiunea umana sunt motorul sau. Vorbeste din dorinta de a ajuta si vindeca.",
         "ted_example": "Brene Brown",
-        "superpower": "Creeaza conexiune emotionala profunda",
-        "shadow": "Poate parea prea vulnerabil sau sentimental"
+        "superpower": "Creeaza conexiune emotionala profunda si inspira compasiune",
+        "shadow": "Poate deveni martirul, neglijeaza propriile nevoi",
+        "qualities": ["empatie", "compasiune", "grija", "generozitate", "caldura"]
     },
     "Exploratorul": {
         "emoji": "🚀",
+        "group": "Sufletul",
+        "desire": "Libertatea de a se descoperi",
+        "fear": "Constrangerea, rutina, golul interior",
         "description": "Curiozitate, descoperire, aventura intelectuala. Impinge granitele cunoasterii.",
         "ted_example": "Richard Feynman",
-        "superpower": "Infecteaza audienta cu curiozitate",
-        "shadow": "Poate pierde firul narativ"
+        "superpower": "Infecteaza audienta cu curiozitate si deschide orizonturi noi",
+        "shadow": "Se pierde, nu finalizeaza nimic, fuge de profunzime",
+        "qualities": ["curiozitate", "descoperire", "aventura", "perspective noi", "libertate"]
     },
     "Rebelul": {
         "emoji": "⚡",
+        "group": "Sufletul",
+        "desire": "Revolutia, distrugerea a ce nu merge",
+        "fear": "Sa fie neputincios sau ineficient",
         "description": "Contesta status quo-ul, provoaca conventiile, deschide drumuri noi.",
         "ted_example": "Elon Musk",
-        "superpower": "Schimba paradigme si sparge tipare",
-        "shadow": "Poate aliena audienta conservatoare"
+        "superpower": "Schimba paradigme si sparge tipare care nu mai servesc",
+        "shadow": "Poate aliena audienta, distruge fara a construi",
+        "qualities": ["nonconformism", "provocare", "energie", "rupere de tipare", "revolutie"]
+    },
+    "Indragostitul": {
+        "emoji": "💫",
+        "group": "Sufletul",
+        "desire": "Intimitatea si experienta senzoriala",
+        "fear": "Sa fie singur sau nedorit",
+        "description": "Pasiune, conexiune profunda, experienta senzoriala. Vorbeste cu si despre ceea ce iubeste.",
+        "ted_example": "Isabel Allende",
+        "superpower": "Transmite pasiune contagioasa si creeaza conexiune emotionala intensa",
+        "shadow": "Dependenta emotionala, pierderea limitelor, subiectivism excesiv",
+        "qualities": ["pasiune", "conexiune", "sensorialitate", "dedicare", "intensitate emotionala"]
     },
     "Creatorul": {
         "emoji": "🎨",
+        "group": "Sufletul",
+        "desire": "Sa realizeze ceva cu valoare durabila",
+        "fear": "Viziunea sau executia mediocra",
         "description": "Imagineaza, construieste, aduce frumusete si inovatie in lume.",
         "ted_example": "Jony Ive",
-        "superpower": "Inspira prin viziune si estetica",
-        "shadow": "Poate fi prea abstract sau idealist"
-    },
-    "Magicianul": {
-        "emoji": "✨",
-        "description": "Transforma realitatea, aduce solutii neasteptate, face imposibilul posibil.",
-        "ted_example": "Steve Jobs",
-        "superpower": "Surprinde si transforma perspectivele",
-        "shadow": "Poate parea manipulator"
+        "superpower": "Inspira prin viziune, estetica si inovatie originala",
+        "shadow": "Perfectionism paralizant, dificultate in colaborare",
+        "qualities": ["viziune", "originalitate", "inovatie", "estetica", "constructie"]
     },
     "Conducatorul": {
         "emoji": "👑",
+        "group": "Sinele",
+        "desire": "Controlul si ordinea",
+        "fear": "Haosul, rasturnarea de la putere",
         "description": "Viziune clara, autoritate naturala, capacitatea de a uni oamenii in jurul unei cauze.",
         "ted_example": "Nelson Mandela",
-        "superpower": "Creeaza miscare si schimbare la scara mare",
-        "shadow": "Poate fi perceput ca rigid sau autoritar"
+        "superpower": "Creeaza miscare si schimbare la scara mare prin viziune clara",
+        "shadow": "Poate fi perceput ca rigid, autoritar sau distant",
+        "qualities": ["viziune", "autoritate", "responsabilitate", "ordine", "leadership"]
     },
-    "Inocentul": {
-        "emoji": "🌱",
-        "description": "Puritate, optimism, credinta in bine. Vede lumea prin ochi proaspeti.",
-        "ted_example": "Malala Yousafzai",
-        "superpower": "Inspira prin simplitate si sinceritate",
-        "shadow": "Poate parea naiv sau nepregatit"
+    "Magicianul": {
+        "emoji": "✨",
+        "group": "Sinele",
+        "desire": "Intelegerea legilor universului",
+        "fear": "Consecintele negative neintentionate",
+        "description": "Transforma realitatea, aduce solutii neasteptate, face imposibilul posibil.",
+        "ted_example": "Steve Jobs",
+        "superpower": "Surprinde si transforma perspectivele, catalizeaza schimbarea",
+        "shadow": "Poate parea manipulator sau deconectat de realitate",
+        "qualities": ["transformare", "surpriza", "catalizare", "viziune holistica", "WOW"]
     },
-    "Amanul": {
-        "emoji": "🤝",
-        "description": "Conecteaza oameni si idei, construieste punti intre lumi diferite.",
-        "ted_example": "Tim Berners-Lee",
-        "superpower": "Creeaza retele si colaborare",
-        "shadow": "Poate lipsi de voce proprie puternica"
+    "Inteleptul": {
+        "emoji": "🔮",
+        "group": "Sinele",
+        "desire": "Descoperirea adevarului",
+        "fear": "Sa fie indus in eroare sau ignorant",
+        "description": "Aduce claritate, cunoastere profunda si perspective noi. Vorbeste din experienta si cercetare.",
+        "ted_example": "Hans Rosling",
+        "superpower": "Transforma complexul in simplu si clar, ilumineaza",
+        "shadow": "Poate fi prea academic, detasat emotional, dificil de urmarit",
+        "qualities": ["claritate", "profunzime", "date", "analiza", "intelepciune"]
     },
-    "Umbrele": {
-        "emoji": "🌊",
-        "description": "Adancime emotionala, complexitate, curajul de a explora teritorii intunecate.",
-        "ted_example": "Gabor Mate",
-        "superpower": "Atinge straturi profunde ale experientei umane",
-        "shadow": "Poate fi prea intens pentru unele audiente"
+    "Bufonul": {
+        "emoji": "🤡",
+        "group": "Sinele",
+        "desire": "Sa traiasca clipa cu bucurie",
+        "fear": "Sa fie plictisit sau plictisitor",
+        "description": "Foloseste umorul si ironia pentru a critica, a dezarma si a elibera. Rade de ceea ce e inadecvat.",
+        "ted_example": "Sir Ken Robinson",
+        "superpower": "Spune adevaruri incomode prin ras, elibereaza tensiunea",
+        "shadow": "Poate fi perceput ca neserios, ascunde durerea prin umor",
+        "qualities": ["umor", "ironie", "bucurie", "critica prin ras", "dezarmare"]
     },
 }
 
@@ -188,8 +237,15 @@ REGULI IMPORTANTE:
 
 SPECIAL PENTRU AUTENTICITATE:
 - Nu da recomandari tehnice pentru autenticitate.
-- In schimb, ofera 3 intrebari de reflectie profunda personalizate pe textul speakerului.
+- Ofera 3 intrebari de reflectie profunda personalizate pe textul speakerului.
 - Intrebarile trebuie sa il ajute sa se descopere pe sine, nu sa bifeze un criteriu.
+
+SPECIAL PENTRU AUTENTICITATEA ARHETIPALA (al 10-lea indicator):
+- Evalueaza cat de fidel isi exprima speakerul propriul arhetip identificat.
+- Un Explorator cu umor mic NU e penalizat - e evaluat pe curiozitate si descoperire.
+- Un Bufon cu date putine NU e penalizat - e evaluat pe umor si dezarmare.
+- Intreaba: vorbeste din DORINTA sau din TEAMA arhetipului sau?
+- Dorinta = autenticitate. Teama = umbra arhetipului.
 """
 
 TED_CASE_STUDIES = {
@@ -264,7 +320,7 @@ TED_CASE_STUDIES = {
 }
 
 ARCHETYPES_FOR_PROMPT = "\n".join([
-    f"- {name} {data['emoji']}: {data['description']} (exemplu TED: {data['ted_example']})"
+    f"- {name} {data['emoji']} [{data['group']}]: Dorinta: {data['desire']} | Teama/Umbra: {data['fear']} | Calitati: {', '.join(data['qualities'])} | Exemplu TED: {data['ted_example']}"
     for name, data in ARCHETYPES.items()
 ])
 
@@ -312,9 +368,8 @@ Text de analizat: {text}
 def analyze_speech_paid1(text):
     case_studies = format_case_studies_for_prompt()
     prompt = f"""
-Esti un evaluator strict de discursuri TEDx, expert in metodologia Carmine Gallo.
-Analizeaza textul urmator prin prisma celor 9 principii si acorda scoruri DIFERENTIATE si JUSTIFICATE.
-De asemenea, identifica ARHETIPUL speakerului din text.
+Esti un evaluator strict de discursuri TEDx, expert in metodologia Carmine Gallo si psihologia arhetipurilor (Carol S. Pearson / Carl Jung).
+Analizeaza textul urmator prin prisma celor 9 principii Gallo + identifica arhetipul speakerului + evalueaza autenticitatea arhetipala.
 
 {GALLO_9_PRINCIPLES}
 
@@ -322,25 +377,33 @@ De asemenea, identifica ARHETIPUL speakerului din text.
 
 {case_studies}
 
-ARHETIPURILE POSIBILE ALE SPEAKERULUI:
+CELE 12 ARHETIPURI (Carol S. Pearson / Carl Jung):
 {ARCHETYPES_FOR_PROMPT}
 
 IMPORTANT:
+- Identifica arhetipul DOMINANT si cel SECUNDAR al speakerului.
+- Evalueaza autenticitatea arhetipala: vorbeste din DORINTA sau din TEAMA arhetipului?
 - Citeaza fragmente CONCRETE din text pentru fiecare scor.
 - Cand scorul e sub 7 (exceptand Autenticitate), recomanda un studiu de caz TED.
-- Pentru Autenticitate: ofera 3 intrebari de reflectie profunda, nu recomandari tehnice.
-- Identifica arhetipul dominant al speakerului bazat pe tonul, stilul si continutul textului.
+- Pentru Autenticitate: ofera 3 intrebari de reflectie profunda.
 - Scorurile TREBUIE sa fie diferite.
+- NU penaliza un Explorator pentru umor mic sau un Bufon pentru date putine.
 
 Returneaza DOAR un JSON valid:
 {{
   "archetype": {{
-    "name": "Numele arhetipului identificat",
-    "emoji": "emoji-ul arhetipului",
+    "primary": "Numele arhetipului dominant",
+    "secondary": "Numele arhetipului secundar",
+    "emoji": "emoji-ul arhetipului dominant",
+    "group": "Ego-ul|Sufletul|Sinele",
     "confidence": "mare|medie|mica",
-    "evidence": "Ce din text indica acest arhetip",
+    "desire": "Dorinta principala a arhetipului identificat",
+    "fear": "Teama/Umbra arhetipului identificat",
+    "evidence": "Ce din text indica acest arhetip, cu citat",
     "superpower": "Superputerea acestui arhetip pe scena TED",
-    "reflection": "O intrebare profunda legata de arhetip pentru speaker"
+    "shadow_present": "Apare umbra arhetipului in text? Da/Nu si cum",
+    "archetype_authenticity_score": 0,
+    "archetype_authenticity_note": "Evalueaza cat de fidel isi exprima speakerul arhetipul - vorbeste din dorinta sau din teama?"
   }},
   "Pasiunea": {{ "score": 0, "present": false, "recommendation": "Citat + explicatie + studiu de caz daca scorul < 7" }},
   "Povestea": {{ "score": 0, "present": false, "recommendation": "..." }},
@@ -373,9 +436,9 @@ Text de analizat: {text}
 def analyze_speech_paid2(text):
     case_studies = format_case_studies_for_prompt()
     prompt = f"""
-Esti un coach avansat de TED talks, cu experienta curatorului TEDxBrasov.
-Analizeaza textul si creeaza un plan de coaching structurat pe 9 sesiuni.
-Identifica si arhetipul speakerului - acesta e fundamentul coaching-ului.
+Esti un coach avansat de TED talks, expert in metodologia Carmine Gallo si psihologia arhetipurilor (Carol S. Pearson / Carl Jung).
+Analizeaza textul si creeaza un plan de coaching structurat pe 9 sesiuni + evaluare arhetipala.
+Coaching-ul trebuie sa AMPLIFICE arhetipul speakerului, nu sa il schimbe.
 
 {GALLO_9_PRINCIPLES}
 
@@ -383,21 +446,28 @@ Identifica si arhetipul speakerului - acesta e fundamentul coaching-ului.
 
 {case_studies}
 
-ARHETIPURILE POSIBILE ALE SPEAKERULUI:
+CELE 12 ARHETIPURI (Carol S. Pearson / Carl Jung):
 {ARCHETYPES_FOR_PROMPT}
 
 IMPORTANT:
-- Identifica arhetipul dominant - coaching-ul trebuie sa amplifice arhetipul, nu sa il schimbe.
+- Identifica arhetipul dominant si secundar.
+- Coaching-ul trebuie sa ajute speakerul sa vorbeasca din DORINTA arhetipului, nu din TEAMA.
 - Pentru sesiunea Autenticitate: ofera intrebari de reflectie profunda, nu exercitii tehnice.
-- Pentru celelalte sesiuni: citeaza fragmente din text si recomanda studii de caz TED.
+- Include studii de caz TED pentru fiecare sesiune.
+- NU penaliza un Explorator pentru umor mic.
 
 Returneaza DOAR un JSON valid:
 {{
   "archetype": {{
-    "name": "Numele arhetipului",
+    "primary": "Numele arhetipului dominant",
+    "secondary": "Numele arhetipului secundar",
     "emoji": "emoji",
+    "group": "Ego-ul|Sufletul|Sinele",
+    "desire": "Dorinta principala",
+    "fear": "Teama/Umbra",
     "evidence": "Ce din text indica acest arhetip",
-    "coaching_note": "Cum sa amplifice acest arhetip pe scena TED"
+    "archetype_authenticity_score": 0,
+    "coaching_note": "Cum sa amplifice arhetipul pe scena TED, vorbind din dorinta nu din teama"
   }},
   "overall_score": 0,
   "summary": "Analiza critica si specifica in 2-3 propozitii cu referinte la text.",
@@ -409,7 +479,7 @@ Returneaza DOAR un JSON valid:
       "status": "absent",
       "score": 0,
       "text_evidence": "Citat sau referinta concreta din text",
-      "exercise": "Exercitiu specific bazat pe textul analizat",
+      "exercise": "Exercitiu specific bazat pe arhetipul speakerului si textul analizat",
       "example_question": "Intrebare de reflectie personalizata",
       "ted_example": "Titlul TED talk-ului recomandat",
       "ted_speaker": "Numele speakerului"
@@ -439,6 +509,7 @@ def analyze_speech_paid3(text):
     case_studies = format_case_studies_for_prompt()
     prompt = f"""
 Esti Tibi Ruczui, curatorul TEDxBrasov, cu 10+ ani de experienta.
+Esti expert in metodologia Carmine Gallo SI in psihologia arhetipurilor Carol S. Pearson / Carl Jung.
 Vorbesti direct cu speakerul, ca un mentor personal, cald dar EXIGENT si CRITIC.
 Motto-ul tau: "{MOTTO}"
 Bazeaza-te EXCLUSIV pe ce este scris in text.
@@ -449,35 +520,45 @@ Bazeaza-te EXCLUSIV pe ce este scris in text.
 
 {case_studies}
 
-ARHETIPURILE POSIBILE ALE SPEAKERULUI:
+CELE 12 ARHETIPURI (Carol S. Pearson / Carl Jung):
 {ARCHETYPES_FOR_PROMPT}
 
 IMPORTANT:
-- Identifica arhetipul speakerului - acesta e CEL MAI IMPORTANT insight pe care il poti oferi.
-- Pentru Autenticitate: nu da recomandari tehnice, ci 3 intrebari de reflectie profunda.
-- Fiecare scor trebuie justificat cu citat concret din text.
+- Identifica arhetipul dominant SI secundar al speakerului.
+- Acesta e CEL MAI IMPORTANT insight pe care il poti oferi ca curator.
+- Evalueaza autenticitatea arhetipala: vorbeste din DORINTA sau din TEAMA?
+- Umbra arhetipului apare cand speakerul vorbeste din TEAMA, nu din DORINTA.
+- Pentru Autenticitate: 3 intrebari de reflectie profunda, nu recomandari tehnice.
+- Fiecare scor justificat cu citat din text.
+- NU penaliza un Explorator pentru umor mic.
 - Scorurile TREBUIE sa fie diferite.
-- Fii sincer chiar daca scorul general e mic.
 
 Returneaza DOAR un JSON valid:
 {{
   "archetype": {{
-    "name": "Numele arhetipului identificat",
+    "primary": "Numele arhetipului dominant",
+    "secondary": "Numele arhetipului secundar",
     "emoji": "emoji",
+    "group": "Ego-ul|Sufletul|Sinele",
     "confidence": "mare|medie|mica",
+    "desire": "Dorinta principala a arhetipului",
+    "fear": "Teama/Umbra arhetipului",
     "evidence": "Ce anume din text indica acest arhetip, cu citat",
-    "curator_message_about_archetype": "Mesajul tau personal catre speaker despre arhetipul sau (2-3 propozitii calde)",
-    "ted_example": "Un speaker TED celebru cu acelasi arhetip",
+    "curator_message_about_archetype": "Mesajul tau personal catre speaker despre arhetipul sau (2-3 propozitii calde si profunde)",
+    "ted_example": "Speaker TED celebru cu acelasi arhetip",
     "superpower": "Superputerea acestui arhetip pe scena TED",
-    "shadow": "Riscul acestui arhetip de care speakerul trebuie sa fie constient"
+    "shadow": "Riscul acestui arhetip - umbra lui",
+    "shadow_present": "Apare umbra in text? Da/Nu si cum anume",
+    "archetype_authenticity_score": 0,
+    "archetype_authenticity_note": "Vorbeste din dorinta sau din teama? Cat de autentic isi exprima arhetipul?"
   }},
-  "curator_message": "Mesaj personal direct catre speaker, bazat pe ce ai citit in text (3-4 propozitii sincere)",
+  "curator_message": "Mesaj personal direct catre speaker (3-4 propozitii sincere si calde)",
   "overall_score": 0,
   "curator_verdict": "Gata pentru scena|Aproape gata|Mai avem de lucru|Revenim de la zero",
   "what_moved_me": "Ce anume din text te-a impresionat, cu citat",
   "what_worries_me": "Ce anume din text te ingrijoreaza, cu citat",
   "nine_principles_check": {{
-    "Pasiunea": {{ "score": 0, "curator_note": "Citat din text + observatie personala + studiu de caz daca scorul < 7" }},
+    "Pasiunea": {{ "score": 0, "curator_note": "Citat din text + observatie + studiu de caz daca scorul < 7" }},
     "Povestea": {{ "score": 0, "curator_note": "..." }},
     "Conversatia": {{ "score": 0, "curator_note": "..." }},
     "Ceva Nou": {{ "score": 0, "curator_note": "..." }},
@@ -485,7 +566,7 @@ Returneaza DOAR un JSON valid:
     "Umor": {{ "score": 0, "curator_note": "..." }},
     "Regula celor 18 min": {{ "score": 0, "curator_note": "..." }},
     "Multisenzorial": {{ "score": 0, "curator_note": "..." }},
-    "Autenticitate": {{ "score": 0, "reflection_questions": ["intrebare profunda 1 personalizata pe text", "intrebare profunda 2", "intrebare profunda 3"] }}
+    "Autenticitate": {{ "score": 0, "reflection_questions": ["intrebare profunda 1 personalizata", "intrebare profunda 2", "intrebare profunda 3"] }}
   }},
   "stage_readiness": {{
     "ready_to_present": false,
@@ -592,11 +673,21 @@ def generate_pdf(text, result, user_name, tier):
     archetype = analysis.get("archetype")
     if archetype and isinstance(archetype, dict):
         pdf.set_font("Arial", "B", 13)
-        pdf.cell(0, 8, clean(f"Arhetipul tau: {archetype.get('name', '')}"), ln=True)
+        primary = archetype.get("primary", "")
+        secondary = archetype.get("secondary", "")
+        pdf.cell(0, 8, clean(f"Arhetipul dominant: {primary} | Secundar: {secondary}"), ln=True)
         pdf.set_font("Arial", "", 10)
-        pdf.multi_cell(0, 6, clean(archetype.get("evidence", "")))
+        pdf.multi_cell(0, 6, clean(f"Grup: {archetype.get('group', '')}"))
+        pdf.multi_cell(0, 6, clean(f"Dorinta: {archetype.get('desire', '')}"))
+        pdf.multi_cell(0, 6, clean(f"Teama/Umbra: {archetype.get('fear', '')}"))
+        pdf.multi_cell(0, 6, clean(f"Dovada din text: {archetype.get('evidence', '')}"))
         pdf.multi_cell(0, 6, clean(f"Superputere: {archetype.get('superpower', '')}"))
+        if archetype.get("archetype_authenticity_score"):
+            pdf.multi_cell(0, 6, clean(f"Autenticitate arhetipala: {archetype.get('archetype_authenticity_score')}/10"))
+        if archetype.get("archetype_authenticity_note"):
+            pdf.multi_cell(0, 6, clean(archetype.get("archetype_authenticity_note", "")))
         if archetype.get("curator_message_about_archetype"):
+            pdf.set_font("Arial", "I", 10)
             pdf.multi_cell(0, 6, clean(archetype.get("curator_message_about_archetype", "")))
         pdf.ln(4)
     pdf.set_font("Arial", "B", 12)
@@ -629,7 +720,7 @@ def generate_pdf(text, result, user_name, tier):
         arch = analysis.get("archetype", {})
         if arch:
             pdf.set_font("Arial", "B", 12)
-            pdf.cell(0, 8, clean(f"Coaching bazat pe arhetipul: {arch.get('name','')}"), ln=True)
+            pdf.cell(0, 8, clean(f"Coaching bazat pe arhetipul: {arch.get('primary','')}"), ln=True)
             pdf.set_font("Arial", "", 10)
             pdf.multi_cell(0, 6, clean(arch.get("coaching_note", "")))
             pdf.ln(4)
