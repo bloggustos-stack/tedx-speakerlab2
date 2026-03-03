@@ -10,6 +10,7 @@ from datetime import datetime
 import numpy as np
 from functools import wraps
 import hashlib
+import time
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "tedx-speakerlab-secret-2024")
@@ -70,7 +71,6 @@ def get_current_user():
 
 MOTTO = "What you are speaks so loudly that I cannot hear what you say. - Ralph Waldo Emerson"
 
-# 12 Arhetipuri Carol S. Pearson / Carl Jung
 ARCHETYPES = {
     "Inocentul": {
         "emoji": "🌱",
@@ -661,6 +661,7 @@ def generate_pdf(text, result, user_name, tier):
     radar_img = None
     if scores:
         radar_img = generate_radar_image(scores, filename=pdf_filename.replace(".pdf", ".png"))
+        time.sleep(0.5)
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", "B", 18)
@@ -675,7 +676,7 @@ def generate_pdf(text, result, user_name, tier):
         pdf.set_font("Arial", "B", 13)
         primary = archetype.get("primary", "")
         secondary = archetype.get("secondary", "")
-        pdf.cell(0, 8, clean(f"Arhetipul dominant: {primary} | Secundar: {secondary}"), ln=True)
+        pdf.cell(0, 8, clean(f"Arhetip dominant: {primary} | Secundar: {secondary}"), ln=True)
         pdf.set_font("Arial", "", 10)
         pdf.multi_cell(0, 6, clean(f"Grup: {archetype.get('group', '')}"))
         pdf.multi_cell(0, 6, clean(f"Dorinta: {archetype.get('desire', '')}"))
@@ -766,8 +767,12 @@ def generate_pdf(text, result, user_name, tier):
                 pdf.multi_cell(0, 6, clean(data.get("curator_note", "")))
             pdf.ln(2)
     if radar_img:
-        pdf.ln(5)
-        pdf.image(radar_img, x=55, w=100)
+        try:
+            if os.path.exists(radar_img) and os.path.getsize(radar_img) > 0:
+                pdf.ln(5)
+                pdf.image(radar_img, x=55, w=100)
+        except Exception as e:
+            print(f"Radar image error: {e}")
     pdf.output(pdf_filename)
     return pdf_filename
 
