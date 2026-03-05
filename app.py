@@ -73,134 +73,98 @@ MOTTO = "What you are speaks so loudly that I cannot hear what you say. - Ralph 
 
 ARCHETYPES = {
     "Inocentul": {
-        "emoji": "🌱",
-        "group": "Ego-ul",
-        "desire": "Sa fie fericit si in siguranta",
-        "fear": "Sa fie pedepsit pentru o greseala",
-        "description": "Puritate, optimism, credinta in bine. Vede lumea prin ochi proaspeti si inspira prin simplitate si sinceritate.",
-        "ted_example": "Malala Yousafzai",
-        "superpower": "Inspira prin simplitate si autenticitate pura",
+        "emoji": "🌱", "group": "Ego-ul",
+        "desire": "Sa fie fericit si in siguranta", "fear": "Sa fie pedepsit pentru o greseala",
+        "description": "Puritate, optimism, credinta in bine.",
+        "ted_example": "Malala Yousafzai", "superpower": "Inspira prin simplitate si autenticitate pura",
         "shadow": "Poate parea naiv, evita realitatea dificila",
         "qualities": ["optimism", "simplitate", "sinceritate", "incredere", "puritate"]
     },
     "Orfanul": {
-        "emoji": "🌿",
-        "group": "Ego-ul",
-        "desire": "Sa apartina, sa fie conectat",
-        "fear": "Sa fie abandonat sau exploatat",
-        "description": "Realistul care intelege suferinta, cauta conexiunea si vorbeste din experienta vulnerabilitatii.",
-        "ted_example": "Brene Brown",
-        "superpower": "Creeaza conexiune profunda prin vulnerabilitate si realitate",
+        "emoji": "🌿", "group": "Ego-ul",
+        "desire": "Sa apartina, sa fie conectat", "fear": "Sa fie abandonat sau exploatat",
+        "description": "Realistul care intelege suferinta, cauta conexiunea.",
+        "ted_example": "Brene Brown", "superpower": "Creeaza conexiune profunda prin vulnerabilitate",
         "shadow": "Poate cadea in victimizare sau cinism",
         "qualities": ["vulnerabilitate", "realitate", "conexiune", "empatie", "solidaritate"]
     },
     "Razboinicul": {
-        "emoji": "🦁",
-        "group": "Ego-ul",
-        "desire": "Sa-si dovedeasca valoarea prin curaj",
-        "fear": "Sa para slab sau vulnerabil",
-        "description": "Depaseste obstacole, inspira prin curaj si actiune. Povestea lui e despre transformare prin lupta.",
-        "ted_example": "Simon Sinek",
-        "superpower": "Inspira actiune si curaj in fata obstacolelor",
-        "shadow": "Poate parea arogant, nu cere ajutor, duce la epuizare",
+        "emoji": "🦁", "group": "Ego-ul",
+        "desire": "Sa-si dovedeasca valoarea prin curaj", "fear": "Sa para slab sau vulnerabil",
+        "description": "Depaseste obstacole, inspira prin curaj si actiune.",
+        "ted_example": "Simon Sinek", "superpower": "Inspira actiune si curaj in fata obstacolelor",
+        "shadow": "Poate parea arogant, nu cere ajutor",
         "qualities": ["curaj", "disciplina", "determinare", "actiune", "depasirea obstacolelor"]
     },
     "Ingrijitorul": {
-        "emoji": "❤️",
-        "group": "Ego-ul",
-        "desire": "Sa ii ajute pe ceilalti",
-        "fear": "Egoismul si ingratitudinea",
-        "description": "Empatia si conexiunea umana sunt motorul sau. Vorbeste din dorinta de a ajuta si vindeca.",
-        "ted_example": "Brene Brown",
-        "superpower": "Creeaza conexiune emotionala profunda si inspira compasiune",
+        "emoji": "❤️", "group": "Ego-ul",
+        "desire": "Sa ii ajute pe ceilalti", "fear": "Egoismul si ingratitudinea",
+        "description": "Empatia si conexiunea umana sunt motorul sau.",
+        "ted_example": "Brene Brown", "superpower": "Creeaza conexiune emotionala profunda",
         "shadow": "Poate deveni martirul, neglijeaza propriile nevoi",
         "qualities": ["empatie", "compasiune", "grija", "generozitate", "caldura"]
     },
     "Exploratorul": {
-        "emoji": "🚀",
-        "group": "Sufletul",
-        "desire": "Libertatea de a se descoperi",
-        "fear": "Constrangerea, rutina, golul interior",
-        "description": "Curiozitate, descoperire, aventura intelectuala. Impinge granitele cunoasterii.",
-        "ted_example": "Richard Feynman",
-        "superpower": "Infecteaza audienta cu curiozitate si deschide orizonturi noi",
+        "emoji": "🚀", "group": "Sufletul",
+        "desire": "Libertatea de a se descoperi", "fear": "Constrangerea, rutina, golul interior",
+        "description": "Curiozitate, descoperire, aventura intelectuala.",
+        "ted_example": "Richard Feynman", "superpower": "Infecteaza audienta cu curiozitate",
         "shadow": "Se pierde, nu finalizeaza nimic, fuge de profunzime",
         "qualities": ["curiozitate", "descoperire", "aventura", "perspective noi", "libertate"]
     },
     "Rebelul": {
-        "emoji": "⚡",
-        "group": "Sufletul",
-        "desire": "Revolutia, distrugerea a ce nu merge",
-        "fear": "Sa fie neputincios sau ineficient",
-        "description": "Contesta status quo-ul, provoaca conventiile, deschide drumuri noi.",
-        "ted_example": "Elon Musk",
-        "superpower": "Schimba paradigme si sparge tipare care nu mai servesc",
+        "emoji": "⚡", "group": "Sufletul",
+        "desire": "Revolutia, distrugerea a ce nu merge", "fear": "Sa fie neputincios sau ineficient",
+        "description": "Contesta status quo-ul, provoaca conventiile.",
+        "ted_example": "Elon Musk", "superpower": "Schimba paradigme si sparge tipare",
         "shadow": "Poate aliena audienta, distruge fara a construi",
         "qualities": ["nonconformism", "provocare", "energie", "rupere de tipare", "revolutie"]
     },
     "Indragostitul": {
-        "emoji": "💫",
-        "group": "Sufletul",
-        "desire": "Intimitatea si experienta senzoriala",
-        "fear": "Sa fie singur sau nedorit",
-        "description": "Pasiune, conexiune profunda, experienta senzoriala. Vorbeste cu si despre ceea ce iubeste.",
-        "ted_example": "Isabel Allende",
-        "superpower": "Transmite pasiune contagioasa si creeaza conexiune emotionala intensa",
-        "shadow": "Dependenta emotionala, pierderea limitelor, subiectivism excesiv",
+        "emoji": "💫", "group": "Sufletul",
+        "desire": "Intimitatea si experienta senzoriala", "fear": "Sa fie singur sau nedorit",
+        "description": "Pasiune, conexiune profunda, experienta senzoriala.",
+        "ted_example": "Isabel Allende", "superpower": "Transmite pasiune contagioasa",
+        "shadow": "Dependenta emotionala, pierderea limitelor",
         "qualities": ["pasiune", "conexiune", "sensorialitate", "dedicare", "intensitate emotionala"]
     },
     "Creatorul": {
-        "emoji": "🎨",
-        "group": "Sufletul",
-        "desire": "Sa realizeze ceva cu valoare durabila",
-        "fear": "Viziunea sau executia mediocra",
-        "description": "Imagineaza, construieste, aduce frumusete si inovatie in lume.",
-        "ted_example": "Jony Ive",
-        "superpower": "Inspira prin viziune, estetica si inovatie originala",
+        "emoji": "🎨", "group": "Sufletul",
+        "desire": "Sa realizeze ceva cu valoare durabila", "fear": "Viziunea sau executia mediocra",
+        "description": "Imagineaza, construieste, aduce frumusete si inovatie.",
+        "ted_example": "Jony Ive", "superpower": "Inspira prin viziune, estetica si inovatie",
         "shadow": "Perfectionism paralizant, dificultate in colaborare",
         "qualities": ["viziune", "originalitate", "inovatie", "estetica", "constructie"]
     },
     "Conducatorul": {
-        "emoji": "👑",
-        "group": "Sinele",
-        "desire": "Controlul si ordinea",
-        "fear": "Haosul, rasturnarea de la putere",
-        "description": "Viziune clara, autoritate naturala, capacitatea de a uni oamenii in jurul unei cauze.",
-        "ted_example": "Nelson Mandela",
-        "superpower": "Creeaza miscare si schimbare la scara mare prin viziune clara",
-        "shadow": "Poate fi perceput ca rigid, autoritar sau distant",
+        "emoji": "👑", "group": "Sinele",
+        "desire": "Controlul si ordinea", "fear": "Haosul, rasturnarea de la putere",
+        "description": "Viziune clara, autoritate naturala.",
+        "ted_example": "Nelson Mandela", "superpower": "Creeaza miscare si schimbare la scara mare",
+        "shadow": "Poate fi perceput ca rigid sau autoritar",
         "qualities": ["viziune", "autoritate", "responsabilitate", "ordine", "leadership"]
     },
     "Magicianul": {
-        "emoji": "✨",
-        "group": "Sinele",
-        "desire": "Intelegerea legilor universului",
-        "fear": "Consecintele negative neintentionate",
-        "description": "Transforma realitatea, aduce solutii neasteptate, face imposibilul posibil.",
-        "ted_example": "Steve Jobs",
-        "superpower": "Surprinde si transforma perspectivele, catalizeaza schimbarea",
+        "emoji": "✨", "group": "Sinele",
+        "desire": "Intelegerea legilor universului", "fear": "Consecintele negative neintentionate",
+        "description": "Transforma realitatea, face imposibilul posibil.",
+        "ted_example": "Steve Jobs", "superpower": "Surprinde si transforma perspectivele",
         "shadow": "Poate parea manipulator sau deconectat de realitate",
         "qualities": ["transformare", "surpriza", "catalizare", "viziune holistica", "WOW"]
     },
     "Inteleptul": {
-        "emoji": "🔮",
-        "group": "Sinele",
-        "desire": "Descoperirea adevarului",
-        "fear": "Sa fie indus in eroare sau ignorant",
-        "description": "Aduce claritate, cunoastere profunda si perspective noi. Vorbeste din experienta si cercetare.",
-        "ted_example": "Hans Rosling",
-        "superpower": "Transforma complexul in simplu si clar, ilumineaza",
-        "shadow": "Poate fi prea academic, detasat emotional, dificil de urmarit",
+        "emoji": "🔮", "group": "Sinele",
+        "desire": "Descoperirea adevarului", "fear": "Sa fie indus in eroare sau ignorant",
+        "description": "Aduce claritate, cunoastere profunda si perspective noi.",
+        "ted_example": "Hans Rosling", "superpower": "Transforma complexul in simplu si clar",
+        "shadow": "Poate fi prea academic, detasat emotional",
         "qualities": ["claritate", "profunzime", "date", "analiza", "intelepciune"]
     },
     "Bufonul": {
-        "emoji": "🤡",
-        "group": "Sinele",
-        "desire": "Sa traiasca clipa cu bucurie",
-        "fear": "Sa fie plictisit sau plictisitor",
-        "description": "Foloseste umorul si ironia pentru a critica, a dezarma si a elibera. Rade de ceea ce e inadecvat.",
-        "ted_example": "Sir Ken Robinson",
-        "superpower": "Spune adevaruri incomode prin ras, elibereaza tensiunea",
+        "emoji": "🤡", "group": "Sinele",
+        "desire": "Sa traiasca clipa cu bucurie", "fear": "Sa fie plictisit sau plictisitor",
+        "description": "Foloseste umorul si ironia pentru a critica si a elibera.",
+        "ted_example": "Sir Ken Robinson", "superpower": "Spune adevaruri incomode prin ras",
         "shadow": "Poate fi perceput ca neserios, ascunde durerea prin umor",
         "qualities": ["umor", "ironie", "bucurie", "critica prin ras", "dezarmare"]
     },
@@ -217,7 +181,6 @@ Cele 9 principii Talk Like TED (Carmine Gallo):
 7. REGULA CELOR 18 MINUTE + REGULA CELOR 3 - Titlu, 3 mesaje cheie, structura clara.
 8. MULTISENZORIAL - Vorbeste prin imagine, metafore vizuale, experiente senzoriale.
 9. AUTENTICITATE - Ceea ce esti vorbeste atat de tare incat nu pot auzi ceea ce spui. (Emerson)
-   Autenticitatea nu se antreneaza - se descopera. Este arhetipul tau profund.
 """
 
 SCORING_GUIDE = """
@@ -238,14 +201,11 @@ REGULI IMPORTANTE:
 SPECIAL PENTRU AUTENTICITATE:
 - Nu da recomandari tehnice pentru autenticitate.
 - Ofera 3 intrebari de reflectie profunda personalizate pe textul speakerului.
-- Intrebarile trebuie sa il ajute sa se descopere pe sine, nu sa bifeze un criteriu.
 
-SPECIAL PENTRU AUTENTICITATEA ARHETIPALA (al 10-lea indicator):
+SPECIAL PENTRU AUTENTICITATEA ARHETIPALA:
 - Evalueaza cat de fidel isi exprima speakerul propriul arhetip identificat.
-- Un Explorator cu umor mic NU e penalizat - e evaluat pe curiozitate si descoperire.
-- Un Bufon cu date putine NU e penalizat - e evaluat pe umor si dezarmare.
+- Un Explorator cu umor mic NU e penalizat.
 - Intreaba: vorbeste din DORINTA sau din TEAMA arhetipului sau?
-- Dorinta = autenticitate. Teama = umbra arhetipului.
 """
 
 TED_CASE_STUDIES = {
@@ -332,6 +292,98 @@ def format_case_studies_for_prompt():
             result += f"  - '{t['title']}' de {t['speaker']}\n"
     return result
 
+def calculate_total_score(result):
+    """Calculeaza scorul total din rezultatul analizei. Returneaza (total, max_possible)."""
+    analysis = result.get("analysis", {})
+    tier = result.get("tier", "free")
+    scores = []
+
+    if tier == "free":
+        for k, v in analysis.items():
+            if isinstance(v, dict) and "score" in v:
+                scores.append(v["score"])
+    elif tier == "paid1":
+        for k, v in analysis.items():
+            if k != "archetype" and isinstance(v, dict) and "score" in v:
+                scores.append(v["score"])
+        arch = analysis.get("archetype", {})
+        if arch.get("archetype_authenticity_score"):
+            scores.append(arch["archetype_authenticity_score"])
+    elif tier == "paid2":
+        sessions = analysis.get("coaching_sessions", [])
+        for s in sessions:
+            if "score" in s:
+                scores.append(s["score"])
+        arch = analysis.get("archetype", {})
+        if arch.get("archetype_authenticity_score"):
+            scores.append(arch["archetype_authenticity_score"])
+    elif tier == "paid3":
+        principles = analysis.get("nine_principles_check", {})
+        for k, v in principles.items():
+            if isinstance(v, dict) and "score" in v:
+                scores.append(v["score"])
+        arch = analysis.get("archetype", {})
+        if arch.get("archetype_authenticity_score"):
+            scores.append(arch["archetype_authenticity_score"])
+
+    if not scores:
+        return 0, 0
+    total = sum(scores)
+    max_possible = len(scores) * 10
+    return total, max_possible
+
+def get_score_label(total, max_possible):
+    """Returneaza eticheta verbala pentru scorul total."""
+    if max_possible == 0:
+        return ""
+    pct = total / max_possible
+    if pct >= 0.90:
+        return "Nivel TED Global 🌍"
+    elif pct >= 0.75:
+        return "Aproape gata de scenă 🎤"
+    elif pct >= 0.60:
+        return "Progres solid 📈"
+    elif pct >= 0.40:
+        return "Potential mare, mai avem de lucru 💪"
+    else:
+        return "La început, dar cu direcție clară 🌱"
+
+def load_history():
+    if os.path.exists(history_file):
+        with open(history_file) as f:
+            return json.load(f)
+    return []
+
+def save_history(email, text, result, total_score, max_score):
+    entry = {
+        "timestamp": datetime.now().isoformat(),
+        "email": email,
+        "text_preview": text[:200] + "..." if len(text) > 200 else text,
+        "tier": result.get("tier", "free"),
+        "total_score": total_score,
+        "max_score": max_score,
+        "result": result
+    }
+    data = load_history()
+    data.append(entry)
+    with open(history_file, "w") as f:
+        json.dump(data, f, indent=2)
+
+def get_user_history(email, limit=10):
+    """Returneaza ultimele analize ale unui user, cele mai recente primele."""
+    data = load_history()
+    user_entries = [e for e in data if e.get("email") == email]
+    return list(reversed(user_entries[-limit:]))
+
+def get_previous_score(email, current_timestamp):
+    """Returneaza scorul analizei anterioare pentru comparatie."""
+    data = load_history()
+    user_entries = [e for e in data if e.get("email") == email and e.get("timestamp") != current_timestamp]
+    if not user_entries:
+        return None, None
+    last = user_entries[-1]
+    return last.get("total_score"), last.get("max_score")
+
 def analyze_speech_free(text):
     prompt = f"""
 Esti un evaluator strict de discursuri TEDx.
@@ -369,12 +421,9 @@ def analyze_speech_paid1(text):
     case_studies = format_case_studies_for_prompt()
     prompt = f"""
 Esti un evaluator strict de discursuri TEDx, expert in metodologia Carmine Gallo si psihologia arhetipurilor (Carol S. Pearson / Carl Jung).
-Analizeaza textul urmator prin prisma celor 9 principii Gallo + identifica arhetipul speakerului + evalueaza autenticitatea arhetipala.
 
 {GALLO_9_PRINCIPLES}
-
 {SCORING_GUIDE}
-
 {case_studies}
 
 CELE 12 ARHETIPURI (Carol S. Pearson / Carl Jung):
@@ -403,7 +452,7 @@ Returneaza DOAR un JSON valid:
     "superpower": "Superputerea acestui arhetip pe scena TED",
     "shadow_present": "Apare umbra arhetipului in text? Da/Nu si cum",
     "archetype_authenticity_score": 0,
-    "archetype_authenticity_note": "Evalueaza cat de fidel isi exprima speakerul arhetipul - vorbeste din dorinta sau din teama?"
+    "archetype_authenticity_note": "Evalueaza cat de fidel isi exprima speakerul arhetipul"
   }},
   "Pasiunea": {{ "score": 0, "present": false, "recommendation": "Citat + explicatie + studiu de caz daca scorul < 7" }},
   "Povestea": {{ "score": 0, "present": false, "recommendation": "..." }},
@@ -413,7 +462,7 @@ Returneaza DOAR un JSON valid:
   "Umor": {{ "score": 0, "present": false, "recommendation": "..." }},
   "Regula celor 18 min": {{ "score": 0, "present": false, "recommendation": "..." }},
   "Multisenzorial": {{ "score": 0, "present": false, "recommendation": "..." }},
-  "Autenticitate": {{ "score": 0, "present": false, "reflection_questions": ["intrebare profunda 1", "intrebare profunda 2", "intrebare profunda 3"] }}
+  "Autenticitate": {{ "score": 0, "present": false, "reflection_questions": ["intrebare 1", "intrebare 2", "intrebare 3"] }}
 }}
 
 Text de analizat: {text}
@@ -437,13 +486,9 @@ def analyze_speech_paid2(text):
     case_studies = format_case_studies_for_prompt()
     prompt = f"""
 Esti un coach avansat de TED talks, expert in metodologia Carmine Gallo si psihologia arhetipurilor (Carol S. Pearson / Carl Jung).
-Analizeaza textul si creeaza un plan de coaching structurat pe 9 sesiuni + evaluare arhetipala.
-Coaching-ul trebuie sa AMPLIFICE arhetipul speakerului, nu sa il schimbe.
 
 {GALLO_9_PRINCIPLES}
-
 {SCORING_GUIDE}
-
 {case_studies}
 
 CELE 12 ARHETIPURI (Carol S. Pearson / Carl Jung):
@@ -451,10 +496,9 @@ CELE 12 ARHETIPURI (Carol S. Pearson / Carl Jung):
 
 IMPORTANT:
 - Identifica arhetipul dominant si secundar.
-- Coaching-ul trebuie sa ajute speakerul sa vorbeasca din DORINTA arhetipului, nu din TEAMA.
-- Pentru sesiunea Autenticitate: ofera intrebari de reflectie profunda, nu exercitii tehnice.
+- Coaching-ul trebuie sa amplifice arhetipul, nu sa il schimbe.
+- Pentru sesiunea Autenticitate: ofera intrebari de reflectie profunda.
 - Include studii de caz TED pentru fiecare sesiune.
-- NU penaliza un Explorator pentru umor mic.
 
 Returneaza DOAR un JSON valid:
 {{
@@ -467,25 +511,25 @@ Returneaza DOAR un JSON valid:
     "fear": "Teama/Umbra",
     "evidence": "Ce din text indica acest arhetip",
     "archetype_authenticity_score": 0,
-    "coaching_note": "Cum sa amplifice arhetipul pe scena TED, vorbind din dorinta nu din teama"
+    "coaching_note": "Cum sa amplifice arhetipul pe scena TED"
   }},
   "overall_score": 0,
-  "summary": "Analiza critica si specifica in 2-3 propozitii cu referinte la text.",
-  "strengths": ["punct forte specific 1", "punct forte specific 2", "punct forte specific 3"],
+  "summary": "Analiza critica in 2-3 propozitii.",
+  "strengths": ["punct forte 1", "punct forte 2", "punct forte 3"],
   "coaching_sessions": [
     {{
       "day": 1,
       "principle": "Pasiunea",
       "status": "absent",
       "score": 0,
-      "text_evidence": "Citat sau referinta concreta din text",
-      "exercise": "Exercitiu specific bazat pe arhetipul speakerului si textul analizat",
-      "example_question": "Intrebare de reflectie personalizata",
-      "ted_example": "Titlul TED talk-ului recomandat",
+      "text_evidence": "Citat din text",
+      "exercise": "Exercitiu specific",
+      "example_question": "Intrebare de reflectie",
+      "ted_example": "Titlul TED talk-ului",
       "ted_speaker": "Numele speakerului"
     }}
   ],
-  "next_steps": ["actiune concreta 1", "actiune concreta 2", "actiune concreta 3"]
+  "next_steps": ["actiune 1", "actiune 2", "actiune 3"]
 }}
 
 Text de analizat: {text}
@@ -512,23 +556,18 @@ Esti Tibi Ruczui, curatorul TEDxBrasov, cu 10+ ani de experienta.
 Esti expert in metodologia Carmine Gallo SI in psihologia arhetipurilor Carol S. Pearson / Carl Jung.
 Vorbesti direct cu speakerul, ca un mentor personal, cald dar EXIGENT si CRITIC.
 Motto-ul tau: "{MOTTO}"
-Bazeaza-te EXCLUSIV pe ce este scris in text.
 
 {GALLO_9_PRINCIPLES}
-
 {SCORING_GUIDE}
-
 {case_studies}
 
 CELE 12 ARHETIPURI (Carol S. Pearson / Carl Jung):
 {ARCHETYPES_FOR_PROMPT}
 
 IMPORTANT:
-- Identifica arhetipul dominant SI secundar al speakerului.
-- Acesta e CEL MAI IMPORTANT insight pe care il poti oferi ca curator.
+- Identifica arhetipul dominant SI secundar.
 - Evalueaza autenticitatea arhetipala: vorbeste din DORINTA sau din TEAMA?
-- Umbra arhetipului apare cand speakerul vorbeste din TEAMA, nu din DORINTA.
-- Pentru Autenticitate: 3 intrebari de reflectie profunda, nu recomandari tehnice.
+- Pentru Autenticitate: 3 intrebari de reflectie profunda.
 - Fiecare scor justificat cu citat din text.
 - NU penaliza un Explorator pentru umor mic.
 - Scorurile TREBUIE sa fie diferite.
@@ -541,24 +580,24 @@ Returneaza DOAR un JSON valid:
     "emoji": "emoji",
     "group": "Ego-ul|Sufletul|Sinele",
     "confidence": "mare|medie|mica",
-    "desire": "Dorinta principala a arhetipului",
+    "desire": "Dorinta principala",
     "fear": "Teama/Umbra arhetipului",
-    "evidence": "Ce anume din text indica acest arhetip, cu citat",
-    "curator_message_about_archetype": "Mesajul tau personal catre speaker despre arhetipul sau (2-3 propozitii calde si profunde)",
-    "ted_example": "Speaker TED celebru cu acelasi arhetip",
-    "superpower": "Superputerea acestui arhetip pe scena TED",
-    "shadow": "Riscul acestui arhetip - umbra lui",
-    "shadow_present": "Apare umbra in text? Da/Nu si cum anume",
+    "evidence": "Ce din text indica acest arhetip, cu citat",
+    "curator_message_about_archetype": "Mesajul tau personal (2-3 propozitii)",
+    "ted_example": "Speaker TED cu acelasi arhetip",
+    "superpower": "Superputerea pe scena TED",
+    "shadow": "Riscul arhetipului",
+    "shadow_present": "Apare umbra in text? Da/Nu si cum",
     "archetype_authenticity_score": 0,
-    "archetype_authenticity_note": "Vorbeste din dorinta sau din teama? Cat de autentic isi exprima arhetipul?"
+    "archetype_authenticity_note": "Vorbeste din dorinta sau din teama?"
   }},
-  "curator_message": "Mesaj personal direct catre speaker (3-4 propozitii sincere si calde)",
+  "curator_message": "Mesaj personal direct (3-4 propozitii)",
   "overall_score": 0,
   "curator_verdict": "Gata pentru scena|Aproape gata|Mai avem de lucru|Revenim de la zero",
-  "what_moved_me": "Ce anume din text te-a impresionat, cu citat",
-  "what_worries_me": "Ce anume din text te ingrijoreaza, cu citat",
+  "what_moved_me": "Ce te-a impresionat, cu citat",
+  "what_worries_me": "Ce te ingrijoreaza, cu citat",
   "nine_principles_check": {{
-    "Pasiunea": {{ "score": 0, "curator_note": "Citat din text + observatie + studiu de caz daca scorul < 7" }},
+    "Pasiunea": {{ "score": 0, "curator_note": "Citat + observatie + studiu de caz daca scorul < 7" }},
     "Povestea": {{ "score": 0, "curator_note": "..." }},
     "Conversatia": {{ "score": 0, "curator_note": "..." }},
     "Ceva Nou": {{ "score": 0, "curator_note": "..." }},
@@ -566,12 +605,12 @@ Returneaza DOAR un JSON valid:
     "Umor": {{ "score": 0, "curator_note": "..." }},
     "Regula celor 18 min": {{ "score": 0, "curator_note": "..." }},
     "Multisenzorial": {{ "score": 0, "curator_note": "..." }},
-    "Autenticitate": {{ "score": 0, "reflection_questions": ["intrebare profunda 1 personalizata", "intrebare profunda 2", "intrebare profunda 3"] }}
+    "Autenticitate": {{ "score": 0, "reflection_questions": ["intrebare 1", "intrebare 2", "intrebare 3"] }}
   }},
   "stage_readiness": {{
     "ready_to_present": false,
     "estimated_sessions_needed": 0,
-    "priority_action": "Cel mai important lucru specific de facut acum"
+    "priority_action": "Cel mai important lucru de facut acum"
   }}
 }}
 
@@ -602,21 +641,6 @@ def analyze_by_tier(text, tier):
     else:
         return analyze_speech_free(text)
 
-def save_history(email, text, result):
-    entry = {
-        "timestamp": datetime.now().isoformat(),
-        "email": email,
-        "text": text[:200] + "..." if len(text) > 200 else text,
-        "result": result
-    }
-    data = []
-    if os.path.exists(history_file):
-        with open(history_file) as f:
-            data = json.load(f)
-    data.append(entry)
-    with open(history_file, "w") as f:
-        json.dump(data, f, indent=2)
-
 def generate_radar_image(scores, filename="radar.png"):
     labels = list(scores.keys())
     num_vars = len(labels)
@@ -644,7 +668,7 @@ def generate_radar_image(scores, filename="radar.png"):
 def clean(text):
     return str(text).encode('latin-1', 'replace').decode('latin-1')
 
-def generate_pdf(text, result, user_name, tier):
+def generate_pdf(text, result, user_name, tier, total_score=0, max_score=0):
     pdf_filename = f"{pdf_folder}/scorecard_{datetime.now().strftime('%Y%m%d%H%M%S')}.pdf"
     analysis = result.get("analysis", {})
     scores = {}
@@ -670,7 +694,11 @@ def generate_pdf(text, result, user_name, tier):
     pdf.multi_cell(0, 6, clean(MOTTO))
     pdf.set_font("Arial", "", 10)
     pdf.cell(0, 6, clean(f"Speaker: {user_name} | Tier: {TIERS[tier]['name']} | {datetime.now().strftime('%d.%m.%Y %H:%M')}"), ln=True, align="C")
-    pdf.ln(8)
+    if total_score and max_score:
+        pdf.set_font("Arial", "B", 14)
+        label = get_score_label(total_score, max_score)
+        pdf.cell(0, 10, clean(f"SCOR TOTAL: {total_score}/{max_score} — {label}"), ln=True, align="C")
+    pdf.ln(6)
     archetype = analysis.get("archetype")
     if archetype and isinstance(archetype, dict):
         pdf.set_font("Arial", "B", 13)
@@ -681,12 +709,9 @@ def generate_pdf(text, result, user_name, tier):
         pdf.multi_cell(0, 6, clean(f"Grup: {archetype.get('group', '')}"))
         pdf.multi_cell(0, 6, clean(f"Dorinta: {archetype.get('desire', '')}"))
         pdf.multi_cell(0, 6, clean(f"Teama/Umbra: {archetype.get('fear', '')}"))
-        pdf.multi_cell(0, 6, clean(f"Dovada din text: {archetype.get('evidence', '')}"))
-        pdf.multi_cell(0, 6, clean(f"Superputere: {archetype.get('superpower', '')}"))
+        pdf.multi_cell(0, 6, clean(f"Dovada: {archetype.get('evidence', '')}"))
         if archetype.get("archetype_authenticity_score"):
-            pdf.multi_cell(0, 6, clean(f"Autenticitate arhetipala: {archetype.get('archetype_authenticity_score')}/10"))
-        if archetype.get("archetype_authenticity_note"):
-            pdf.multi_cell(0, 6, clean(archetype.get("archetype_authenticity_note", "")))
+            pdf.multi_cell(0, 6, clean(f"Autenticitate arhetipala: {archetype.get('archetype_authenticity_score')}/10 — {archetype.get('archetype_authenticity_note', '')}"))
         if archetype.get("curator_message_about_archetype"):
             pdf.set_font("Arial", "I", 10)
             pdf.multi_cell(0, 6, clean(archetype.get("curator_message_about_archetype", "")))
@@ -702,7 +727,7 @@ def generate_pdf(text, result, user_name, tier):
                 pdf.set_font("Arial", "B", 11)
                 pdf.cell(0, 7, clean(f"{crit}: {data.get('score', 0)}/10"), ln=True)
                 pdf.set_font("Arial", "", 10)
-                pdf.multi_cell(0, 6, clean(f"Recomandare: {data.get('recommendation', '')}"))
+                pdf.multi_cell(0, 6, clean(data.get("recommendation", "")))
                 pdf.ln(2)
     elif tier == "paid1" and isinstance(analysis, dict):
         for crit, data in analysis.items():
@@ -726,7 +751,7 @@ def generate_pdf(text, result, user_name, tier):
             pdf.multi_cell(0, 6, clean(arch.get("coaching_note", "")))
             pdf.ln(4)
         pdf.set_font("Arial", "B", 13)
-        pdf.cell(0, 8, clean(f"Scor general: {analysis.get('overall_score', 'N/A')}/10"), ln=True)
+        pdf.cell(0, 8, clean(f"Scor general AI: {analysis.get('overall_score', 'N/A')}/10"), ln=True)
         pdf.set_font("Arial", "", 10)
         pdf.multi_cell(0, 6, clean(analysis.get("summary", "")))
         pdf.ln(4)
@@ -735,7 +760,7 @@ def generate_pdf(text, result, user_name, tier):
             pdf.cell(0, 7, clean(f"Ziua {session.get('day', '')}: {session.get('principle', '')} - {session.get('score', 0)}/10"), ln=True)
             pdf.set_font("Arial", "", 10)
             if session.get("text_evidence"):
-                pdf.multi_cell(0, 6, clean(f"Din textul tau: {session.get('text_evidence', '')}"))
+                pdf.multi_cell(0, 6, clean(f"Din text: {session.get('text_evidence', '')}"))
             pdf.multi_cell(0, 6, clean(f"Exercitiu: {session.get('exercise', '')}"))
             if session.get("ted_example"):
                 pdf.multi_cell(0, 6, clean(f"Studiu de caz: {session.get('ted_example')} - {session.get('ted_speaker', '')}"))
@@ -750,7 +775,6 @@ def generate_pdf(text, result, user_name, tier):
         pdf.cell(0, 7, "Ce m-a impresionat:", ln=True)
         pdf.set_font("Arial", "", 10)
         pdf.multi_cell(0, 6, clean(analysis.get("what_moved_me", "")))
-        pdf.ln(4)
         pdf.set_font("Arial", "B", 12)
         pdf.cell(0, 7, "Ce ma ingrijoreaza:", ln=True)
         pdf.set_font("Arial", "", 10)
@@ -823,16 +847,51 @@ def index():
     user = get_current_user()
     result = None
     pdf_file = ""
+    total_score = 0
+    max_score = 0
+    score_label = ""
+    prev_score = None
+    prev_max = None
+    score_diff = None
+    current_timestamp = None
+
     if request.method == "POST":
         text = request.form.get("speech_text", "")
         if text.strip():
             result = analyze_by_tier(text, user["tier"])
-            save_history(user["email"], text, result)
+            total_score, max_score = calculate_total_score(result)
+            score_label = get_score_label(total_score, max_score)
+            current_timestamp = datetime.now().isoformat()
+            prev_score, prev_max = get_previous_score(user["email"], current_timestamp)
+            if prev_score is not None and prev_max == max_score:
+                score_diff = total_score - prev_score
+            save_history(user["email"], text, result, total_score, max_score)
             try:
-                pdf_file = generate_pdf(text, result, user.get("name", "Speaker"), user["tier"])
+                pdf_file = generate_pdf(text, result, user.get("name", "Speaker"), user["tier"], total_score, max_score)
             except Exception as e:
                 print(f"PDF error: {e}")
-    return render_template("index.html", result=result, pdf_file=pdf_file, user=user, tiers=TIERS)
+
+    history = get_user_history(user["email"], limit=5)
+
+    return render_template("index.html",
+        result=result,
+        pdf_file=pdf_file,
+        user=user,
+        tiers=TIERS,
+        total_score=total_score,
+        max_score=max_score,
+        score_label=score_label,
+        score_diff=score_diff,
+        prev_score=prev_score,
+        history=history
+    )
+
+@app.route("/history")
+@login_required
+def history_page():
+    user = get_current_user()
+    history = get_user_history(user["email"], limit=20)
+    return render_template("history.html", user=user, tiers=TIERS, history=history)
 
 @app.route("/upgrade")
 @login_required
