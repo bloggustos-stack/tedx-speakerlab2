@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Istoric Analize – Speaker Lab AI TEDxBrașov</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body{font-family:Arial;background:#0a0a0a;color:#e8e0d5;margin:0;padding:0}
+nav{background:#111;border-bottom:1px solid #222;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:52px}
+nav a{color:#e8e0d5;text-decoration:none;font-size:12px;margin-left:16px}
+nav a:hover{color:#be123c}
+.badge{font-size:10px;padding:3px 8px;border:1px solid #333;color:#aaa;margin-left:12px}
+.container{max-width:860px;margin:0 auto;padding:40px 24px}
+h1{font-size:32px;margin-bottom:8px}
+h1 em{color:#666;font-weight:300}
+.subtitle{font-size:12px;color:#666;margin-bottom:32px}
+.empty{text-align:center;padding:60px 0;color:#444;font-size:13px}
+/* PROGRESS CHART */
+.progress-card{background:#111;border:1px solid #222;padding:20px;margin-bottom:24px}
+.progress-card h3{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px}
+/* HISTORY LIST */
+.history-list{display:flex;flex-direction:column;gap:12px}
+.history-item{background:#111;border:1px solid #222;padding:20px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start}
+.history-item:hover{border-color:#333}
+.history-num{font-size:28px;font-weight:bold;color:#222;min-width:32px;text-align:center;padding-top:4px}
+.history-body{}
+.history-meta{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.history-date{font-size:11px;color:#555}
+.history-tier-badge{font-size:9px;padding:2px 7px;border:1px solid #333;color:#888;text-transform:uppercase}
+.history-preview{font-size:11px;color:#666;line-height:1.5;font-style:italic}
+.history-score-block{text-align:right}
+.history-score-big{font-size:32px;font-weight:bold;color:#be123c;line-height:1}
+.history-score-max{font-size:12px;color:#555}
+.history-score-label{font-size:10px;color:#666;margin-top:3px}
+.history-diff{font-size:11px;margin-top:4px;font-weight:bold}
+.diff-up{color:#4ade80}
+.diff-down{color:#f87171}
+.diff-same{color:#555}
+/* BEST SCORE */
+.best-banner{background:#111;border:1px solid #333;border-left:3px solid #be123c;padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between}
+.best-label{font-size:10px;color:#be123c;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px}
+.best-val{font-size:22px;font-weight:bold;color:#e8e0d5}
+.best-date{font-size:11px;color:#555}
+</style>
+</head>
+<body>
+<nav>
+  <div>
+    <strong>TEDxBrașov · Speaker Lab AI</strong>
+    {% if user %}<span class="badge">{{ tiers[user.tier].name }}</span>{% endif %}
+  </div>
+  <div>
+    {% if user %}
+    <span style="font-size:12px;color:#666">{{ user.get('name', user.email) }}</span>
+    <a href="/">← Înapoi</a>
+    <a href="/upgrade">Upgrade</a>
+    <a href="/logout" style="color:#be123c">Ieși</a>
+    {% endif %}
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Istoricul <em>analizelor tale</em></h1>
+  <p class="subtitle">Urmărește-ți progresul discurs cu discurs.</p>
+
+  {% if not history or history|length == 0 %}
+  <div class="empty">
+    <p>Nu ai nicio analiză salvată încă.</p>
+    <p><a href="/" style="color:#be123c;text-decoration:none">Analizează primul tău discurs →</a></p>
+  </div>
+  {% else %}
+
+  <!-- BEST SCORE -->
+  {% set best = namespace(score=0, max=0, date='') %}
+  {% for h in history %}
+    {% if h.total_score > best.score %}
+      {% set best.score = h.total_score %}
+      {% set best.max = h.max_score %}
+      {% set best.date = h.timestamp %}
+    {% endif %}
+  {% endfor %}
+  <div class="best-banner">
+    <div>
+      <div class="best-label">🏆 Cel mai bun scor al tău</div>
+      <div class="best-val">{{ best.score }}/{{ best.max }}</div>
+    </div>
+    <div class="best-date">{{ best.date[:16]|replace('T',' ') }}</div>
+  </div>
+
+  <!-- PROGRESS CHART -->
+  {% if history|length > 1 %}
+  <div class="progress-card">
+    <h3>Evoluția scorului tău</h3>
+    <canvas id="progressChart" height="120"></canvas>
+  </div>
+  {% endif %}
+
+  <!-- HISTORY LIST -->
+  <div class="history-list">
+    {% for h in history %}
+    {% set idx = loop.index %}
+    {% set prev_h = history[loop.index] if loop.index < history|length else none %}
+    <div class="history-item">
+      <div class="history-num">{{ loop.revcount }}</div>
+      <div class="history-body">
+        <div class="history-meta">
+          <span class="history-date">{{ h.timestamp[:16]|replace('T',' ') }}</span>
+          <span class="history-tier-badge">{{ h.tier }}</span>
+        </div>
+        <div class="history-preview">{{ h.text_preview[:120] }}...</div>
+      </div>
+      <div class="history-score-block">
+        <div class="history-score-big">{{ h.total_score }}</div>
+        <div class="history-score-max">/{{ h.max_score }}</div>
+        {% if prev_h %}
+          {% set diff = h.total_score - prev_h.total_score %}
+          {% if diff > 0 %}
+          <div class="history-diff diff-up">↑ +{{ diff }}</div>
+          {% elif diff < 0 %}
+          <div class="history-diff diff-down">↓ {{ diff }}</div>
+          {% else %}
+          <div class="history-diff diff-same">= —</div>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% endif %}
+</div>
+
+{% if history and history|length > 1 %}
+<script>
+const progressLabels = [{% for h in history|reverse %}"{{ h.timestamp[:10] }}",{% endfor %}];
+const progressScores = [{% for h in history|reverse %}{{ h.total_score }},{% endfor %}];
+const progressMax = [{% for h in history|reverse %}{{ h.max_score }},{% endfor %}];
+const pctScores = progressScores.map((s,i) => progressMax[i] > 0 ? Math.round(s/progressMax[i]*100) : 0);
+
+new Chart(document.getElementById('progressChart'), {
+  type: 'line',
+  data: {
+    labels: progressLabels,
+    datasets: [{
+      label: 'Scor %',
+      data: pctScores,
+      fill: true,
+      backgroundColor: 'rgba(190,18,60,0.1)',
+      borderColor: '#be123c',
+      pointBackgroundColor: '#be123c',
+      tension: 0.3
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: {
+        min: 0, max: 100,
+        ticks: { color: '#666', callback: v => v + '%' },
+        grid: { color: '#1a1a1a' }
+      },
+      x: { ticks: { color: '#666' }, grid: { color: '#1a1a1a' } }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+</script>
+{% endif %}
+</body>
+</html>
