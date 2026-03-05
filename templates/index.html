@@ -60,6 +60,24 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 .upgrade-box a{font-size:10px;color:#b45309;text-decoration:none;border:1px solid rgba(180,83,9,0.4);padding:7px 14px}
 .loading{display:none;font-size:12px;color:#888;margin-top:12px}
 .loading.active{display:block}
+/* TOTAL SCORE BANNER */
+.total-score-banner{background:#111;border:2px solid #be123c;padding:24px;margin-bottom:24px;text-align:center}
+.total-score-label{font-size:10px;color:#be123c;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:8px}
+.total-score-number{font-size:64px;font-weight:bold;color:#e8e0d5;line-height:1}
+.total-score-max{font-size:18px;color:#555}
+.total-score-text{font-size:13px;color:#888;margin-top:8px}
+.score-diff-positive{font-size:13px;color:#4ade80;margin-top:6px;font-weight:bold}
+.score-diff-negative{font-size:13px;color:#f87171;margin-top:6px;font-weight:bold}
+.score-diff-neutral{font-size:13px;color:#888;margin-top:6px}
+/* HISTORY MINI */
+.history-mini{background:#111;border:1px solid #222;padding:16px;margin-bottom:24px}
+.history-mini-title{font-size:10px;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.history-mini-title a{color:#be123c;text-decoration:none;font-size:10px}
+.history-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1a1a1a;font-size:11px}
+.history-row:last-child{border-bottom:none}
+.history-date{color:#555}
+.history-score{color:#be123c;font-weight:bold}
+.history-tier{color:#444;font-size:10px}
 /* ARCHETYPE */
 .archetype-card{background:#111;border:2px solid #be123c;padding:24px;margin-bottom:24px}
 .archetype-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
@@ -96,6 +114,7 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
     {% if user %}
     <span style="font-size:12px;color:#666">{{ user.get('name', user.email) }}</span>
     {% if user.tier == 'paid3' %}<a href="/admin">Admin</a>{% endif %}
+    <a href="/history">Istoric</a>
     <a href="/upgrade">Upgrade</a>
     <a href="/logout" style="color:#be123c">Ieși</a>
     {% endif %}
@@ -113,6 +132,23 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
     {% elif user.tier == 'paid3' %}feedback personal de curator TEDxBrașov + Arhetip Pearson/Jung (GPT-4o)
     {% endif %}
   </p>
+
+  <!-- ISTORIC MINI (ultimele 5 analize) -->
+  {% if history and history|length > 0 %}
+  <div class="history-mini">
+    <div class="history-mini-title">
+      <span>📊 Ultimele tale analize</span>
+      <a href="/history">Vezi tot istoricul →</a>
+    </div>
+    {% for h in history %}
+    <div class="history-row">
+      <span class="history-date">{{ h.timestamp[:16]|replace('T',' ') }}</span>
+      <span class="history-tier">{{ h.tier }}</span>
+      <span class="history-score">{{ h.total_score }}/{{ h.max_score }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
 
   <div class="form-card">
     <form method="post" id="analyzeForm">
@@ -132,6 +168,27 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
       {% if pdf_file %}<a href="/download/{{ pdf_file }}" class="download-btn" target="_blank">↓ Descarcă PDF</a>{% endif %}
     </div>
 
+    <!-- TOTAL SCORE BANNER -->
+    {% if total_score and max_score %}
+    <div class="total-score-banner">
+      <div class="total-score-label">Scor Total Discurs</div>
+      <div>
+        <span class="total-score-number">{{ total_score }}</span>
+        <span class="total-score-max">/{{ max_score }}</span>
+      </div>
+      <div class="total-score-text">{{ score_label }}</div>
+      {% if score_diff is not none %}
+        {% if score_diff > 0 %}
+        <div class="score-diff-positive">↑ +{{ score_diff }} puncte față de analiza anterioară ({{ prev_score }}/{{ max_score }}) 🎉</div>
+        {% elif score_diff < 0 %}
+        <div class="score-diff-negative">↓ {{ score_diff }} puncte față de analiza anterioară ({{ prev_score }}/{{ max_score }})</div>
+        {% else %}
+        <div class="score-diff-neutral">= Același scor ca analiza anterioară</div>
+        {% endif %}
+      {% endif %}
+    </div>
+    {% endif %}
+
     <!-- ARCHETYPE BLOCK (paid1/2/3) -->
     {% if result.analysis and result.analysis.archetype %}
     {% set arch = result.analysis.archetype %}
@@ -146,9 +203,7 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
           {% if arch.confidence %}<div style="font-size:10px;color:#555;margin-top:2px">Încredere identificare: {{ arch.confidence }}</div>{% endif %}
         </div>
       </div>
-
       <div class="archetype-evidence">{{ arch.evidence }}</div>
-
       <div class="archetype-body">
         <div class="archetype-item">
           <div class="archetype-item-label">💚 Dorința principală</div>
@@ -181,8 +236,6 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
         </div>
         {% endif %}
       </div>
-
-      <!-- Autenticitate arhetipala -->
       {% if arch.archetype_authenticity_score is defined %}
       <div class="archetype-auth">
         <div class="archetype-auth-score">{{ arch.archetype_authenticity_score }}<span style="font-size:14px;color:#666">/10</span></div>
@@ -192,14 +245,11 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
         </div>
       </div>
       {% endif %}
-
-      <!-- Umbra prezenta in text -->
       {% if arch.shadow_present and arch.shadow_present != 'Nu' %}
       <div class="shadow-alert">
         ⚠️ <strong>Umbra arhetipului detectată:</strong> {{ arch.shadow_present }}
       </div>
       {% endif %}
-
     </div>
     {% endif %}
 
