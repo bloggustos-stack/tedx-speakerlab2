@@ -928,8 +928,8 @@ def admin():
 @login_required
 def download_pdf(filename):
     return send_file(filename, as_attachment=True)
-    @app.route('/icon-<size>.png')
-    @app.route('/icon-<size>.png')
+
+@app.route('/icon-<size>.png')
 def serve_icon(size):
     return send_file(f'icon-{size}.png')
 
@@ -939,7 +939,3 @@ def service_worker():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
-c/service-worker.js'), 200, {'Content-Type': 'application/javascript'}
