@@ -929,7 +929,7 @@ def admin():
 def download_pdf(filename):
     return send_file(filename, as_attachment=True)
 
-    @app.route('/icon-192.png')
+@app.route('/icon-192.png')
 def serve_icon_192():
     return send_file('icon-192.png')
 
