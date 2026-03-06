@@ -931,3 +931,10 @@ def download_pdf(filename):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+@app.route('/icon-<size>.png')
+def serve_icon(size):
+    return send_file(f'icon-{size}.png')
+
+@app.route('/service-worker.js')
+def service_worker():
+    return send_file('static/service-worker.js'), 200, {'Content-Type': 'application/javascript'}
