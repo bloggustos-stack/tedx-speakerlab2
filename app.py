@@ -929,6 +929,7 @@ def admin():
 def download_pdf(filename):
     return send_file(filename, as_attachment=True)
     @app.route('/icon-<size>.png')
+    @app.route('/icon-<size>.png')
 def serve_icon(size):
     return send_file(f'icon-{size}.png')
 
