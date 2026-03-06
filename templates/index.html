@@ -7,6 +7,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Speaker Lab AI – TEDxBrașov</title>
+  <script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/service-worker.js');
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 body{font-family:Arial;background:#0a0a0a;color:#e8e0d5;margin:0;padding:0}
