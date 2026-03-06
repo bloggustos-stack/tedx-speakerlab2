@@ -417,5 +417,10 @@ document.getElementById('analyzeForm').addEventListener('submit',function(){
   document.getElementById('loadingEl').classList.add('active');
 });
 </script>
+  <script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/service-worker.js');
+}
+</script>
 </body>
 </html>
