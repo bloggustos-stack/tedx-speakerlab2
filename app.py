@@ -929,10 +929,13 @@ def admin():
 def download_pdf(filename):
     return send_file(filename, as_attachment=True)
 
-@app.route('/icon-<size>.png')
-def serve_icon(size):
-    import os
-    return send_file(os.path.join(app.root_path, 'static', f'icon-{size}.png'))
+@app.route('/icon-192.png')
+def serve_icon_192():
+    return app.send_static_file('icon-192.png')
+
+@app.route('/icon-512.png')
+def serve_icon_512():
+    return app.send_static_file('icon-512.png')
 
 @app.route('/service-worker.js')
 def service_worker():
