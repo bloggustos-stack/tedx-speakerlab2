@@ -938,3 +938,10 @@ def serve_icon(size):
 @app.route('/service-worker.js')
 def service_worker():
     return send_file('static/service-worker.js'), 200, {'Content-Type': 'application/javascript'}
+    @app.route('/icon-<size>.png')
+def serve_icon(size):
+    return send_file(f'icon-{size}.png')
+
+@app.route('/service-worker.js')
+def service_worker():
+    return send_file('static/service-worker.js'), 200, {'Content-Type': 'application/javascript'}
