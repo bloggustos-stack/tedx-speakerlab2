@@ -931,7 +931,8 @@ def download_pdf(filename):
 
 @app.route('/icon-<size>.png')
 def serve_icon(size):
-    return send_file(f'static/icon-{size}.png') 
+    import os
+    return send_file(os.path.join(app.root_path, 'static', f'icon-{size}.png'))
 
 @app.route('/service-worker.js')
 def service_worker():
