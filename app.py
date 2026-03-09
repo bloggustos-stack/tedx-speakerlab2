@@ -928,6 +928,10 @@ def admin():
 @login_required
 def download_pdf(filename):
     return send_file(filename, as_attachment=True)
+    @app.route('/download-guide')
+@login_required
+def download_guide():
+    return app.send_static_file('Ghid_Arhetipuri_TEDx.pdf')
 
 @app.route('/icon-192.png')
 def serve_icon_192():
