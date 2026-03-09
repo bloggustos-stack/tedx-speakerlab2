@@ -944,7 +944,7 @@ def serve_icon_512():
 
 @app.route('/service-worker.js')
 def service_worker():
-    return send_file('static/service-worker.js'), 200, {'Content-Type': 'application/javascript'}
+    return send_file('templates/static/service-worker.js'), 200, {'Content-Type': 'application/javascript'}
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
