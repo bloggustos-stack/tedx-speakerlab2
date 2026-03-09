@@ -928,7 +928,8 @@ def admin():
 @login_required
 def download_pdf(filename):
     return send_file(filename, as_attachment=True)
-    @app.route('/download-guide')
+
+@app.route('/download-guide')
 @login_required
 def download_guide():
     return app.send_static_file('Ghid_Arhetipuri_TEDx.pdf')
@@ -945,5 +946,7 @@ def serve_icon_512():
 def service_worker():
     return send_file('static/service-worker.js'), 200, {'Content-Type': 'application/javascript'}
 
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
