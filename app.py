@@ -932,7 +932,7 @@ def download_pdf(filename):
 @app.route('/download-guide')
 @login_required
 def download_guide():
-    return app.send_static_file('Ghid_Arhetipuri_TEDx.pdf')
+   return send_file('static/Ghid_Arhetipuri_TEDx.pdf', as_attachment=True)
 
 @app.route('/icon-192.png')
 def serve_icon_192():
@@ -948,5 +948,4 @@ def service_worker():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+
