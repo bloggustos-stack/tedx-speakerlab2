@@ -932,7 +932,8 @@ def download_pdf(filename):
 @app.route('/download-guide')
 @login_required
 def download_guide():
-   return send_file('static/Ghid_Arhetipuri_TEDx.pdf', as_attachment=True)
+  import os
+    return send_file(os.path.join(app.root_path, 'static', 'Ghid_Arhetipuri_TEDx.pdf'), as_attachment=True)
 
 @app.route('/icon-192.png')
 def serve_icon_192():
