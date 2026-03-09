@@ -484,6 +484,52 @@ if(ctx){
   new Chart(ctx,{type:'radar',data:{labels:labels,datasets:[{label:'Scor',data:scores,fill:true,backgroundColor:'rgba(190,18,60,0.15)',borderColor:'rgba(190,18,60,0.8)',pointBackgroundColor:'#be123c'}]},options:{responsive:true,scales:{r:{min:0,max:10,ticks:{color:'#666',stepSize:2,backdropColor:'transparent'},grid:{color:'#222'},pointLabels:{color:'#888',font:{size:10}}}},plugins:{legend:{display:false}}}});
 }
 </script>
+  <div class="archetype-section">
+  <div class="archetype-section-header">
+    <h2>🧠 Cele 12 Arhetipuri Pearson / Jung</h2>
+    <p class="archetype-section-subtitle">
+      Arhetipul tau dominant este evidentiat mai jos. 
+      Descarca ghidul complet pentru o analiza aprofundata.
+    </p>
+    <a href="/download-guide" class="btn-guide-download">
+      📘 Descarca Ghidul Complet PDF
+    </a>
+  </div>
+
+  <div class="archetypes-grid">
+    {% set dominant = result.analysis.archetype.primary if result.analysis.archetype else '' %}
+    {% set all_archetypes = [
+      {'name': 'Inocentul', 'emoji': '🌱', 'group': 'Ego-ul', 'essence': 'Optimism, puritate, speranta', 'speaker': 'Malala Yousafzai'},
+      {'name': 'Orfanul', 'emoji': '🌿', 'group': 'Ego-ul', 'essence': 'Conexiune, vulnerabilitate, empatie', 'speaker': 'Brene Brown'},
+      {'name': 'Razboinicul', 'emoji': '🦁', 'group': 'Ego-ul', 'essence': 'Curaj, disciplina, depasirea obstacolelor', 'speaker': 'Simon Sinek'},
+      {'name': 'Ingrijitorul', 'emoji': '❤️', 'group': 'Ego-ul', 'essence': 'Compasiune, protectie, servire', 'speaker': 'Jane Goodall'},
+      {'name': 'Exploratorul', 'emoji': '🚀', 'group': 'Sufletul', 'essence': 'Curiozitate, aventura, descoperire', 'speaker': 'Richard Feynman'},
+      {'name': 'Rebelul', 'emoji': '⚡', 'group': 'Sufletul', 'essence': 'Revolutie, schimbare radicala, provocare', 'speaker': 'Elon Musk'},
+      {'name': 'Indragostitul', 'emoji': '💫', 'group': 'Sufletul', 'essence': 'Pasiune, frumusete, intimitate', 'speaker': 'Isabel Allende'},
+      {'name': 'Creatorul', 'emoji': '🎨', 'group': 'Sufletul', 'essence': 'Inovatie, imaginatie, expresie', 'speaker': 'Jony Ive'},
+      {'name': 'Conducatorul', 'emoji': '👑', 'group': 'Sinele', 'essence': 'Ordine, responsabilitate, leadership', 'speaker': 'Nelson Mandela'},
+      {'name': 'Magicianul', 'emoji': '✨', 'group': 'Sinele', 'essence': 'Transformare, viziune, posibil', 'speaker': 'Steve Jobs'},
+      {'name': 'Inteleptul', 'emoji': '🔮', 'group': 'Sinele', 'essence': 'Cunoastere, claritate, adevar', 'speaker': 'Hans Rosling'},
+      {'name': 'Bufonul', 'emoji': '🤡', 'group': 'Sinele', 'essence': 'Joaca, umor, bucurie prezenta', 'speaker': 'Sir Ken Robinson'},
+    ] %}
+    {% for arch in all_archetypes %}
+    <div class="archetype-card {% if dominant and arch.name in dominant %}archetype-dominant{% endif %}">
+      <div class="arch-emoji">{{ arch.emoji }}</div>
+      <div class="arch-body">
+        <div class="arch-name">
+          {{ arch.name }}
+          {% if dominant and arch.name in dominant %}
+          <span class="arch-badge">Arhetipul tau</span>
+          {% endif %}
+        </div>
+        <div class="arch-group">{{ arch.group }}</div>
+        <div class="arch-essence">{{ arch.essence }}</div>
+        <div class="arch-speaker">🎤 {{ arch.speaker }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
 {% endif %}
 
 <script>
