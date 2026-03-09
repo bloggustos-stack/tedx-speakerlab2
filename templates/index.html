@@ -111,6 +111,82 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 .reflection-q:last-child{border-bottom:none}
 /* TED CASE STUDY */
 .ted-case{font-size:11px;color:#b45309;margin-top:6px;font-style:italic}
+  .archetype-section {
+  margin: 40px 0 20px 0;
+}
+.archetype-section-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.archetype-section-header h2 {
+  font-size: 22px;
+  color: #e8e0d5;
+  margin-bottom: 8px;
+}
+.archetype-section-subtitle {
+  color: #9ca3af;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.btn-guide-download {
+  display: inline-block;
+  background: #be123c;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+.btn-guide-download:hover { background: #9f1239; }
+.archetypes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+.archetype-card {
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.archetype-card:hover { border-color: #be123c; transform: translateY(-2px); }
+.archetype-dominant {
+  border: 2px solid #be123c !important;
+  background: #1f0a0e !important;
+  box-shadow: 0 0 20px rgba(190, 18, 60, 0.3);
+}
+.arch-emoji { font-size: 28px; flex-shrink: 0; line-height: 1; }
+.arch-body { flex: 1; min-width: 0; }
+.arch-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: #e8e0d5;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.arch-badge {
+  background: #be123c;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: normal;
+  white-space: nowrap;
+}
+.arch-group { font-size: 11px; color: #be123c; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.arch-essence { font-size: 12px; color: #9ca3af; margin-bottom: 6px; line-height: 1.4; }
+.arch-speaker { font-size: 11px; color: #6b7280; font-style: italic; }
+@media (max-width: 600px) { .archetypes-grid { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
