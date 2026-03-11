@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reguli TED Oficiale – Speaker Lab AI</title>
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#be123c">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --red: #be123c;
+    --red-dark: #9f1239;
+    --red-glow: rgba(190,18,60,0.15);
+    --bg: #080808;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: #222222;
+    --text: #e8e0d5;
+    --muted: #6b7280;
+    --accent: #f59e0b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 40% at 20% 20%, rgba(190,18,60,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 80% 80%, rgba(190,18,60,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--red);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--red); }
+
+  /* HERO */
+  .hero {
+    padding: 60px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 50px;
+  }
+
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red-glow);
+    border: 1px solid rgba(190,18,60,0.3);
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 6vw, 58px);
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--red);
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 580px;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .hero-meta-item span {
+    color: var(--red);
+    font-weight: 600;
+  }
+
+  /* STEPS */
+  .steps-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .step:hover { border-color: rgba(190,18,60,0.4); }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 28px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .step-number {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--red);
+    color: white;
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-title-area {
+    flex: 1;
+  }
+
+  .step-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--text);
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+  }
+
+  .step-subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .step-toggle {
+    color: var(--muted);
+    font-size: 20px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .step.open .step-toggle { transform: rotate(180deg); }
+
+  .step-body {
+    display: none;
+    padding: 0 28px 28px 92px;
+  }
+
+  .step.open .step-body { display: block; }
+
+  .step-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 28px 24px;
+  }
+
+  /* RULES */
+  .rule-group {
+    margin-bottom: 24px;
+  }
+
+  .rule-group-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .rule-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+
+  .rule-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--red);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  .rule-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .rule-text strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* HIGHLIGHT BOXES */
+  .highlight-box {
+    background: var(--red-glow);
+    border: 1px solid rgba(190,18,60,0.25);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+
+  .highlight-box p {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .highlight-box strong { color: var(--red); }
+
+  /* WARNING BOX */
+  .warning-box {
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .warning-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .warning-box p {
+    font-size: 13px;
+    color: #d97706;
+    line-height: 1.5;
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  @media (max-width: 600px) { .checklist { grid-template-columns: 1fr; } }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .check-icon { color: var(--red); flex-shrink: 0; margin-top: 1px; }
+
+  /* QUOTE */
+  .ted-quote {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--muted);
+    line-height: 1.5;
+    border-left: 3px solid var(--red);
+    padding: 12px 0 12px 20px;
+    margin: 20px 0;
+  }
+
+  /* SUMMARY CARD */
+  .summary-section {
+    margin-top: 60px;
+  }
+
+  .summary-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .summary-subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .summary-card:hover {
+    border-color: var(--red);
+    transform: translateY(-2px);
+  }
+
+  .summary-card-icon { font-size: 24px; margin-bottom: 10px; }
+  .summary-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .summary-card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* CTA */
+  .cta-section {
+    margin-top: 60px;
+    text-align: center;
+    padding: 48px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(190,18,60,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-section h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--text);
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .cta-section p {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: background 0.2s, transform 0.2s;
+    position: relative;
+  }
+
+  .cta-btn:hover {
+    background: var(--red-dark);
+    transform: translateY(-1px);
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 40px;
+    transition: color 0.2s;
+    margin-top: 32px;
+    display: block;
+  }
+
+  .back-link:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Speaker Lab AI</a>
+  <div class="nav-links">
+    <a href="/">Analiza</a>
+    <a href="/history">Istoric</a>
+    <a href="/ted-rules" class="active">Reguli TED</a>
+    <a href="/logout" style="color:#be123c;">Iesire</a>
+  </div>
+</nav>
+
+<div class="wrapper">
+  <a href="/" class="back-link">← Inapoi la analiza</a>
+
+  <div class="hero">
+    <div class="hero-label">📋 Ghid Oficial TED</div>
+    <h1>Regulile unui<br><em>TED Talk</em> reusit</h1>
+    <p class="hero-subtitle">
+      Cele 7 pasi oficiali din ghidul TED pentru speakeri — 
+      tot ce trebuie sa stii inainte sa urci pe scena.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">⏱ <span>18 minute</span> maxim</div>
+      <div class="hero-meta-item">💡 <span>1 idee</span> centrala</div>
+      <div class="hero-meta-item">🌍 Sursa: <span>TED.com</span></div>
+    </div>
+  </div>
+
+  <!-- STEPS -->
+  <div class="steps-container">
+
+    <!-- STEP 1 -->
+    <div class="step open">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-number">1</div>
+        <div class="step-title-area">
+          <div class="step-title">Familiarizeaza-te cu formatul</div>
+          <div class="step-subtitle">Ce este un TEDx Talk si de ce 18 minute?</div>
+        </div>
+        <div class="step-toggle">▾</div>
+      </div>
+      <div class="step-body">
+        <div class="step-divider"></div>
+        <div class="rule-group">
+          <div class="rule-group-title">Definitie</div>
+          <div class="rule-item">
+            <div class="rule-dot"></div>
+            <div class="rule-text">TEDx Talks sunt o <strong>vitrina pentru speakeri</strong> care prezinta idei bine formate in sub 18 minute.</div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-dot"></div>
+            <div class="rule-text">Daca nu ai vazut niciodata un TEDx Talk, mergi la TED.com si urmareste cel putin unul.</div>
+          </div>
+        </div>
+        <div class="highlight-box">
+          <p><strong>De ce 18 minute?</strong> Pentru ca functioneaza. O audienta este buna la a se concentra pe un subiect in bucati relativ scurte. Discursurile mai scurte nu sunt mai slabe — poate dura doar 5 minute sa iti faci punctul de vedere de neuitat.</p>
+        </div>
+        <div class="warning-box">
+          <div class="warning-icon">⚠️</div>
+          <p><strong>Regula stricta:</strong> Nu poti depasi 18 minute. Limita de timp face parte din ce face TEDx Talks sa functioneze.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-number">2</div>
+        <div class="step-title-area">
+          <div class="step-title">Dezvolta o idee</div>
+          <div class="step-subtitle">Noua, interesanta si factual corecta</div>
+        </div>
+        <div class="step-toggle">▾</div>
+      </div>
+      <div class="step-body">
+        <div class="step-divider"></div>
+        <div class="rule-group">
+          <div class="rule-group-title">Ce face o idee buna?</div>
+          <div class="rule-item">
+            <div class="rule-dot"></div>
+            <div class="rule-text">Ideea poate fi <strong>noua sau surprinzatoare</strong>, sau poate provoca o credinta pe care audienta o are deja.</div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-dot"></div>
+            <div class="rule-text">O idee nu este doar o poveste sau o lista de fapte. O idee buna ia dovezi sau observatii si <strong>trage o concluzie mai ampla</strong>.</div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-dot"></div>
+            <div class="rule-text">Nu trebuie sa fii cel mai mare expert din lume pe subiect, dar <strong>trebuie sa fii un expert</strong>. Verifica faptele.</div>
+          </div>
+        </div>
+        <div class="rule-group">
+          <div class="rule-group-title">Testul celor 3 intrebari</div>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✦</span> Este ideea <strong>noua</strong>? Spui ceva ce audienta nu a mai auzit?</div>
+            <div class="check-item"><span class="check-icon">✦</span> Este <strong>interesanta</strong>? Se aplica la oameni diversi?</div>
+            <div class="check-item"><span class="check-icon">✦</span> Este <strong>factual corecta</strong>? Sustinuta de date si cercetare?</div>
+            <div class="check-item"><span class="check-icon">✦</span> Poti formula ideea in <strong>1-2 propozitii</strong>?</div>
+          </div>
+        </div>
+        <div class="highlight-box">
+          <p>Daca ai raspuns <strong>Nu</strong> la oricare din aceste intrebari — rafinaza ideea. Cere parerea cuiva din afara domeniului tau.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-number">3</div>
+        <div class="step-title-area">
+          <div class="step-title">Structura si scriptul</div>
+          <div class="step-subtitle">Introducere, corp, concluzie — regulile de aur</div>
+        </div>
+        <div class="step-toggle">▾</div>
+      </div>
+      <div class="step-body">
+        <div class="step-divider"></div>
+        <div class="rule-group">
+          <div class="rule-group-title">Structura recomandata de TED</div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>1. Incepe</strong> prin a face audienta sa ii pese, folosind un exemplu relatable sau o idee intriganta.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>2. Explica</strong> ideea clar si cu convingere.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>3. Descrie</strong> dovezile si cum poate fi implementata ideea.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>4. Incheie</strong> aratand cum ideea ar putea afecta audienta daca ar accepta-o.</div></div>
+        </div>
+        <div class="rule-group">
+          <div class="rule-group-title">Reguli pentru introducere</div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Atrage audienta cu ceva care le pasa.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Scoate ideea cat mai repede posibil.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>Nu te concentra prea mult pe tine insuti.</strong></div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Nu deschide cu un sir de statistici.</div></div>
+        </div>
+        <div class="rule-group">
+          <div class="rule-group-title">Reguli pentru corp</div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Foloseste <strong>dovezi empirice</strong> si limiteaza dovezile anecdotice.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Nu folosi prea mult jargon — sau explica terminologia noua.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Abordeaza controversele si contra-argumentele legitime.</div></div>
+        </div>
+        <div class="rule-group">
+          <div class="rule-group-title">Reguli pentru concluzie</div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Lasa audienta cu o stare pozitiva fata de ideea ta.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>Nu folosi concluzia doar pentru a rezuma</strong> — spune cum ar putea afecta viata audientei.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Evita incheierea cu o prezentare comerciala (fonduri, coperta carte, logo-uri corporative).</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Daca e cazul, da audientei un <strong>call to action</strong>.</div></div>
+        </div>
+        <div class="ted-quote">"Scopul principal al discursului tau este sa comunici o idee eficient, nu sa spui o poveste sau sa evoci emotii. Acestea sunt instrumente, nu un scop in sine."</div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-number">4</div>
+        <div class="step-title-area">
+          <div class="step-title">Slide-urile</div>
+          <div class="step-subtitle">Simple, clare, fara bullet points</div>
+        </div>
+        <div class="step-toggle">▾</div>
+      </div>
+      <div class="step-body">
+        <div class="step-divider"></div>
+        <div class="rule-group">
+          <div class="rule-group-title">Regula principala</div>
+          <div class="highlight-box">
+            <p><strong>Pastreaza-le simple.</strong> Intreaba-te: slide-urile mele ajuta si clarifica informatia pentru audienta, sau o distrag si o confunda?</p>
+          </div>
+        </div>
+        <div class="rule-group">
+          <div class="rule-group-title">Ce merge in slide-uri</div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Imagini si fotografii — pentru a ajuta audienta sa isi aminteasca o persoana, loc sau lucru.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Grafice si infografice — fiecare grafic sa faca <strong>un singur punct</strong>.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>Un slide = un singur punct.</strong> Niciodata mai mult.</div></div>
+        </div>
+        <div class="rule-group">
+          <div class="rule-group-title">Reguli de design</div>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✦</span> Cat mai putin text posibil</div>
+            <div class="check-item"><span class="check-icon">✦</span> Evita bullet points</div>
+            <div class="check-item"><span class="check-icon">✦</span> Font minim <strong>42 puncte</strong></div>
+            <div class="check-item"><span class="check-icon">✦</span> Font sans-serif (Helvetica, Verdana)</div>
+            <div class="check-item"><span class="check-icon">✦</span> Rezolutie 1920x1080, aspect 16:9</div>
+            <div class="check-item"><span class="check-icon">✦</span> Nu pune informatii in colturile slide-ului</div>
+          </div>
+        </div>
+        <div class="warning-box">
+          <div class="warning-icon">⚠️</div>
+          <p>Foloseste doar imagini pe care le detii sau ai permisiunea sa le folosesti. Nu folosi imagini de pe Google Images fara sursa!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-number">5</div>
+        <div class="step-title-area">
+          <div class="step-title">Repetiția</div>
+          <div class="step-subtitle">Repeta, repeta, repeta!</div>
+        </div>
+        <div class="step-toggle">▾</div>
+      </div>
+      <div class="step-body">
+        <div class="step-divider"></div>
+        <div class="ted-quote">"Repeta pana esti complet confortabil in fata oamenilor: grupuri diferite, oameni pe care ii iubesti, oameni pe care ii admiri, grupuri mici, grupuri mari."</div>
+        <div class="rule-group">
+          <div class="rule-group-title">Ce sa exersezi</div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>Timing:</strong> Cronometreaza-te. Exerseaza cu ceasul in fata.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>Postura:</strong> Exerseaza sa stai nemiscat, plantat ferm intr-un loc pe scena. Nu te plimba inainte-inapoi.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text"><strong>Scena:</strong> Cere cat mai mult timp de repetitie pe scena reala, cu clickerul si monitorul de confirmare.</div></div>
+        </div>
+        <div class="highlight-box">
+          <p>Daca cineva spune ca suni <strong>"prea repetat"</strong>, asta inseamna ca suni rigid si nefiresc. Continua sa repeti si concentreaza-te sa vorbesti ca si cum ai vorbi cu o singura persoana intr-o conversatie spontana.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-number">6</div>
+        <div class="step-title-area">
+          <div class="step-title">Livreaza discursul</div>
+          <div class="step-subtitle">Respira. Fa-o asa cum ai exersat.</div>
+        </div>
+        <div class="step-toggle">▾</div>
+      </div>
+      <div class="step-body">
+        <div class="step-divider"></div>
+        <div class="highlight-box">
+          <p>Inhala. Exhala. Fa-o asa cum ai exersat. Toata pregatirea a fost pentru acest moment.</p>
+        </div>
+        <div class="rule-group">
+          <div class="rule-group-title">Mindset pe scena</div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Vorbeste cu audienta, nu cu slide-urile.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Trateaza-o ca pe o conversatie cu o singura persoana.</div></div>
+          <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Structura discursului trebuie sa fie <strong>invizibila</strong> pentru audienta.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="step">
+      <div class="step-header" onclick="toggleStep(this)">
+        <div class="step-number">7</div>
+        <div class="step-title-area">
+          <div class="step-title">Bucura-te de rezultat</div>
+          <div class="step-subtitle">Ai reusit!</div>
+        </div>
+        <div class="step-toggle">▾</div>
+      </div>
+      <div class="step-body">
+        <div class="step-divider"></div>
+        <div class="ted-quote">"Felicitari, ai terminat! Bucura-te de laudele pe care le primesti pentru cat de relaxat si spontan ai parut."</div>
+        <div class="rule-item" style="margin-top:16px;"><div class="rule-dot"></div><div class="rule-text">Distribuie discursul cu cei care te-au inspirat.</div></div>
+        <div class="rule-item"><div class="rule-dot"></div><div class="rule-text">Intoarce-te la Speaker Lab AI pentru a analiza discursul si a vedea ce poti imbunatati pentru urmatoarea data.</div></div>
+      </div>
+    </div>
+
+  </div><!-- end steps -->
+
+  <!-- SUMMARY -->
+  <div class="summary-section">
+    <div class="summary-title">Regulile de aur TED</div>
+    <div class="summary-subtitle">Cele mai importante lucruri de retinut</div>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-card-icon">⏱</div>
+        <div class="summary-card-title">18 minute maxim</div>
+        <div class="summary-card-desc">Regula stricta. Discursurile mai scurte nu sunt mai slabe.</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-icon">💡</div>
+        <div class="summary-card-title">O singura idee</div>
+        <div class="summary-card-desc">Formulabila in 1-2 propozitii. Noua, interesanta, factuala.</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-icon">🏗</div>
+        <div class="summary-card-title">Structura clara</div>
+        <div class="summary-card-desc">Intro puternic → corp logic → concluzie care inspira actiune.</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-icon">🖼</div>
+        <div class="summary-card-title">Slide-uri simple</div>
+        <div class="summary-card-desc">Fara bullet points. Font 42pt+. Un punct per slide.</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-icon">🔁</div>
+        <div class="summary-card-title">Repeta masiv</div>
+        <div class="summary-card-desc">Pana suni natural, nu memorat. In fata oamenilor reali.</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-icon">🎯</div>
+        <div class="summary-card-title">Scopul e ideea</div>
+        <div class="summary-card-desc">Povestile si emotiile sunt instrumente, nu scopul final.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Gata sa iti analizezi discursul?</h2>
+    <p>Aplica regulile TED oficiale si obtine feedback detaliat cu Speaker Lab AI</p>
+    <a href="/" class="cta-btn">🎤 Analizeaza discursul meu</a>
+  </div>
+
+</div>
+
+<script>
+function toggleStep(header) {
+  const step = header.parentElement;
+  step.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
