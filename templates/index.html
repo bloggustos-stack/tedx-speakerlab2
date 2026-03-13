@@ -187,6 +187,72 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 .arch-essence { font-size: 12px; color: #9ca3af; margin-bottom: 6px; line-height: 1.4; }
 .arch-speaker { font-size: 11px; color: #6b7280; font-style: italic; }
 @media (max-width: 600px) { .archetypes-grid { grid-template-columns: 1fr 1fr; } }
+  .results-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #222;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 13px;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  font-family: Arial;
+  transition: color 0.2s;
+}
+.tab-btn:hover { color: #e8e0d5; background: none; }
+.tab-btn.active { color: #be123c; border-bottom-color: #be123c; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.ted-rules-panel { margin-top: 24px; }
+.ted-rules-header {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.ted-rules-score-big { font-size: 52px; font-weight: bold; color: #be123c; line-height: 1; }
+.ted-rules-score-max { font-size: 18px; color: #555; }
+.ted-rules-label { font-size: 14px; color: #9ca3af; margin-top: 4px; }
+.ted-rules-summary { font-size: 13px; color: #9ca3af; line-height: 1.6; max-width: 500px; }
+.ted-rule-item {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.ted-rule-item.met { border-left: 3px solid #16a34a; }
+.ted-rule-item.not-met { border-left: 3px solid #be123c; }
+.ted-rule-score-circle {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: bold; flex-shrink: 0;
+}
+.score-high { background: rgba(22,163,74,0.15); color: #16a34a; }
+.score-mid { background: rgba(234,179,8,0.15); color: #ca8a04; }
+.score-low { background: rgba(190,18,60,0.15); color: #be123c; }
+.ted-rule-content { flex: 1; }
+.ted-rule-name { font-size: 14px; font-weight: bold; color: #e8e0d5; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.ted-rule-badge-met { font-size: 10px; background: rgba(22,163,74,0.15); color: #16a34a; padding: 2px 8px; border-radius: 10px; }
+.ted-rule-badge-not { font-size: 10px; background: rgba(190,18,60,0.15); color: #be123c; padding: 2px 8px; border-radius: 10px; }
+.ted-rule-evidence { font-size: 12px; color: #6b7280; font-style: italic; margin-bottom: 6px; line-height: 1.5; }
+.ted-rule-recommendation { font-size: 12px; color: #9ca3af; line-height: 1.5; }
+.ted-rules-link { display: inline-flex; align-items: center; gap: 6px; color: #be123c; text-decoration: none; font-size: 12px; margin-top: 16px; }
 </style>
 </head>
 <body>
