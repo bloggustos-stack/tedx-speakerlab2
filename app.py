@@ -668,6 +668,46 @@ Text de analizat: {text}
         return {"tier": "paid3", "analysis": json.loads(content)}
     except:
         return {"tier": "paid3", "error": content}
+        def analyze_ted_rules(text):
+    prompt = f"""
+Esti un evaluator strict al regulilor oficiale TED pentru speakeri.
+Analizeaza urmatorul text si evalueaza cat de bine respecta regulile oficiale TED.
+
+{TED_OFFICIAL_RULES}
+{TED_RULES_SCORING_GUIDE}
+
+Returneaza DOAR un JSON valid, fara alt text:
+{{
+  "ted_rules_score": {{
+    "Ideea Centrala": {{ "score": 0, "met": false, "evidence": "Citat din text", "recommendation": "Recomandare concreta" }},
+    "Structura Discursului": {{ "score": 0, "met": false, "evidence": "Citat din text", "recommendation": "Recomandare concreta" }},
+    "Introducere Puternica": {{ "score": 0, "met": false, "evidence": "Citat din text", "recommendation": "Recomandare concreta" }},
+    "Corp Logic": {{ "score": 0, "met": false, "evidence": "Citat din text", "recommendation": "Recomandare concreta" }},
+    "Concluzie Eficienta": {{ "score": 0, "met": false, "evidence": "Citat din text", "recommendation": "Recomandare concreta" }},
+    "Factualitate si Credibilitate": {{ "score": 0, "met": false, "evidence": "Citat din text", "recommendation": "Recomandare concreta" }},
+    "Relevanta si Accesibilitate": {{ "score": 0, "met": false, "evidence": "Citat din text", "recommendation": "Recomandare concreta" }}
+  }},
+  "ted_rules_total": 0,
+  "ted_rules_label": "Eticheta verbala",
+  "ted_rules_summary": "Rezumat critic in 2-3 propozitii."
+}}
+
+Text de analizat: {text}
+"""
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.3
+    )
+    content = response.choices[0].message.content.strip()
+    if "```" in content:
+        content = content.split("```")[1]
+        if content.startswith("json"):
+            content = content[4:]
+    try:
+        return json.loads(content)
+    except:
+        return {"error": content}
 
 def analyze_by_tier(text, tier):
     if tier == "paid3":
