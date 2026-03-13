@@ -171,6 +171,44 @@ ARCHETYPES = {
 }
 
 GALLO_9_PRINCIPLES = """
+TED_OFFICIAL_RULES = """
+Ghidul oficial TED pentru speakeri (sursa: TED.com Speaker Guide):
+
+1. IDEEA CENTRALA: Discursul trebuie sa aiba o singura idee clara, formulabila in 1-2 propozitii.
+   Ideea trebuie sa fie noua/surprinzatoare, interesanta si factual corecta.
+
+2. STRUCTURA: 4 parti clare: Introducere care atrage atentia, Corp cu dovezi empirice,
+   Concluzie care inspira actiune. Structura sa fie invizibila pentru audienta.
+
+3. LIMITA DE TIMP: Sub 18 minute. Discursurile scurte nu sunt mai slabe.
+
+4. INTRODUCERE: Atrage audienta rapid, scoate ideea cat mai repede,
+   nu te concentra pe tine, nu incepe cu statistici.
+
+5. CORP: Dovezi empirice, limiteaza anecdotele, nu jargon excesiv,
+   abordeaza contra-argumente legitime.
+
+6. CONCLUZIE: Lasa audienta pozitiva, nu rezuma doar,
+   call to action daca e cazul. Evita pitch comercial.
+
+7. FACTUALITATE SI RELEVANTA: Toate afirmatiile verificate.
+   Ideea relevanta pentru o audienta larga si diversa.
+"""
+
+TED_RULES_SCORING_GUIDE = """
+GHID STRICT DE SCORARE PENTRU REGULILE TED OFICIALE:
+- Scor 1-2: Criteriul LIPSESTE COMPLET sau este incalcat flagrant.
+- Scor 3-4: Criteriul este FOARTE SLAB respectat. Probleme majore.
+- Scor 5-6: Criteriul este PARTIAL respectat. Elemente insuficiente.
+- Scor 7-8: Criteriul este BINE respectat. Clar prezent si eficient.
+- Scor 9-10: Criteriul este EXCEPTIONAL respectat. Standard TED global.
+
+REGULI IMPORTANTE:
+1. Scorurile TREBUIE sa fie diferite intre ele.
+2. Citeaza INTOTDEAUNA un fragment concret din text.
+3. Daca textul e scurt sau vag, scorurile mici (3-5).
+4. Fii critic si onest.
+"""
 Cele 9 principii Talk Like TED (Carmine Gallo):
 1. PASIUNEA - Ce iti face sufletul sa cante? Discursul porneste de la motivatia autentica.
 2. POVESTEA - Povestile conecteaza la audienta si schimba perceptiile.
