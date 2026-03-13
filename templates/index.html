@@ -314,6 +314,12 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
   </div>
 
   {% if result %}
+  <div class="results-tabs">
+  <button class="tab-btn active" onclick="switchTab('tab-analysis', this)">📊 Analiza</button>
+  <button class="tab-btn" onclick="switchTab('tab-ted-rules', this)">📋 Reguli TED Oficiale</button>
+</div>
+
+<div id="tab-analysis" class="tab-panel active">
   <div class="results">
     <div class="results-header">
       <h2>Rezultatele analizei</h2>
