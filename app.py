@@ -963,6 +963,7 @@ def index():
         score_diff=score_diff,
         prev_score=prev_score,
         history=history
+        ted_rules_result=ted_rules_result
     )
 
 @app.route("/history")
