@@ -171,6 +171,18 @@ ARCHETYPES = {
 }
 
 GALLO_9_PRINCIPLES = """
+Cele 9 principii Talk Like TED (Carmine Gallo):
+1. PASIUNEA - Ce iti face sufletul sa cante? Discursul porneste de la motivatia autentica.
+2. POVESTEA - Povestile conecteaza la audienta si schimba perceptiile.
+3. CONVERSATIA - Nu monolog, ci dialog natural cu publicul.
+4. CEVA NOU - Invata audienta ceva pe care nu l-a stiut inainte.
+5. WOW FACTOR - Depaseste asteptarile, lasa audienta cu gura cascata.
+6. UMOR - Sare si piper: creierul retine mai bine cand rade.
+7. REGULA CELOR 18 MINUTE + REGULA CELOR 3 - Titlu, 3 mesaje cheie, structura clara.
+8. MULTISENZORIAL - Vorbeste prin imagine, metafore vizuale, experiente senzoriale.
+9. AUTENTICITATE - Ceea ce esti vorbeste atat de tare incat nu pot auzi ceea ce spui. (Emerson)
+"""
+
 TED_OFFICIAL_RULES = """
 Ghidul oficial TED pentru speakeri (sursa: TED.com Speaker Guide):
 
