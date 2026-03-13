@@ -937,6 +937,7 @@ def index():
         text = request.form.get("speech_text", "")
         if text.strip():
             result = analyze_by_tier(text, user["tier"])
+            ted_rules_result = analyze_ted_rules(text)
             total_score, max_score = calculate_total_score(result)
             score_label = get_score_label(total_score, max_score)
             current_timestamp = datetime.now().isoformat()
