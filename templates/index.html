@@ -603,6 +603,48 @@ if(ctx){
     {% endfor %}
   </div>
 </div>
+  </div><!-- end tab-analysis -->
+
+<div id="tab-ted-rules" class="tab-panel">
+  <div class="ted-rules-panel">
+    {% if ted_rules_result and not ted_rules_result.get('error') %}
+    {% set rules = ted_rules_result.get('ted_rules_score', {}) %}
+    {% set total = ted_rules_result.get('ted_rules_total', 0) %}
+    {% set label = ted_rules_result.get('ted_rules_label', '') %}
+    {% set summary = ted_rules_result.get('ted_rules_summary', '') %}
+    <div class="ted-rules-header">
+      <div>
+        <div class="ted-rules-score-big">{{ total }}<span class="ted-rules-score-max">/70</span></div>
+        <div class="ted-rules-label">{{ label }}</div>
+      </div>
+      <div class="ted-rules-summary">{{ summary }}</div>
+    </div>
+    {% for rule_name, rule_data in rules.items() %}
+    {% set score = rule_data.get('score', 0) %}
+    {% set met = rule_data.get('met', false) %}
+    <div class="ted-rule-item {% if met %}met{% else %}not-met{% endif %}">
+      <div class="ted-rule-score-circle {% if score >= 7 %}score-high{% elif score >= 5 %}score-mid{% else %}score-low{% endif %}">
+        {{ score }}
+      </div>
+      <div class="ted-rule-content">
+        <div class="ted-rule-name">
+          {{ rule_name }}
+          {% if met %}<span class="ted-rule-badge-met">✓ Respectat</span>
+          {% else %}<span class="ted-rule-badge-not">✗ De imbunatatit</span>{% endif %}
+        </div>
+        {% if rule_data.get('evidence') %}
+        <div class="ted-rule-evidence">"{{ rule_data.evidence }}"</div>
+        {% endif %}
+        <div class="ted-rule-recommendation">💡 {{ rule_data.get('recommendation', '') }}</div>
+      </div>
+    </div>
+    {% endfor %}
+    <a href="/ted-rules" class="ted-rules-link">📖 Vezi ghidul complet cu regulile TED oficiale →</a>
+    {% else %}
+    <div style="color:#6b7280;font-size:14px;padding:20px">Analiza regulilor TED nu este disponibila.</div>
+    {% endif %}
+  </div>
+</div><!-- end tab-ted-rules -->
 {% endif %}
 
 <script>
