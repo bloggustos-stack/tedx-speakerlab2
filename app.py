@@ -221,17 +221,6 @@ REGULI IMPORTANTE:
 3. Daca textul e scurt sau vag, scorurile mici (3-5).
 4. Fii critic si onest.
 """
-Cele 9 principii Talk Like TED (Carmine Gallo):
-1. PASIUNEA - Ce iti face sufletul sa cante? Discursul porneste de la motivatia autentica.
-2. POVESTEA - Povestile conecteaza la audienta si schimba perceptiile.
-3. CONVERSATIA - Nu monolog, ci dialog natural cu publicul.
-4. CEVA NOU - Invata audienta ceva pe care nu l-a stiut inainte.
-5. WOW FACTOR - Depaseste asteptarile, lasa audienta cu gura cascata.
-6. UMOR - Sare si piper: creierul retine mai bine cand rade.
-7. REGULA CELOR 18 MINUTE + REGULA CELOR 3 - Titlu, 3 mesaje cheie, structura clara.
-8. MULTISENZORIAL - Vorbeste prin imagine, metafore vizuale, experiente senzoriale.
-9. AUTENTICITATE - Ceea ce esti vorbeste atat de tare incat nu pot auzi ceea ce spui. (Emerson)
-"""
 
 SCORING_GUIDE = """
 GHID STRICT DE ACORDARE A SCORURILOR:
@@ -343,11 +332,9 @@ def format_case_studies_for_prompt():
     return result
 
 def calculate_total_score(result):
-    """Calculeaza scorul total din rezultatul analizei. Returneaza (total, max_possible)."""
     analysis = result.get("analysis", {})
     tier = result.get("tier", "free")
     scores = []
-
     if tier == "free":
         for k, v in analysis.items():
             if isinstance(v, dict) and "score" in v:
@@ -375,7 +362,6 @@ def calculate_total_score(result):
         arch = analysis.get("archetype", {})
         if arch.get("archetype_authenticity_score"):
             scores.append(arch["archetype_authenticity_score"])
-
     if not scores:
         return 0, 0
     total = sum(scores)
@@ -383,20 +369,19 @@ def calculate_total_score(result):
     return total, max_possible
 
 def get_score_label(total, max_possible):
-    """Returneaza eticheta verbala pentru scorul total."""
     if max_possible == 0:
         return ""
     pct = total / max_possible
     if pct >= 0.90:
         return "Nivel TED Global 🌍"
     elif pct >= 0.75:
-        return "Aproape gata de scenă 🎤"
+        return "Aproape gata de scena 🎤"
     elif pct >= 0.60:
         return "Progres solid 📈"
     elif pct >= 0.40:
         return "Potential mare, mai avem de lucru 💪"
     else:
-        return "La început, dar cu direcție clară 🌱"
+        return "La inceput, dar cu directie clara 🌱"
 
 def load_history():
     if os.path.exists(history_file):
@@ -420,13 +405,11 @@ def save_history(email, text, result, total_score, max_score):
         json.dump(data, f, indent=2)
 
 def get_user_history(email, limit=10):
-    """Returneaza ultimele analize ale unui user, cele mai recente primele."""
     data = load_history()
     user_entries = [e for e in data if e.get("email") == email]
     return list(reversed(user_entries[-limit:]))
 
 def get_previous_score(email, current_timestamp):
-    """Returneaza scorul analizei anterioare pentru comparatie."""
     data = load_history()
     user_entries = [e for e in data if e.get("email") == email and e.get("timestamp") != current_timestamp]
     if not user_entries:
@@ -680,7 +663,9 @@ Text de analizat: {text}
         return {"tier": "paid3", "analysis": json.loads(content)}
     except:
         return {"tier": "paid3", "error": content}
-        def analyze_ted_rules(text):
+
+
+def analyze_ted_rules(text):
     prompt = f"""
 Esti un evaluator strict al regulilor oficiale TED pentru speakeri.
 Analizeaza urmatorul text si evalueaza cat de bine respecta regulile oficiale TED.
@@ -720,6 +705,7 @@ Text de analizat: {text}
         return json.loads(content)
     except:
         return {"error": content}
+
 
 def analyze_by_tier(text, tier):
     if tier == "paid3":
@@ -975,7 +961,7 @@ def index():
         score_label=score_label,
         score_diff=score_diff,
         prev_score=prev_score,
-        history=history
+        history=history,
         ted_rules_result=ted_rules_result
     )
 
@@ -1038,10 +1024,11 @@ def serve_icon_512():
 @app.route('/service-worker.js')
 def service_worker():
     return send_file('templates/static/service-worker.js'), 200, {'Content-Type': 'application/javascript'}
+
 @app.route('/ted-rules')
 @login_required
 def ted_rules():
     return render_template('ted_rules.html', user=get_current_user())
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
-
