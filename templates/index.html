@@ -681,5 +681,90 @@ function switchTab(tabId, btn) {
   btn.classList.add('active');
 }
 </script>
+  <script>
+const TRANSLATIONS = {
+  "ro": {
+    "analyze_btn": "Analizează discursul",
+    "analyzing": "Se analizează...",
+    "tab_analysis": "📊 Analiză",
+    "tab_ted_rules": "📋 Reguli TED Oficiale",
+    "nav_rules": "Reguli TED",
+    "nav_history": "Istoric",
+    "nav_upgrade": "Upgrade",
+    "nav_logout": "Ieși",
+    "placeholder": "Lipește textul discursului tău aici..."
+  },
+  "en": {
+    "analyze_btn": "Analyze speech",
+    "analyzing": "Analyzing...",
+    "tab_analysis": "📊 Analysis",
+    "tab_ted_rules": "📋 TED Official Rules",
+    "nav_rules": "TED Rules",
+    "nav_history": "History",
+    "nav_upgrade": "Upgrade",
+    "nav_logout": "Log out",
+    "placeholder": "Paste your speech text here..."
+  },
+  "de": {
+    "analyze_btn": "Rede analysieren",
+    "analyzing": "Wird analysiert...",
+    "tab_analysis": "📊 Analyse",
+    "tab_ted_rules": "📋 TED Offizielle Regeln",
+    "nav_rules": "TED Regeln",
+    "nav_history": "Verlauf",
+    "nav_upgrade": "Upgrade",
+    "nav_logout": "Abmelden",
+    "placeholder": "Fügen Sie Ihren Redetext hier ein..."
+  },
+  "fr": {
+    "analyze_btn": "Analyser le discours",
+    "analyzing": "Analyse en cours...",
+    "tab_analysis": "📊 Analyse",
+    "tab_ted_rules": "📋 Règles TED Officielles",
+    "nav_rules": "Règles TED",
+    "nav_history": "Historique",
+    "nav_upgrade": "Upgrade",
+    "nav_logout": "Déconnexion",
+    "placeholder": "Collez le texte de votre discours ici..."
+  },
+  "hu": {
+    "analyze_btn": "Beszéd elemzése",
+    "analyzing": "Elemzés folyamatban...",
+    "tab_analysis": "📊 Elemzés",
+    "tab_ted_rules": "📋 TED Hivatalos Szabályok",
+    "nav_rules": "TED Szabályok",
+    "nav_history": "Előzmények",
+    "nav_upgrade": "Upgrade",
+    "nav_logout": "Kilépés",
+    "placeholder": "Illessze be a beszéd szövegét ide..."
+  }
+};
+
+const lang = "{{ detected_lang }}";
+const t = TRANSLATIONS[lang] || TRANSLATIONS["ro"];
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Buton analiza
+  const btn = document.getElementById("analyzeBtn");
+  if (btn) btn.textContent = t.analyze_btn;
+
+  // Placeholder textarea
+  const ta = document.querySelector("textarea");
+  if (ta) ta.placeholder = t.placeholder;
+
+  // Tab-uri
+  const tabs = document.querySelectorAll(".tab-btn");
+  if (tabs[0]) tabs[0].textContent = t.tab_analysis;
+  if (tabs[1]) tabs[1].textContent = t.tab_ted_rules;
+
+  // Nav links
+  document.querySelectorAll("nav a").forEach(a => {
+    if (a.href.includes("/ted-rules")) a.textContent = t.nav_rules;
+    if (a.href.includes("/history")) a.textContent = t.nav_history;
+    if (a.href.includes("/upgrade")) a.textContent = t.nav_upgrade;
+    if (a.href.includes("/logout")) a.textContent = t.nav_logout;
+  });
+});
+</script>
 </body>
 </html>
