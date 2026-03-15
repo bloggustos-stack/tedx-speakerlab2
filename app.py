@@ -944,6 +944,7 @@ def index():
     user = get_current_user()
     result = None
     ted_rules_result = None
+    detected_lang = "ro"
     pdf_file = ""
     total_score = 0
     max_score = 0
