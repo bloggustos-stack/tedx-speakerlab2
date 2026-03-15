@@ -957,6 +957,8 @@ def index():
         text = request.form.get("speech_text", "")
         if text.strip():
             result = analyze_by_tier(text, user["tier"])
+            lang_info = detect_language(text)
+detected_lang = lang_info.get("language", "ro")
             ted_rules_result = analyze_ted_rules(text)
             total_score, max_score = calculate_total_score(result)
             score_label = get_score_label(total_score, max_score)
