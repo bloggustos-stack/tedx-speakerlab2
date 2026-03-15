@@ -416,6 +416,7 @@ def get_previous_score(email, current_timestamp):
         return None, None
     last = user_entries[-1]
     return last.get("total_score"), last.get("max_score")
+
 def detect_language(text):
     prompt = f"""Detect the language of this text and return ONLY a JSON like this:
 {{"language": "ro", "language_name": "Romana"}}
@@ -438,12 +439,15 @@ Text: {text[:300]}"""
         return json.loads(content)
     except:
         return {"language": "ro", "language_name": "Romana"}
-def analyze_speech_free(text):
+
+def analyze_speech_free(text, lang="ro"):
     prompt = f"""
 Esti un evaluator strict de discursuri TEDx.
 Analizeaza urmatorul text si acorda scoruri DIFERENTIATE si JUSTIFICATE.
 
 {SCORING_GUIDE}
+
+Raspunde INTOTDEAUNA in limba cu codul: {lang}. Toate recomandarile si explicatiile trebuie sa fie in aceasta limba.
 
 Returneaza DOAR un JSON valid, fara alt text:
 {{
@@ -471,7 +475,7 @@ Text de analizat: {text}
     except:
         return {"tier": "free", "error": content}
 
-def analyze_speech_paid1(text):
+def analyze_speech_paid1(text, lang="ro"):
     case_studies = format_case_studies_for_prompt()
     prompt = f"""
 Esti un evaluator strict de discursuri TEDx, expert in metodologia Carmine Gallo si psihologia arhetipurilor (Carol S. Pearson / Carl Jung).
@@ -482,6 +486,8 @@ Esti un evaluator strict de discursuri TEDx, expert in metodologia Carmine Gallo
 
 CELE 12 ARHETIPURI (Carol S. Pearson / Carl Jung):
 {ARCHETYPES_FOR_PROMPT}
+
+Raspunde INTOTDEAUNA in limba cu codul: {lang}. Toate recomandarile, notele si explicatiile trebuie sa fie in aceasta limba.
 
 IMPORTANT:
 - Identifica arhetipul DOMINANT si cel SECUNDAR al speakerului.
@@ -536,7 +542,7 @@ Text de analizat: {text}
     except:
         return {"tier": "paid1", "error": content}
 
-def analyze_speech_paid2(text):
+def analyze_speech_paid2(text, lang="ro"):
     case_studies = format_case_studies_for_prompt()
     prompt = f"""
 Esti un coach avansat de TED talks, expert in metodologia Carmine Gallo si psihologia arhetipurilor (Carol S. Pearson / Carl Jung).
@@ -547,6 +553,8 @@ Esti un coach avansat de TED talks, expert in metodologia Carmine Gallo si psiho
 
 CELE 12 ARHETIPURI (Carol S. Pearson / Carl Jung):
 {ARCHETYPES_FOR_PROMPT}
+
+Raspunde INTOTDEAUNA in limba cu codul: {lang}. Toate recomandarile, notele si explicatiile trebuie sa fie in aceasta limba.
 
 IMPORTANT:
 - Identifica arhetipul dominant si secundar.
@@ -603,7 +611,7 @@ Text de analizat: {text}
     except:
         return {"tier": "paid2", "error": content}
 
-def analyze_speech_paid3(text):
+def analyze_speech_paid3(text, lang="ro"):
     case_studies = format_case_studies_for_prompt()
     prompt = f"""
 Esti Tibi Ruczui, curatorul TEDxBrasov, cu 10+ ani de experienta.
@@ -617,6 +625,8 @@ Motto-ul tau: "{MOTTO}"
 
 CELE 12 ARHETIPURI (Carol S. Pearson / Carl Jung):
 {ARCHETYPES_FOR_PROMPT}
+
+Raspunde INTOTDEAUNA in limba cu codul: {lang}. Toate recomandarile, notele si explicatiile trebuie sa fie in aceasta limba.
 
 IMPORTANT:
 - Identifica arhetipul dominant SI secundar.
@@ -686,13 +696,15 @@ Text de analizat: {text}
         return {"tier": "paid3", "error": content}
 
 
-def analyze_ted_rules(text):
+def analyze_ted_rules(text, lang="ro"):
     prompt = f"""
 Esti un evaluator strict al regulilor oficiale TED pentru speakeri.
 Analizeaza urmatorul text si evalueaza cat de bine respecta regulile oficiale TED.
 
 {TED_OFFICIAL_RULES}
 {TED_RULES_SCORING_GUIDE}
+
+Raspunde INTOTDEAUNA in limba cu codul: {lang}. Toate recomandarile si explicatiile trebuie sa fie in aceasta limba.
 
 Returneaza DOAR un JSON valid, fara alt text:
 {{
@@ -728,15 +740,15 @@ Text de analizat: {text}
         return {"error": content}
 
 
-def analyze_by_tier(text, tier):
+def analyze_by_tier(text, tier, lang="ro"):
     if tier == "paid3":
-        return analyze_speech_paid3(text)
+        return analyze_speech_paid3(text, lang)
     elif tier == "paid2":
-        return analyze_speech_paid2(text)
+        return analyze_speech_paid2(text, lang)
     elif tier == "paid1":
-        return analyze_speech_paid1(text)
+        return analyze_speech_paid1(text, lang)
     else:
-        return analyze_speech_free(text)
+        return analyze_speech_free(text, lang)
 
 def generate_radar_image(scores, filename="radar.png"):
     labels = list(scores.keys())
@@ -957,10 +969,10 @@ def index():
     if request.method == "POST":
         text = request.form.get("speech_text", "")
         if text.strip():
-            result = analyze_by_tier(text, user["tier"])
             lang_info = detect_language(text)
-detected_lang = lang_info.get("language", "ro")
-            ted_rules_result = analyze_ted_rules(text)
+            detected_lang = lang_info.get("language", "ro")
+            result = analyze_by_tier(text, user["tier"], detected_lang)
+            ted_rules_result = analyze_ted_rules(text, detected_lang)
             total_score, max_score = calculate_total_score(result)
             score_label = get_score_label(total_score, max_score)
             current_timestamp = datetime.now().isoformat()
@@ -975,7 +987,7 @@ detected_lang = lang_info.get("language", "ro")
 
     history = get_user_history(user["email"], limit=5)
 
-  return render_template("index.html",
+    return render_template("index.html",
         result=result,
         pdf_file=pdf_file,
         user=user,
