@@ -416,7 +416,28 @@ def get_previous_score(email, current_timestamp):
         return None, None
     last = user_entries[-1]
     return last.get("total_score"), last.get("max_score")
+def detect_language(text):
+    prompt = f"""Detect the language of this text and return ONLY a JSON like this:
+{{"language": "ro", "language_name": "Romana"}}
 
+Use these codes: ro=Romana, en=Engleza, de=Germana, fr=Franceza, hu=Maghiara
+If unsure, use "en".
+
+Text: {text[:300]}"""
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0
+    )
+    content = response.choices[0].message.content.strip()
+    if "```" in content:
+        content = content.split("```")[1]
+        if content.startswith("json"):
+            content = content[4:]
+    try:
+        return json.loads(content)
+    except:
+        return {"language": "ro", "language_name": "Romana"}
 def analyze_speech_free(text):
     prompt = f"""
 Esti un evaluator strict de discursuri TEDx.
