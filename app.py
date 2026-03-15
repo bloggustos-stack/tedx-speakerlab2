@@ -974,7 +974,7 @@ detected_lang = lang_info.get("language", "ro")
 
     history = get_user_history(user["email"], limit=5)
 
-    return render_template("index.html",
+  return render_template("index.html",
         result=result,
         pdf_file=pdf_file,
         user=user,
@@ -985,7 +985,8 @@ detected_lang = lang_info.get("language", "ro")
         score_diff=score_diff,
         prev_score=prev_score,
         history=history,
-        ted_rules_result=ted_rules_result
+        ted_rules_result=ted_rules_result,
+        detected_lang=detected_lang
     )
 
 @app.route("/history")
