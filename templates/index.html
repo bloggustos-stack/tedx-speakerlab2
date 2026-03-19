@@ -144,7 +144,30 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 .ted-rule-evidence{font-size:12px;color:#6b7280;font-style:italic;margin-bottom:6px;line-height:1.5}
 .ted-rule-recommendation{font-size:12px;color:#9ca3af;line-height:1.5}
 .ted-rules-link{display:inline-flex;align-items:center;gap:6px;color:#be123c;text-decoration:none;font-size:12px;margin-top:16px}
-@media(max-width:600px){.archetypes-grid{grid-template-columns:1fr 1fr}}
+/* PSYCH TIER */
+.psych-header{background:linear-gradient(135deg,#1a0a2e,#0f0f1a);border:2px solid #7c3aed;padding:28px;margin-bottom:24px;border-radius:4px}
+.psych-title{font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:8px}
+.psych-archetype-name{font-size:32px;font-weight:bold;color:#e8e0d5;margin-bottom:4px}
+.psych-archetype-sub{font-size:13px;color:#9ca3af}
+.psych-speaks-from{display:inline-block;font-size:11px;padding:4px 12px;border-radius:20px;margin-top:8px}
+.psych-speaks-desire{background:rgba(34,197,94,0.15);color:#22c55e;border:1px solid rgba(34,197,94,0.3)}
+.psych-speaks-fear{background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3)}
+.psych-speaks-both{background:rgba(234,179,8,0.15);color:#eab308;border:1px solid rgba(234,179,8,0.3)}
+.psych-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+.psych-card{background:#111;border:1px solid #1e1040;padding:16px;border-radius:4px}
+.psych-card-label{font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px}
+.psych-card-val{font-size:13px;color:#e8e0d5;line-height:1.5}
+.psych-card-evidence{font-size:11px;color:#6b7280;font-style:italic;margin-top:6px}
+.psych-section{background:#111;border:1px solid #222;padding:20px;margin-bottom:16px}
+.psych-section-title{font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px}
+.psych-shadow{background:#1a0a0a;border:1px solid #7f1d1d;padding:16px;margin-bottom:16px}
+.psych-profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.psych-question{font-size:13px;color:#e8e0d5;line-height:1.7;padding:10px 0;border-bottom:1px solid #1a1a1a;counter-increment:question}
+.psych-question:last-child{border-bottom:none}
+.psych-direction{font-size:12px;color:#9ca3af;line-height:1.6;padding:8px 0 8px 14px;border-left:2px solid #7c3aed;margin-bottom:8px}
+.psych-summary{font-size:14px;color:#e8e0d5;line-height:1.7;font-style:italic;background:#111;border-left:3px solid #7c3aed;padding:16px 20px;margin-bottom:20px}
+.psych-radar-card{background:#111;border:1px solid #222;padding:20px;margin-bottom:20px}
+@media(max-width:600px){.archetypes-grid{grid-template-columns:1fr 1fr}.psych-grid{grid-template-columns:1fr 1fr}.psych-profile-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -166,6 +189,12 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 </nav>
 
 <div class="container">
+
+  {% if user.tier == 'psych' %}
+  <h1>Archetypal <em>Profile Analysis</em></h1>
+  <p class="motto">What you are speaks so loudly that I cannot hear what you say. — Ralph Waldo Emerson</p>
+  <p class="subtitle">Active level: <strong>Psychologist</strong> — Deep Jungian/Pearson archetypal profile from any text (GPT-4o)</p>
+  {% else %}
   <h1>Analizează <em>discursul tău</em></h1>
   <p class="motto">What you are speaks so loudly that I cannot hear what you say. — Ralph Waldo Emerson</p>
   <p class="subtitle">
@@ -176,12 +205,13 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
     {% elif user.tier == 'paid3' %}feedback personal de curator TEDxBrașov + Arhetip Pearson/Jung (GPT-4o)
     {% endif %}
   </p>
+  {% endif %}
 
   {% if history and history|length > 0 %}
   <div class="history-mini">
     <div class="history-mini-title">
-      <span>📊 Ultimele tale analize</span>
-      <a href="/history">Vezi tot istoricul →</a>
+      <span>📊 {% if user.tier == 'psych' %}Recent analyses{% else %}Ultimele tale analize{% endif %}</span>
+      <a href="/history">{% if user.tier == 'psych' %}View all →{% else %}Vezi tot istoricul →{% endif %}</a>
     </div>
     {% for h in history %}
     <div class="history-row">
@@ -195,22 +225,169 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 
   <div class="form-card">
     <form method="post" id="analyzeForm">
-      <textarea name="speech_text" placeholder="Lipește sau scrie textul discursului tău aici..." required id="speechInput"></textarea>
+      <textarea name="speech_text" placeholder="{% if user.tier == 'psych' %}Paste any text here — journal entry, self-description, speech, story...{% else %}Lipește sau scrie textul discursului tău aici...{% endif %}" required id="speechInput"></textarea>
       <div class="form-footer">
-        <span class="tier-info">Analizezi cu <strong>{{ tiers[user.tier].name }}</strong>{% if user.tier == 'free' %} · <a href="/upgrade" style="color:#b45309;text-decoration:none">Upgrade →</a>{% endif %}</span>
-        <button type="submit" id="analyzeBtn">Analizează discursul →</button>
+        <span class="tier-info">{% if user.tier == 'psych' %}Analyzing with <strong>Psychologist</strong> tier{% else %}Analizezi cu <strong>{{ tiers[user.tier].name }}</strong>{% if user.tier == 'free' %} · <a href="/upgrade" style="color:#b45309;text-decoration:none">Upgrade →</a>{% endif %}{% endif %}</span>
+        <button type="submit" id="analyzeBtn">{% if user.tier == 'psych' %}Analyze text →{% else %}Analizează discursul →{% endif %}</button>
       </div>
     </form>
-    <div class="loading" id="loadingEl">Se analizează discursul tău...</div>
+    <div class="loading" id="loadingEl">{% if user.tier == 'psych' %}Analyzing archetypal profile...{% else %}Se analizează discursul tău...{% endif %}</div>
   </div>
 
   {% if result %}
+
+  {% if user.tier == 'psych' %}
+  <!-- PSYCH TIER RESULTS — NO TABS -->
+  <div class="results">
+    <div class="results-header">
+      <h2>Archetypal Profile</h2>
+      {% if pdf_file %}<a href="/download/{{ pdf_file }}" class="download-btn" target="_blank">↓ Download PDF</a>{% endif %}
+    </div>
+
+    {% if result.tier == 'psych' and result.analysis %}
+    {% set a = result.analysis %}
+
+    <!-- SUMMARY -->
+    {% if a.summary %}
+    <div class="psych-summary">{{ a.summary }}</div>
+    {% endif %}
+
+    <!-- DOMINANT ARCHETYPE -->
+    {% if a.dominant_archetype %}
+    {% set da = a.dominant_archetype %}
+    <div class="psych-header">
+      <div class="psych-title">Dominant Archetype — Carol S. Pearson / Carl Jung</div>
+      <div style="font-size:48px;margin-bottom:8px">{{ da.emoji }}</div>
+      <div class="psych-archetype-name">{{ da.name }}</div>
+      <div class="psych-archetype-sub">{{ da.group }} · Confidence: {{ da.confidence }}</div>
+      {% if da.speaks_from %}
+      <span class="psych-speaks-from {% if da.speaks_from == 'desire' %}psych-speaks-desire{% elif da.speaks_from == 'fear' %}psych-speaks-fear{% else %}psych-speaks-both{% endif %}">
+        Speaking from: {{ da.speaks_from|upper }}
+      </span>
+      {% endif %}
+      {% if da.speaks_from_note %}
+      <div style="font-size:12px;color:#9ca3af;margin-top:10px;line-height:1.6">{{ da.speaks_from_note }}</div>
+      {% endif %}
+      {% if da.evidence %}
+      <div style="font-size:12px;color:#6b7280;font-style:italic;margin-top:10px;border-left:2px solid #7c3aed;padding-left:10px">"{{ da.evidence }}"</div>
+      {% endif %}
+      {% if da.authenticity_score is defined %}
+      <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
+        <span style="font-size:28px;font-weight:bold;color:#7c3aed">{{ da.authenticity_score }}<span style="font-size:14px;color:#555">/10</span></span>
+        <span style="font-size:11px;color:#9ca3af">Archetypal Authenticity</span>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- 3 ARCHETYPES GRID -->
+    <div class="psych-grid">
+      {% if a.dominant_archetype %}
+      <div class="psych-card" style="border-color:#7c3aed">
+        <div class="psych-card-label">🥇 Dominant</div>
+        <div style="font-size:24px">{{ a.dominant_archetype.emoji }}</div>
+        <div class="psych-card-val">{{ a.dominant_archetype.name }}</div>
+        <div class="psych-card-evidence">{{ a.dominant_archetype.desire }}</div>
+      </div>
+      {% endif %}
+      {% if a.secondary_archetype %}
+      <div class="psych-card">
+        <div class="psych-card-label">🥈 Secondary</div>
+        <div style="font-size:24px">{{ a.secondary_archetype.emoji }}</div>
+        <div class="psych-card-val">{{ a.secondary_archetype.name }}</div>
+        <div class="psych-card-evidence">{{ a.secondary_archetype.evidence }}</div>
+      </div>
+      {% endif %}
+      {% if a.tertiary_archetype %}
+      <div class="psych-card">
+        <div class="psych-card-label">🥉 Tertiary</div>
+        <div style="font-size:24px">{{ a.tertiary_archetype.emoji }}</div>
+        <div class="psych-card-val">{{ a.tertiary_archetype.name }}</div>
+        <div class="psych-card-evidence">{{ a.tertiary_archetype.evidence }}</div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- SHADOW ANALYSIS -->
+    {% if a.shadow_analysis %}
+    {% set sh = a.shadow_analysis %}
+    <div class="psych-shadow">
+      <div class="psych-section-title" style="color:#ef4444">🌑 Shadow Analysis</div>
+      {% if sh.shadow_present %}
+      <div style="font-size:12px;color:#f87171;margin-bottom:8px">Shadow active: <strong>{{ sh.shadow_archetype }}</strong></div>
+      {% if sh.shadow_evidence %}<div style="font-size:12px;color:#6b7280;font-style:italic;margin-bottom:8px">"{{ sh.shadow_evidence }}"</div>{% endif %}
+      <div style="font-size:12px;color:#9ca3af;line-height:1.6">{{ sh.shadow_note }}</div>
+      {% else %}
+      <div style="font-size:12px;color:#4ade80">No significant shadow elements detected in this text.</div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- PSYCHOLOGICAL PROFILE -->
+    {% if a.psychological_profile %}
+    {% set pp = a.psychological_profile %}
+    <div class="psych-profile-grid">
+      <div class="psych-card">
+        <div class="psych-card-label">💔 Core Wound</div>
+        <div class="psych-card-val">{{ pp.core_wound }}</div>
+      </div>
+      <div class="psych-card">
+        <div class="psych-card-label">✨ Core Gift</div>
+        <div class="psych-card-val">{{ pp.core_gift }}</div>
+      </div>
+      <div class="psych-card" style="grid-column:1/-1">
+        <div class="psych-card-label">🔄 Integration Level: {{ pp.integration_level|upper }}</div>
+        <div class="psych-card-val">{{ pp.integration_note }}</div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- CLINICAL REFLECTION QUESTIONS -->
+    {% if a.clinical_reflection_questions %}
+    <div class="psych-section">
+      <div class="psych-section-title">🔍 Clinical Reflection Questions</div>
+      {% for q in a.clinical_reflection_questions %}
+      <div class="psych-question">{{ loop.index }}. {{ q }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- THERAPEUTIC DIRECTIONS -->
+    {% if a.therapeutic_directions %}
+    <div class="psych-section">
+      <div class="psych-section-title">🧭 Therapeutic Directions</div>
+      {% for d in a.therapeutic_directions %}
+      <div class="psych-direction">{{ d }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- ARCHETYPE SCORES RADAR -->
+    {% if a.archetype_scores %}
+    <div class="psych-radar-card">
+      <div class="psych-section-title">📊 Archetypal Landscape</div>
+      <canvas id="radarChart" height="300"></canvas>
+    </div>
+    <script>
+    const ctx = document.getElementById('radarChart');
+    if(ctx){
+      const labels = {{ a.archetype_scores.keys()|list|tojson }};
+      const scores = {{ a.archetype_scores.values()|list|tojson }};
+      new Chart(ctx,{type:'radar',data:{labels:labels,datasets:[{label:'Archetypal Score',data:scores,fill:true,backgroundColor:'rgba(124,58,237,0.15)',borderColor:'rgba(124,58,237,0.8)',pointBackgroundColor:'#7c3aed'}]},options:{responsive:true,scales:{r:{min:0,max:10,ticks:{color:'#666',stepSize:2,backdropColor:'transparent'},grid:{color:'#222'},pointLabels:{color:'#888',font:{size:10}}}},plugins:{legend:{display:false}}}});
+    }
+    </script>
+    {% endif %}
+
+    {% endif %}<!-- end psych analysis -->
+  </div><!-- end psych results -->
+
+  {% else %}
+  <!-- ALL OTHER TIERS — WITH TABS -->
   <div class="results-tabs">
     <button class="tab-btn active" onclick="switchTab('tab-analysis', this)">📊 Analiza</button>
     <button class="tab-btn" onclick="switchTab('tab-ted-rules', this)">📋 Reguli TED Oficiale</button>
   </div>
 
-  <!-- TAB 1: ANALIZA -->
   <div id="tab-analysis" class="tab-panel active">
     <div class="results">
       <div class="results-header">
@@ -420,7 +597,7 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 
     </div>
 
-    {% if result and result.analysis and not result.get('error') %}
+    {% if result and result.analysis and not result.get('error') and result.tier != 'psych' %}
     <script>
     const ctx = document.getElementById('radarChart');
     if(ctx){
@@ -524,14 +701,16 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
     </div>
   </div><!-- end tab-ted-rules -->
 
-  {% endif %}
+  {% endif %}<!-- end if user.tier != psych -->
+
+  {% endif %}<!-- end if result -->
 
 </div><!-- end container -->
 
 <script>
 document.getElementById('analyzeForm').addEventListener('submit',function(){
   document.getElementById('analyzeBtn').disabled=true;
-  document.getElementById('analyzeBtn').textContent='Se analizează...';
+  document.getElementById('analyzeBtn').textContent='{% if user.tier == "psych" %}Analyzing...{% else %}Se analizează...{% endif %}';
   document.getElementById('loadingEl').classList.add('active');
 });
 
@@ -554,6 +733,7 @@ const lang = "{{ detected_lang }}";
 const t = TRANSLATIONS[lang] || TRANSLATIONS["ro"];
 
 document.addEventListener("DOMContentLoaded", function() {
+  {% if user.tier != 'psych' %}
   const btn = document.getElementById("analyzeBtn");
   if (btn) btn.textContent = t.analyze_btn;
   const ta = document.querySelector("textarea");
@@ -567,6 +747,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (a.href.includes("/upgrade")) a.textContent = t.nav_upgrade;
     if (a.href.includes("/logout")) a.textContent = t.nav_logout;
   });
+  {% endif %}
 });
 </script>
 </body>
