@@ -369,6 +369,11 @@ def calculate_total_score(result):
         arch = analysis.get("archetype", {})
         if arch.get("archetype_authenticity_score"):
             scores.append(arch["archetype_authenticity_score"])
+    elif tier == "psych":
+        analysis = result.get("analysis", {})
+        arch_scores = analysis.get("archetype_scores", {})
+        if arch_scores:
+            scores = list(arch_scores.values())
     if not scores:
         return 0, 0
     total = sum(scores)
