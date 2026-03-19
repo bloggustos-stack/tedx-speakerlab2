@@ -845,6 +845,8 @@ def analyze_by_tier(text, tier, lang="ro"):
         return analyze_speech_paid2(text, lang)
     elif tier == "paid1":
         return analyze_speech_paid1(text, lang)
+    elif tier == "psych":
+        return analyze_psychologist(text, lang)
     else:
         return analyze_speech_free(text, lang)
 
