@@ -747,6 +747,97 @@ Text de analizat: {text}
         return {"error": content}
 
 
+def analyze_psychologist(text, lang="en"):
+    prompt = f"""
+You are an expert clinical psychologist specializing in Jungian archetypes and Carol S. Pearson's archetypal psychology.
+Analyze the following text and provide a deep psychological profile based on the 12 archetypes.
+
+THE 12 ARCHETYPES (Carol S. Pearson / Carl Jung):
+{ARCHETYPES_FOR_PROMPT}
+
+ANALYSIS GUIDELINES:
+- Identify the DOMINANT archetype, SECONDARY archetype, and TERTIARY archetype
+- Analyze the Desire vs Fear dynamic (is the person speaking from Desire or Fear?)
+- Identify shadow elements present in the text
+- Provide deep clinical reflection questions
+- Be nuanced, clinical, and professionally rigorous
+- Scores must be DIFFERENT from each other
+- Always cite concrete evidence from the text
+
+Respond ALWAYS in the language with code: {lang}
+
+Return ONLY valid JSON, no other text:
+{{
+  "dominant_archetype": {{
+    "name": "Archetype name",
+    "emoji": "emoji",
+    "group": "Ego/Soul/Self",
+    "confidence": "high|medium|low",
+    "desire": "Core desire",
+    "fear": "Core fear/shadow",
+    "evidence": "Direct quote from text that reveals this archetype",
+    "authenticity_score": 0,
+    "speaks_from": "desire|fear|both",
+    "speaks_from_note": "Clinical note on desire vs fear dynamic"
+  }},
+  "secondary_archetype": {{
+    "name": "Archetype name",
+    "emoji": "emoji",
+    "evidence": "Quote from text"
+  }},
+  "tertiary_archetype": {{
+    "name": "Archetype name",
+    "emoji": "emoji",
+    "evidence": "Quote from text"
+  }},
+  "shadow_analysis": {{
+    "shadow_present": true,
+    "shadow_archetype": "Which archetype shadow is active",
+    "shadow_evidence": "Quote showing shadow",
+    "shadow_note": "Clinical interpretation"
+  }},
+  "psychological_profile": {{
+    "core_wound": "The fundamental psychological wound suggested by the text",
+    "core_gift": "The fundamental psychological gift/strength",
+    "integration_level": "low|medium|high",
+    "integration_note": "How well integrated is the archetypal energy"
+  }},
+  "clinical_reflection_questions": [
+    "Deep question 1 personalized to the text",
+    "Deep question 2 personalized to the text",
+    "Deep question 3 personalized to the text",
+    "Deep question 4 personalized to the text",
+    "Deep question 5 personalized to the text"
+  ],
+  "therapeutic_directions": [
+    "Direction 1 for therapeutic work",
+    "Direction 2 for therapeutic work",
+    "Direction 3 for therapeutic work"
+  ],
+  "archetype_scores": {{
+    "Inocentul": 0, "Orfanul": 0, "Razboinicul": 0, "Ingrijitorul": 0,
+    "Exploratorul": 0, "Rebelul": 0, "Indragostitul": 0, "Creatorul": 0,
+    "Conducatorul": 0, "Magicianul": 0, "Inteleptul": 0, "Bufonul": 0
+  }},
+  "summary": "Clinical summary in 3-4 sentences"
+}}
+
+Text to analyze: {text}
+"""
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.3
+    )
+    content = response.choices[0].message.content.strip()
+    if "```" in content:
+        content = content.split("```")[1]
+        if content.startswith("json"):
+            content = content[4:]
+    try:
+        return {"tier": "psych", "analysis": json.loads(content)}
+    except:
+        return {"tier": "psych", "error": content}
 def analyze_by_tier(text, tier, lang="ro"):
     if tier == "paid3":
         return analyze_speech_paid3(text, lang)
