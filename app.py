@@ -22,6 +22,13 @@ TIERS = {
     "paid2":  {"name": "Coach",     "color": "#1d4ed8", "analyses_per_day": 50},
     "paid3":  {"name": "Curator",   "color": "#be123c", "analyses_per_day": 999},
 }
+TIERS = {
+    "free":   {"name": "Explorer",     "color": "#6b7280", "analyses_per_day": 3},
+    "paid1":  {"name": "Speaker",      "color": "#b45309", "analyses_per_day": 20},
+    "paid2":  {"name": "Coach",        "color": "#1d4ed8", "analyses_per_day": 50},
+    "paid3":  {"name": "Curator",      "color": "#be123c", "analyses_per_day": 999},
+    "psych":  {"name": "Psychologist", "color": "#7c3aed", "analyses_per_day": 999},
+}
 
 if not os.path.exists("data"):
     os.makedirs("data")
