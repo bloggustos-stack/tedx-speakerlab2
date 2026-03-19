@@ -1,11 +1,77 @@
-TEDxBrașov · Admin
-← Dashboard
-Gestionează utilizatorii
-{{ users|length }} utilizatori înregistrați · Modifică nivelul de acces direct din tabel.
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Admin – TEDxBrașov</title>
+<style>
+body{font-family:Arial;background:#0a0a0a;color:#e8e0d5;margin:0;padding:0}
+nav{background:#111;border-bottom:1px solid #222;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:52px}
+nav a{color:#e8e0d5;text-decoration:none;font-size:12px;margin-left:16px}
+nav a:hover{color:#be123c}
+.container{max-width:960px;margin:0 auto;padding:40px 24px}
+h1{font-size:28px;margin-bottom:8px}
+.subtitle{font-size:12px;color:#666;margin-bottom:32px}
+table{width:100%;border-collapse:collapse;background:#111}
+th{font-size:10px;color:#666;text-transform:uppercase;letter-spacing:0.1em;padding:12px 16px;border-bottom:1px solid #222;text-align:left}
+td{font-size:12px;color:#e8e0d5;padding:12px 16px;border-bottom:1px solid #1a1a1a}
+tr:hover td{background:#161616}
+select{background:#0a0a0a;border:1px solid #333;color:#e8e0d5;font-size:11px;padding:4px 8px;cursor:pointer}
+select:focus{border-color:#be123c;outline:none}
+.save-btn{background:#be123c;color:white;border:none;font-size:11px;padding:6px 14px;cursor:pointer;margin-left:8px}
+.save-btn:hover{background:#9f1239}
+.tier-badge{font-size:10px;padding:3px 8px;border:1px solid #333;color:#aaa}
+.tier-free{border-color:#6b7280;color:#6b7280}
+.tier-paid1{border-color:#b45309;color:#b45309}
+.tier-paid2{border-color:#1d4ed8;color:#1d4ed8}
+.tier-paid3{border-color:#be123c;color:#be123c}
+.tier-psych{border-color:#7c3aed;color:#7c3aed}
+</style>
+</head>
+<body>
+<nav>
+  <div><strong>TEDxBrașov · Admin</strong></div>
+  <div>
+    <a href="/">← Dashboard</a>
+    <a href="/logout" style="color:#be123c">Ieși</a>
+  </div>
+</nav>
 
-{% for email, u in users.items() %} {% endfor %}
-Email	Nume	Nivel curent	Înregistrat	Schimbă nivelul
-{{ email }}	{{ u.get('name', '—') }}	{{ tiers[u.tier].name }}	{{ u.get('created', '—')[:10] }}	
+<div class="container">
+  <h1>Gestionează utilizatorii</h1>
+  <p class="subtitle">{{ users|length }} utilizatori înregistrați · Modifică nivelul de acces direct din tabel.</p>
 
-{{ tier_val.name }}
-Salvează
+  <table>
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Nume</th>
+        <th>Nivel curent</th>
+        <th>Înregistrat</th>
+        <th>Schimbă nivelul</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for email, u in users.items() %}
+      <tr>
+        <td>{{ email }}</td>
+        <td>{{ u.get('name', '—') }}</td>
+        <td><span class="tier-badge tier-{{ u.tier }}">{{ tiers[u.tier].name if u.tier in tiers else u.tier }}</span></td>
+        <td>{{ u.get('created', '—')[:10] }}</td>
+        <td>
+          <form method="post" action="/admin/set-tier" style="display:inline-flex;align-items:center;gap:8px">
+            <input type="hidden" name="email" value="{{ email }}">
+            <select name="tier">
+              {% for tier_key, tier_val in tiers.items() %}
+              <option value="{{ tier_key }}" {% if u.tier == tier_key %}selected{% endif %}>{{ tier_val.name }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="save-btn">Salvează</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
