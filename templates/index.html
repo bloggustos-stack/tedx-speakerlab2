@@ -167,10 +167,16 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 .psych-direction{font-size:12px;color:#9ca3af;line-height:1.6;padding:8px 0 8px 14px;border-left:2px solid #7c3aed;margin-bottom:8px}
 .psych-summary{font-size:14px;color:#e8e0d5;line-height:1.7;font-style:italic;background:#111;border-left:3px solid #7c3aed;padding:16px 20px;margin-bottom:20px}
 .psych-radar-card{background:#111;border:1px solid #222;padding:20px;margin-bottom:20px}
-@media(max-width:600px){.archetypes-grid{grid-template-columns:1fr 1fr}.psych-grid{grid-template-columns:1fr 1fr}.psych-profile-grid{grid-template-columns:1fr}}
+/* ── NOU: panel rapid ghid ── */
+.ghid-quick-panel{margin-top:12px;padding:12px 16px;background:#0a0a0a;border:1px solid #2a2a2a;border-left:2px solid #b8860b;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.ghid-quick-text{font-size:12px;color:#888;line-height:1.5}
+.ghid-quick-btn{font-size:11px;color:#b8860b;text-decoration:none;border:1px solid rgba(184,134,11,0.4);padding:6px 14px;white-space:nowrap;flex-shrink:0;transition:all 0.2s}
+.ghid-quick-btn:hover{color:#e8e0d5;border-color:#b8860b}
+@media(max-width:600px){.archetypes-grid{grid-template-columns:1fr 1fr}.psych-grid{grid-template-columns:1fr 1fr}.psych-profile-grid{grid-template-columns:1fr}.ghid-quick-panel{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
 <body>
+
 <nav>
   <div>
     <strong>TEDxBrașov · Speaker Lab AI</strong>
@@ -180,6 +186,7 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
     {% if user %}
     <span style="font-size:12px;color:#666">{{ user.get('name', user.email) }}</span>
     {% if user.tier == 'paid3' %}<a href="/admin">Admin</a>{% endif %}
+    <a href="/ghid" style="color:#b8860b">📖 Ghid</a>
     <a href="/ted-rules">Reguli TED</a>
     <a href="/history">Istoric</a>
     <a href="/upgrade">Upgrade</a>
@@ -190,520 +197,532 @@ button:disabled{background:#333;color:#555;cursor:not-allowed}
 
 <div class="container">
 
-  {% if user.tier == 'psych' %}
-  <h1>Archetypal <em>Profile Analysis</em></h1>
-  <p class="motto">What you are speaks so loudly that I cannot hear what you say. — Ralph Waldo Emerson</p>
-  <p class="subtitle">Active level: <strong>Psychologist</strong> — Deep Jungian/Pearson archetypal profile from any text (GPT-4o)</p>
-  {% else %}
-  <h1>Analizează <em>discursul tău</em></h1>
-  <p class="motto">What you are speaks so loudly that I cannot hear what you say. — Ralph Waldo Emerson</p>
-  <p class="subtitle">
-    Nivel activ: <strong>{{ tiers[user.tier].name }}</strong> —
-    {% if user.tier == 'free' %}analiză de bază pe 5 criterii (GPT-3.5)
-    {% elif user.tier == 'paid1' %}analiză pe 9 principii Gallo + Arhetip Pearson/Jung (GPT-4o)
-    {% elif user.tier == 'paid2' %}coaching personalizat pe 9 sesiuni + Arhetip Pearson/Jung (GPT-4o)
-    {% elif user.tier == 'paid3' %}feedback personal de curator TEDxBrașov + Arhetip Pearson/Jung (GPT-4o)
-    {% endif %}
-  </p>
+{% if user.tier == 'psych' %}
+<h1>Archetypal <em>Profile Analysis</em></h1>
+<p class="motto">What you are speaks so loudly that I cannot hear what you say. — Ralph Waldo Emerson</p>
+<p class="subtitle">Active level: <strong>Psychologist</strong> — Deep Jungian/Pearson archetypal profile from any text (GPT-4o)</p>
+{% else %}
+<h1>Analizează <em>discursul tău</em></h1>
+<p class="motto">What you are speaks so loudly that I cannot hear what you say. — Ralph Waldo Emerson</p>
+<p class="subtitle">
+  Nivel activ: <strong>{{ tiers[user.tier].name }}</strong> —
+  {% if user.tier == 'free' %}analiză de bază pe 5 criterii (GPT-3.5)
+  {% elif user.tier == 'paid1' %}analiză pe 9 principii Gallo + Arhetip Pearson/Jung (GPT-4o)
+  {% elif user.tier == 'paid2' %}coaching personalizat pe 9 sesiuni + Arhetip Pearson/Jung (GPT-4o)
+  {% elif user.tier == 'paid3' %}feedback personal de curator TEDxBrașov + Arhetip Pearson/Jung (GPT-4o)
+  {% endif %}
+</p>
+{% endif %}
+
+{% if history and history|length > 0 %}
+<div class="history-mini">
+  <div class="history-mini-title">
+    <span>📊 {% if user.tier == 'psych' %}Recent analyses{% else %}Ultimele tale analize{% endif %}</span>
+    <a href="/history">{% if user.tier == 'psych' %}View all →{% else %}Vezi tot istoricul →{% endif %}</a>
+  </div>
+  {% for h in history %}
+  <div class="history-row">
+    <span class="history-date">{{ h.timestamp[:16]|replace('T',' ') }}</span>
+    <span class="history-tier">{{ h.tier }}</span>
+    <span class="history-score">{{ h.total_score }}/{{ h.max_score }}</span>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="form-card">
+  <form method="post" id="analyzeForm">
+    <textarea name="speech_text" placeholder="{% if user.tier == 'psych' %}Paste any text here — journal entry, self-description, speech, story...{% else %}Lipește sau scrie textul discursului tău aici...{% endif %}" required id="speechInput"></textarea>
+    <div class="form-footer">
+      <span class="tier-info">{% if user.tier == 'psych' %}Analyzing with <strong>Psychologist</strong> tier{% else %}Analizezi cu <strong>{{ tiers[user.tier].name }}</strong>{% if user.tier == 'free' %} · <a href="/upgrade" style="color:#b45309;text-decoration:none">Upgrade →</a>{% endif %}{% endif %}</span>
+      <button type="submit" id="analyzeBtn">{% if user.tier == 'psych' %}Analyze text →{% else %}Analizează discursul →{% endif %}</button>
+    </div>
+  </form>
+  <div class="loading" id="loadingEl">{% if user.tier == 'psych' %}Analyzing archetypal profile...{% else %}Se analizează discursul tău...{% endif %}</div>
+</div>
+
+{% if result %}
+
+{% if user.tier == 'psych' %}
+<!-- PSYCH TIER RESULTS — NO TABS -->
+<div class="results">
+  <div class="results-header">
+    <h2>Archetypal Profile</h2>
+    {% if pdf_file %}<a href="/download/{{ pdf_file }}" class="download-btn" target="_blank">↓ Download PDF</a>{% endif %}
+  </div>
+
+  {% if result.tier == 'psych' and result.analysis %}
+  {% set a = result.analysis %}
+
+  <!-- SUMMARY -->
+  {% if a.summary %}
+  <div class="psych-summary">{{ a.summary }}</div>
   {% endif %}
 
-  {% if history and history|length > 0 %}
-  <div class="history-mini">
-    <div class="history-mini-title">
-      <span>📊 {% if user.tier == 'psych' %}Recent analyses{% else %}Ultimele tale analize{% endif %}</span>
-      <a href="/history">{% if user.tier == 'psych' %}View all →{% else %}Vezi tot istoricul →{% endif %}</a>
+  <!-- DOMINANT ARCHETYPE -->
+  {% if a.dominant_archetype %}
+  {% set da = a.dominant_archetype %}
+  <div class="psych-header">
+    <div class="psych-title">Dominant Archetype — Carol S. Pearson / Carl Jung</div>
+    <div style="font-size:48px;margin-bottom:8px">{{ da.emoji }}</div>
+    <div class="psych-archetype-name">{{ da.name }}</div>
+    <div class="psych-archetype-sub">{{ da.group }} · Confidence: {{ da.confidence }}</div>
+    {% if da.speaks_from %}
+    <span class="psych-speaks-from {% if da.speaks_from == 'desire' %}psych-speaks-desire{% elif da.speaks_from == 'fear' %}psych-speaks-fear{% else %}psych-speaks-both{% endif %}">
+      Speaking from: {{ da.speaks_from|upper }}
+    </span>
+    {% endif %}
+    {% if da.speaks_from_note %}
+    <div style="font-size:12px;color:#9ca3af;margin-top:10px;line-height:1.6">{{ da.speaks_from_note }}</div>
+    {% endif %}
+    {% if da.evidence %}
+    <div style="font-size:12px;color:#6b7280;font-style:italic;margin-top:10px;border-left:2px solid #7c3aed;padding-left:10px">"{{ da.evidence }}"</div>
+    {% endif %}
+    {% if da.authenticity_score is defined %}
+    <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
+      <span style="font-size:28px;font-weight:bold;color:#7c3aed">{{ da.authenticity_score }}<span style="font-size:14px;color:#555">/10</span></span>
+      <span style="font-size:11px;color:#9ca3af">Archetypal Authenticity</span>
     </div>
-    {% for h in history %}
-    <div class="history-row">
-      <span class="history-date">{{ h.timestamp[:16]|replace('T',' ') }}</span>
-      <span class="history-tier">{{ h.tier }}</span>
-      <span class="history-score">{{ h.total_score }}/{{ h.max_score }}</span>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- 3 ARCHETYPES GRID -->
+  <div class="psych-grid">
+    {% if a.dominant_archetype %}
+    <div class="psych-card" style="border-color:#7c3aed">
+      <div class="psych-card-label">🥇 Dominant</div>
+      <div style="font-size:24px">{{ a.dominant_archetype.emoji }}</div>
+      <div class="psych-card-val">{{ a.dominant_archetype.name }}</div>
+      <div class="psych-card-evidence">{{ a.dominant_archetype.desire }}</div>
+    </div>
+    {% endif %}
+    {% if a.secondary_archetype %}
+    <div class="psych-card">
+      <div class="psych-card-label">🥈 Secondary</div>
+      <div style="font-size:24px">{{ a.secondary_archetype.emoji }}</div>
+      <div class="psych-card-val">{{ a.secondary_archetype.name }}</div>
+      <div class="psych-card-evidence">{{ a.secondary_archetype.evidence }}</div>
+    </div>
+    {% endif %}
+    {% if a.tertiary_archetype %}
+    <div class="psych-card">
+      <div class="psych-card-label">🥉 Tertiary</div>
+      <div style="font-size:24px">{{ a.tertiary_archetype.emoji }}</div>
+      <div class="psych-card-val">{{ a.tertiary_archetype.name }}</div>
+      <div class="psych-card-evidence">{{ a.tertiary_archetype.evidence }}</div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- SHADOW ANALYSIS -->
+  {% if a.shadow_analysis %}
+  {% set sh = a.shadow_analysis %}
+  <div class="psych-shadow">
+    <div class="psych-section-title" style="color:#ef4444">🌑 Shadow Analysis</div>
+    {% if sh.shadow_present %}
+    <div style="font-size:12px;color:#f87171;margin-bottom:8px">Shadow active: <strong>{{ sh.shadow_archetype }}</strong></div>
+    {% if sh.shadow_evidence %}<div style="font-size:12px;color:#6b7280;font-style:italic;margin-bottom:8px">"{{ sh.shadow_evidence }}"</div>{% endif %}
+    <div style="font-size:12px;color:#9ca3af;line-height:1.6">{{ sh.shadow_note }}</div>
+    {% else %}
+    <div style="font-size:12px;color:#4ade80">No significant shadow elements detected in this text.</div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- PSYCHOLOGICAL PROFILE -->
+  {% if a.psychological_profile %}
+  {% set pp = a.psychological_profile %}
+  <div class="psych-profile-grid">
+    <div class="psych-card">
+      <div class="psych-card-label">💔 Core Wound</div>
+      <div class="psych-card-val">{{ pp.core_wound }}</div>
+    </div>
+    <div class="psych-card">
+      <div class="psych-card-label">✨ Core Gift</div>
+      <div class="psych-card-val">{{ pp.core_gift }}</div>
+    </div>
+    <div class="psych-card" style="grid-column:1/-1">
+      <div class="psych-card-label">🔄 Integration Level: {{ pp.integration_level|upper }}</div>
+      <div class="psych-card-val">{{ pp.integration_note }}</div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- CLINICAL REFLECTION QUESTIONS -->
+  {% if a.clinical_reflection_questions %}
+  <div class="psych-section">
+    <div class="psych-section-title">🔍 Clinical Reflection Questions</div>
+    {% for q in a.clinical_reflection_questions %}
+    <div class="psych-question">{{ loop.index }}. {{ q }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- THERAPEUTIC DIRECTIONS -->
+  {% if a.therapeutic_directions %}
+  <div class="psych-section">
+    <div class="psych-section-title">🧭 Therapeutic Directions</div>
+    {% for d in a.therapeutic_directions %}
+    <div class="psych-direction">{{ d }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- ARCHETYPE SCORES RADAR -->
+  {% if a.archetype_scores %}
+  <div class="psych-radar-card">
+    <div class="psych-section-title">📊 Archetypal Landscape</div>
+    <canvas id="radarChart" height="300"></canvas>
+  </div>
+  <script>
+  const ctx = document.getElementById('radarChart');
+  if(ctx){
+    const labels = {{ a.archetype_scores.keys()|list|tojson }};
+    const scores = {{ a.archetype_scores.values()|list|tojson }};
+    new Chart(ctx,{type:'radar',data:{labels:labels,datasets:[{label:'Archetypal Score',data:scores,fill:true,backgroundColor:'rgba(124,58,237,0.15)',borderColor:'rgba(124,58,237,0.8)',pointBackgroundColor:'#7c3aed'}]},options:{responsive:true,scales:{r:{min:0,max:10,ticks:{color:'#666',stepSize:2,backdropColor:'transparent'},grid:{color:'#222'},pointLabels:{color:'#888',font:{size:10}}}},plugins:{legend:{display:false}}}});
+  }
+  </script>
+  {% endif %}
+
+  {% endif %}<!-- end psych analysis -->
+</div><!-- end psych results -->
+
+{% else %}
+<!-- ALL OTHER TIERS — WITH TABS -->
+<div class="results-tabs">
+  <button class="tab-btn active" onclick="switchTab('tab-analysis', this)">📊 Analiza</button>
+  <button class="tab-btn" onclick="switchTab('tab-ted-rules', this)">📋 Reguli TED Oficiale</button>
+</div>
+
+<div id="tab-analysis" class="tab-panel active">
+<div class="results">
+  <div class="results-header">
+    <h2>Rezultatele analizei</h2>
+    {% if pdf_file %}<a href="/download/{{ pdf_file }}" class="download-btn" target="_blank">↓ Descarcă PDF</a>{% endif %}
+  </div>
+
+  {% if total_score and max_score %}
+  <div class="total-score-banner">
+    <div class="total-score-label">Scor Total Discurs</div>
+    <div>
+      <span class="total-score-number">{{ total_score }}</span>
+      <span class="total-score-max">/{{ max_score }}</span>
+    </div>
+    <div class="total-score-text">{{ score_label }}</div>
+    {% if score_diff is not none %}
+      {% if score_diff > 0 %}
+      <div class="score-diff-positive">↑ +{{ score_diff }} puncte față de analiza anterioară ({{ prev_score }}/{{ max_score }}) 🎉</div>
+      {% elif score_diff < 0 %}
+      <div class="score-diff-negative">↓ {{ score_diff }} puncte față de analiza anterioară ({{ prev_score }}/{{ max_score }})</div>
+      {% else %}
+      <div class="score-diff-neutral">= Același scor ca analiza anterioară</div>
+      {% endif %}
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if result.analysis and result.analysis.archetype %}
+  {% set arch = result.analysis.archetype %}
+  <div class="archetype-card">
+    <div class="archetype-header">
+      <div class="archetype-emoji">{{ arch.emoji }}</div>
+      <div>
+        <div class="archetype-title">Arhetipul tău de speaker — Carol S. Pearson / Carl Jung</div>
+        <div class="archetype-name">{{ arch.primary }}</div>
+        {% if arch.secondary %}<div class="archetype-secondary">Arhetip secundar: {{ arch.secondary }}</div>{% endif %}
+        {% if arch.group %}<div class="archetype-group">{{ arch.group }}</div>{% endif %}
+        {% if arch.confidence %}<div style="font-size:10px;color:#555;margin-top:2px">Încredere identificare: {{ arch.confidence }}</div>{% endif %}
+      </div>
+    </div>
+    <div class="archetype-evidence">{{ arch.evidence }}</div>
+    <div class="archetype-body">
+      <div class="archetype-item">
+        <div class="archetype-item-label">💚 Dorința principală</div>
+        <div class="archetype-item-val">{{ arch.desire }}</div>
+      </div>
+      <div class="archetype-item">
+        <div class="archetype-item-label">⚠️ Teama / Umbra</div>
+        <div class="archetype-item-val">{{ arch.fear }}</div>
+      </div>
+      <div class="archetype-item">
+        <div class="archetype-item-label">⚡ Superputere pe scenă</div>
+        <div class="archetype-item-val">{{ arch.superpower }}</div>
+      </div>
+      {% if arch.ted_example %}
+      <div class="archetype-item">
+        <div class="archetype-item-label">🎤 Speaker TED cu același arhetip</div>
+        <div class="archetype-item-val">{{ arch.ted_example }}</div>
+      </div>
+      {% endif %}
+      {% if arch.curator_message_about_archetype %}
+      <div class="archetype-item" style="grid-column:1/-1">
+        <div class="archetype-item-label">💬 Nota curatorului despre arhetipul tău</div>
+        <div class="archetype-item-val">{{ arch.curator_message_about_archetype }}</div>
+      </div>
+      {% endif %}
+      {% if arch.coaching_note %}
+      <div class="archetype-item" style="grid-column:1/-1">
+        <div class="archetype-item-label">🧭 Cum să îl amplifici pe scenă</div>
+        <div class="archetype-item-val">{{ arch.coaching_note }}</div>
+      </div>
+      {% endif %}
+    </div>
+
+    {% if arch.archetype_authenticity_score is defined %}
+    <div class="archetype-auth">
+      <div class="archetype-auth-score">{{ arch.archetype_authenticity_score }}<span style="font-size:14px;color:#666">/10</span></div>
+      <div>
+        <div style="font-size:10px;color:#be123c;text-transform:uppercase;margin-bottom:4px">Autenticitate Arhetipală</div>
+        <div class="archetype-auth-note">{{ arch.archetype_authenticity_note }}</div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if arch.shadow_present and arch.shadow_present != 'Nu' %}
+    <div class="shadow-alert">⚠️ <strong>Umbra arhetipului detectată:</strong> {{ arch.shadow_present }}</div>
+    {% endif %}
+
+    <!-- ── NOU: Panel rapid spre Ghidul Arhetipurilor ── -->
+    <div class="ghid-quick-panel">
+      <div class="ghid-quick-text">
+        Vrei să înțelegi mai profund arhetipul <strong style="color:#e8e0d5">{{ arch.primary }}</strong>?
+        Dorința, umbra, superputerea și conexiunea cu <em>Elementul</em> lui Sir Ken Robinson.
+      </div>
+      <a href="/ghid" class="ghid-quick-btn">📖 Deschide Ghidul Complet →</a>
+    </div>
+
+  </div>
+  {% endif %}
+
+  {% if result.tier == 'free' and result.analysis %}
+  <div class="grid">
+    {% for crit, data in result.analysis.items() %}
+    <div class="score-card">
+      <div class="score-name">{{ crit }}</div>
+      <div class="score-val">{{ data.score }}<span>/10</span></div>
+      <div class="score-rec">{{ data.recommendation }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="chart-card">
+    <h3>Profil vizual</h3>
+    <canvas id="radarChart" height="260"></canvas>
+  </div>
+  <div class="upgrade-box">
+    <p><strong>Vrei mai mult?</strong> Nivelul Speaker analizează prin cele 9 principii Gallo + identifică arhetipul tău Pearson/Jung.</p>
+    <a href="/upgrade">Vezi planurile →</a>
+  </div>
+  {% endif %}
+
+  {% if result.tier == 'paid1' and result.analysis %}
+  <div class="grid">
+    {% for crit, data in result.analysis.items() %}
+    {% if crit != 'archetype' %}
+    <div class="score-card">
+      <div class="score-name">{{ crit }}</div>
+      <div class="score-val">{{ data.score }}<span>/10</span></div>
+      {% if data.present is defined %}
+      <div class="score-present {{ 'yes' if data.present else 'no' }}">{{ '✓ Prezent' if data.present else '✗ Lipsește' }}</div>
+      {% endif %}
+      {% if crit == 'Autenticitate' and data.reflection_questions %}
+      <div class="reflection-box">
+        <div class="reflection-label">Întrebări de reflecție profundă</div>
+        {% for q in data.reflection_questions %}
+        <div class="reflection-q">{{ loop.index }}. {{ q }}</div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="score-rec">{{ data.recommendation }}</div>
+      {% endif %}
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <div class="chart-card">
+    <h3>Radar — 9 principii Gallo</h3>
+    <canvas id="radarChart" height="260"></canvas>
+  </div>
+  {% endif %}
+
+  {% if result.tier == 'paid2' and result.analysis %}
+  {% set a = result.analysis %}
+  <div class="summary-row">
+    <div class="summary-card"><div class="summary-label">Scor general</div><div class="summary-val">{{ a.overall_score }}/10</div></div>
+    <div class="summary-card"><div class="summary-label">Puncte forte</div><div class="summary-val">{{ a.strengths|length }}</div></div>
+    <div class="summary-card"><div class="summary-label">Sesiuni plan</div><div class="summary-val">9</div></div>
+  </div>
+  <div class="score-card" style="margin-bottom:16px">
+    <div class="score-name">Rezumat</div>
+    <p style="font-size:12px;margin-top:8px;line-height:1.6">{{ a.summary }}</p>
+  </div>
+  <div class="sessions">
+    {% for s in a.coaching_sessions %}
+    <div class="session-card">
+      <div class="session-day">{{ s.day }}</div>
+      <div>
+        <div class="session-principle">{{ s.principle }} {% if s.score is defined %}— {{ s.score }}/10{% endif %}</div>
+        {% if s.text_evidence %}<div style="font-size:11px;color:#555;font-style:italic;margin-bottom:4px">"{{ s.text_evidence }}"</div>{% endif %}
+        <div class="session-ex">{{ s.exercise }}</div>
+        {% if s.example_question %}<div style="font-size:11px;color:#555;font-style:italic;margin-top:4px">{{ s.example_question }}</div>{% endif %}
+        {% if s.ted_example %}
+        <div class="ted-case">📺 Studiu de caz: {{ s.ted_example }} — {{ s.ted_speaker }}</div>
+        {% endif %}
+      </div>
     </div>
     {% endfor %}
   </div>
   {% endif %}
 
-  <div class="form-card">
-    <form method="post" id="analyzeForm">
-      <textarea name="speech_text" placeholder="{% if user.tier == 'psych' %}Paste any text here — journal entry, self-description, speech, story...{% else %}Lipește sau scrie textul discursului tău aici...{% endif %}" required id="speechInput"></textarea>
-      <div class="form-footer">
-        <span class="tier-info">{% if user.tier == 'psych' %}Analyzing with <strong>Psychologist</strong> tier{% else %}Analizezi cu <strong>{{ tiers[user.tier].name }}</strong>{% if user.tier == 'free' %} · <a href="/upgrade" style="color:#b45309;text-decoration:none">Upgrade →</a>{% endif %}{% endif %}</span>
-        <button type="submit" id="analyzeBtn">{% if user.tier == 'psych' %}Analyze text →{% else %}Analizează discursul →{% endif %}</button>
-      </div>
-    </form>
-    <div class="loading" id="loadingEl">{% if user.tier == 'psych' %}Analyzing archetypal profile...{% else %}Se analizează discursul tău...{% endif %}</div>
+  {% if result.tier == 'paid3' and result.analysis %}
+  {% set a = result.analysis %}
+  <div class="verdict">{{ a.curator_verdict }}</div>
+  <div class="curator-msg">
+    <div class="curator-name">Tibi Ruczui — Curator TEDxBrașov</div>
+    <div class="curator-text">{{ a.curator_message }}</div>
   </div>
-
-  {% if result %}
-
-  {% if user.tier == 'psych' %}
-  <!-- PSYCH TIER RESULTS — NO TABS -->
-  <div class="results">
-    <div class="results-header">
-      <h2>Archetypal Profile</h2>
-      {% if pdf_file %}<a href="/download/{{ pdf_file }}" class="download-btn" target="_blank">↓ Download PDF</a>{% endif %}
-    </div>
-
-    {% if result.tier == 'psych' and result.analysis %}
-    {% set a = result.analysis %}
-
-    <!-- SUMMARY -->
-    {% if a.summary %}
-    <div class="psych-summary">{{ a.summary }}</div>
-    {% endif %}
-
-    <!-- DOMINANT ARCHETYPE -->
-    {% if a.dominant_archetype %}
-    {% set da = a.dominant_archetype %}
-    <div class="psych-header">
-      <div class="psych-title">Dominant Archetype — Carol S. Pearson / Carl Jung</div>
-      <div style="font-size:48px;margin-bottom:8px">{{ da.emoji }}</div>
-      <div class="psych-archetype-name">{{ da.name }}</div>
-      <div class="psych-archetype-sub">{{ da.group }} · Confidence: {{ da.confidence }}</div>
-      {% if da.speaks_from %}
-      <span class="psych-speaks-from {% if da.speaks_from == 'desire' %}psych-speaks-desire{% elif da.speaks_from == 'fear' %}psych-speaks-fear{% else %}psych-speaks-both{% endif %}">
-        Speaking from: {{ da.speaks_from|upper }}
-      </span>
-      {% endif %}
-      {% if da.speaks_from_note %}
-      <div style="font-size:12px;color:#9ca3af;margin-top:10px;line-height:1.6">{{ da.speaks_from_note }}</div>
-      {% endif %}
-      {% if da.evidence %}
-      <div style="font-size:12px;color:#6b7280;font-style:italic;margin-top:10px;border-left:2px solid #7c3aed;padding-left:10px">"{{ da.evidence }}"</div>
-      {% endif %}
-      {% if da.authenticity_score is defined %}
-      <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
-        <span style="font-size:28px;font-weight:bold;color:#7c3aed">{{ da.authenticity_score }}<span style="font-size:14px;color:#555">/10</span></span>
-        <span style="font-size:11px;color:#9ca3af">Archetypal Authenticity</span>
+  <div class="note-grid">
+    <div class="note-card"><div class="note-label">Ce m-a impresionat</div><div class="note-text">{{ a.what_moved_me }}</div></div>
+    <div class="note-card"><div class="note-label">Ce mă îngrijorează</div><div class="note-text">{{ a.what_worries_me }}</div></div>
+  </div>
+  <div class="grid">
+    {% for principle, data in a.nine_principles_check.items() %}
+    <div class="score-card">
+      <div class="score-name">{{ principle }}</div>
+      <div class="score-val">{{ data.score }}<span>/10</span></div>
+      {% if principle == 'Autenticitate' and data.reflection_questions %}
+      <div class="reflection-box">
+        <div class="reflection-label">Întrebări de reflecție profundă</div>
+        {% for q in data.reflection_questions %}
+        <div class="reflection-q">{{ loop.index }}. {{ q }}</div>
+        {% endfor %}
       </div>
-      {% endif %}
-    </div>
-    {% endif %}
-
-    <!-- 3 ARCHETYPES GRID -->
-    <div class="psych-grid">
-      {% if a.dominant_archetype %}
-      <div class="psych-card" style="border-color:#7c3aed">
-        <div class="psych-card-label">🥇 Dominant</div>
-        <div style="font-size:24px">{{ a.dominant_archetype.emoji }}</div>
-        <div class="psych-card-val">{{ a.dominant_archetype.name }}</div>
-        <div class="psych-card-evidence">{{ a.dominant_archetype.desire }}</div>
-      </div>
-      {% endif %}
-      {% if a.secondary_archetype %}
-      <div class="psych-card">
-        <div class="psych-card-label">🥈 Secondary</div>
-        <div style="font-size:24px">{{ a.secondary_archetype.emoji }}</div>
-        <div class="psych-card-val">{{ a.secondary_archetype.name }}</div>
-        <div class="psych-card-evidence">{{ a.secondary_archetype.evidence }}</div>
-      </div>
-      {% endif %}
-      {% if a.tertiary_archetype %}
-      <div class="psych-card">
-        <div class="psych-card-label">🥉 Tertiary</div>
-        <div style="font-size:24px">{{ a.tertiary_archetype.emoji }}</div>
-        <div class="psych-card-val">{{ a.tertiary_archetype.name }}</div>
-        <div class="psych-card-evidence">{{ a.tertiary_archetype.evidence }}</div>
-      </div>
-      {% endif %}
-    </div>
-
-    <!-- SHADOW ANALYSIS -->
-    {% if a.shadow_analysis %}
-    {% set sh = a.shadow_analysis %}
-    <div class="psych-shadow">
-      <div class="psych-section-title" style="color:#ef4444">🌑 Shadow Analysis</div>
-      {% if sh.shadow_present %}
-      <div style="font-size:12px;color:#f87171;margin-bottom:8px">Shadow active: <strong>{{ sh.shadow_archetype }}</strong></div>
-      {% if sh.shadow_evidence %}<div style="font-size:12px;color:#6b7280;font-style:italic;margin-bottom:8px">"{{ sh.shadow_evidence }}"</div>{% endif %}
-      <div style="font-size:12px;color:#9ca3af;line-height:1.6">{{ sh.shadow_note }}</div>
       {% else %}
-      <div style="font-size:12px;color:#4ade80">No significant shadow elements detected in this text.</div>
+      <div class="score-rec">{{ data.curator_note }}</div>
       {% endif %}
     </div>
-    {% endif %}
+    {% endfor %}
+  </div>
+  {% if a.stage_readiness %}
+  <div class="upgrade-box" style="border-left-color:#be123c">
+    <p><strong>Pregătire scenă:</strong> {{ 'Gata! 🎤' if a.stage_readiness.ready_to_present else a.stage_readiness.priority_action }}</p>
+  </div>
+  {% endif %}
+  <div class="chart-card" style="margin-top:16px">
+    <h3>Radar — 9 principii</h3>
+    <canvas id="radarChart" height="260"></canvas>
+  </div>
+  {% endif %}
 
-    <!-- PSYCHOLOGICAL PROFILE -->
-    {% if a.psychological_profile %}
-    {% set pp = a.psychological_profile %}
-    <div class="psych-profile-grid">
-      <div class="psych-card">
-        <div class="psych-card-label">💔 Core Wound</div>
-        <div class="psych-card-val">{{ pp.core_wound }}</div>
-      </div>
-      <div class="psych-card">
-        <div class="psych-card-label">✨ Core Gift</div>
-        <div class="psych-card-val">{{ pp.core_gift }}</div>
-      </div>
-      <div class="psych-card" style="grid-column:1/-1">
-        <div class="psych-card-label">🔄 Integration Level: {{ pp.integration_level|upper }}</div>
-        <div class="psych-card-val">{{ pp.integration_note }}</div>
-      </div>
-    </div>
-    {% endif %}
+</div><!-- end results -->
 
-    <!-- CLINICAL REFLECTION QUESTIONS -->
-    {% if a.clinical_reflection_questions %}
-    <div class="psych-section">
-      <div class="psych-section-title">🔍 Clinical Reflection Questions</div>
-      {% for q in a.clinical_reflection_questions %}
-      <div class="psych-question">{{ loop.index }}. {{ q }}</div>
-      {% endfor %}
-    </div>
-    {% endif %}
-
-    <!-- THERAPEUTIC DIRECTIONS -->
-    {% if a.therapeutic_directions %}
-    <div class="psych-section">
-      <div class="psych-section-title">🧭 Therapeutic Directions</div>
-      {% for d in a.therapeutic_directions %}
-      <div class="psych-direction">{{ d }}</div>
-      {% endfor %}
-    </div>
-    {% endif %}
-
-    <!-- ARCHETYPE SCORES RADAR -->
-    {% if a.archetype_scores %}
-    <div class="psych-radar-card">
-      <div class="psych-section-title">📊 Archetypal Landscape</div>
-      <canvas id="radarChart" height="300"></canvas>
-    </div>
-    <script>
-    const ctx = document.getElementById('radarChart');
-    if(ctx){
-      const labels = {{ a.archetype_scores.keys()|list|tojson }};
-      const scores = {{ a.archetype_scores.values()|list|tojson }};
-      new Chart(ctx,{type:'radar',data:{labels:labels,datasets:[{label:'Archetypal Score',data:scores,fill:true,backgroundColor:'rgba(124,58,237,0.15)',borderColor:'rgba(124,58,237,0.8)',pointBackgroundColor:'#7c3aed'}]},options:{responsive:true,scales:{r:{min:0,max:10,ticks:{color:'#666',stepSize:2,backdropColor:'transparent'},grid:{color:'#222'},pointLabels:{color:'#888',font:{size:10}}}},plugins:{legend:{display:false}}}});
-    }
-    </script>
-    {% endif %}
-
-    {% endif %}<!-- end psych analysis -->
-  </div><!-- end psych results -->
-
+{% if result and result.analysis and not result.get('error') and result.tier != 'psych' %}
+<script>
+const ctx = document.getElementById('radarChart');
+if(ctx){
+  {% if result.tier == 'free' %}
+  const labels = {{ result.analysis.keys()|list|tojson }};
+  const scores = [{% for k,v in result.analysis.items() %}{{ v.score if v.score is defined else 0 }},{% endfor %}];
+  {% elif result.tier == 'paid1' %}
+  const labels = [{% for k,v in result.analysis.items() %}{% if k != 'archetype' %}"{{ k }}",{% endif %}{% endfor %}];
+  const scores = [{% for k,v in result.analysis.items() %}{% if k != 'archetype' %}{{ v.score if v.score is defined else 0 }},{% endif %}{% endfor %}];
+  {% elif result.tier == 'paid3' %}
+  const labels = {{ result.analysis.nine_principles_check.keys()|list|tojson }};
+  const scores = [{% for k,v in result.analysis.nine_principles_check.items() %}{{ v.score if v.score is defined else 0 }},{% endfor %}];
   {% else %}
-  <!-- ALL OTHER TIERS — WITH TABS -->
-  <div class="results-tabs">
-    <button class="tab-btn active" onclick="switchTab('tab-analysis', this)">📊 Analiza</button>
-    <button class="tab-btn" onclick="switchTab('tab-ted-rules', this)">📋 Reguli TED Oficiale</button>
+  const labels = [];const scores = [];
+  {% endif %}
+  new Chart(ctx,{type:'radar',data:{labels:labels,datasets:[{label:'Scor',data:scores,fill:true,backgroundColor:'rgba(190,18,60,0.15)',borderColor:'rgba(190,18,60,0.8)',pointBackgroundColor:'#be123c'}]},options:{responsive:true,scales:{r:{min:0,max:10,ticks:{color:'#666',stepSize:2,backdropColor:'transparent'},grid:{color:'#222'},pointLabels:{color:'#888',font:{size:10}}}},plugins:{legend:{display:false}}}});
+}
+</script>
+
+<div class="archetype-section">
+  <div class="archetype-section-header">
+    <h2>🧠 Cele 12 Arhetipuri Pearson / Jung</h2>
+    <p class="archetype-section-subtitle">Arhetipul tău dominant este evidențiat mai jos. Explorează ghidul interactiv pentru o analiză aprofundată.</p>
+    <a href="/ghid" class="btn-guide-download">📖 Explorează Ghidul Interactiv →</a>
   </div>
-
-  <div id="tab-analysis" class="tab-panel active">
-    <div class="results">
-      <div class="results-header">
-        <h2>Rezultatele analizei</h2>
-        {% if pdf_file %}<a href="/download/{{ pdf_file }}" class="download-btn" target="_blank">↓ Descarcă PDF</a>{% endif %}
-      </div>
-
-      {% if total_score and max_score %}
-      <div class="total-score-banner">
-        <div class="total-score-label">Scor Total Discurs</div>
-        <div>
-          <span class="total-score-number">{{ total_score }}</span>
-          <span class="total-score-max">/{{ max_score }}</span>
+  <div class="archetypes-grid">
+    {% set dominant = result.analysis.archetype.primary if result.analysis.archetype else '' %}
+    {% set all_archetypes = [
+      {'name': 'Inocentul',    'emoji': '🌱', 'group': 'Ego-ul',   'essence': 'Optimism, puritate, speranta',            'speaker': 'Malala Yousafzai'},
+      {'name': 'Orfanul',      'emoji': '🌿', 'group': 'Ego-ul',   'essence': 'Conexiune, vulnerabilitate, empatie',     'speaker': 'Brene Brown'},
+      {'name': 'Razboinicul',  'emoji': '🦁', 'group': 'Ego-ul',   'essence': 'Curaj, disciplina, depasirea obstacolelor','speaker': 'Simon Sinek'},
+      {'name': 'Ingrijitorul', 'emoji': '❤️', 'group': 'Ego-ul',   'essence': 'Compasiune, protectie, servire',          'speaker': 'Jane Goodall'},
+      {'name': 'Exploratorul', 'emoji': '🚀', 'group': 'Sufletul', 'essence': 'Curiozitate, aventura, descoperire',      'speaker': 'Richard Feynman'},
+      {'name': 'Rebelul',      'emoji': '⚡', 'group': 'Sufletul', 'essence': 'Revolutie, schimbare radicala, provocare','speaker': 'Elon Musk'},
+      {'name': 'Indragostitul','emoji': '💫', 'group': 'Sufletul', 'essence': 'Pasiune, frumusete, intimitate',           'speaker': 'Isabel Allende'},
+      {'name': 'Creatorul',    'emoji': '🎨', 'group': 'Sufletul', 'essence': 'Inovatie, imaginatie, expresie',           'speaker': 'Jony Ive'},
+      {'name': 'Conducatorul', 'emoji': '👑', 'group': 'Sinele',   'essence': 'Ordine, responsabilitate, leadership',    'speaker': 'Nelson Mandela'},
+      {'name': 'Magicianul',   'emoji': '✨', 'group': 'Sinele',   'essence': 'Transformare, viziune, posibil',           'speaker': 'Steve Jobs'},
+      {'name': 'Inteleptul',   'emoji': '🔮', 'group': 'Sinele',   'essence': 'Cunoastere, claritate, adevar',            'speaker': 'Hans Rosling'},
+      {'name': 'Bufonul',      'emoji': '🤡', 'group': 'Sinele',   'essence': 'Joaca, umor, bucurie prezenta',            'speaker': 'Sir Ken Robinson'},
+    ] %}
+    {% for arch in all_archetypes %}
+    <div class="arch-card {% if dominant and arch.name in dominant %}arch-card-dominant{% endif %}">
+      <div class="arch-emoji">{{ arch.emoji }}</div>
+      <div class="arch-body">
+        <div class="arch-name">
+          {{ arch.name }}
+          {% if dominant and arch.name in dominant %}<span class="arch-badge">Arhetipul tău</span>{% endif %}
         </div>
-        <div class="total-score-text">{{ score_label }}</div>
-        {% if score_diff is not none %}
-          {% if score_diff > 0 %}
-          <div class="score-diff-positive">↑ +{{ score_diff }} puncte față de analiza anterioară ({{ prev_score }}/{{ max_score }}) 🎉</div>
-          {% elif score_diff < 0 %}
-          <div class="score-diff-negative">↓ {{ score_diff }} puncte față de analiza anterioară ({{ prev_score }}/{{ max_score }})</div>
-          {% else %}
-          <div class="score-diff-neutral">= Același scor ca analiza anterioară</div>
-          {% endif %}
-        {% endif %}
-      </div>
-      {% endif %}
-
-      {% if result.analysis and result.analysis.archetype %}
-      {% set arch = result.analysis.archetype %}
-      <div class="archetype-card">
-        <div class="archetype-header">
-          <div class="archetype-emoji">{{ arch.emoji }}</div>
-          <div>
-            <div class="archetype-title">Arhetipul tău de speaker — Carol S. Pearson / Carl Jung</div>
-            <div class="archetype-name">{{ arch.primary }}</div>
-            {% if arch.secondary %}<div class="archetype-secondary">Arhetip secundar: {{ arch.secondary }}</div>{% endif %}
-            {% if arch.group %}<div class="archetype-group">{{ arch.group }}</div>{% endif %}
-            {% if arch.confidence %}<div style="font-size:10px;color:#555;margin-top:2px">Încredere identificare: {{ arch.confidence }}</div>{% endif %}
-          </div>
-        </div>
-        <div class="archetype-evidence">{{ arch.evidence }}</div>
-        <div class="archetype-body">
-          <div class="archetype-item">
-            <div class="archetype-item-label">💚 Dorința principală</div>
-            <div class="archetype-item-val">{{ arch.desire }}</div>
-          </div>
-          <div class="archetype-item">
-            <div class="archetype-item-label">⚠️ Teama / Umbra</div>
-            <div class="archetype-item-val">{{ arch.fear }}</div>
-          </div>
-          <div class="archetype-item">
-            <div class="archetype-item-label">⚡ Superputere pe scenă</div>
-            <div class="archetype-item-val">{{ arch.superpower }}</div>
-          </div>
-          {% if arch.ted_example %}
-          <div class="archetype-item">
-            <div class="archetype-item-label">🎤 Speaker TED cu același arhetip</div>
-            <div class="archetype-item-val">{{ arch.ted_example }}</div>
-          </div>
-          {% endif %}
-          {% if arch.curator_message_about_archetype %}
-          <div class="archetype-item" style="grid-column:1/-1">
-            <div class="archetype-item-label">💬 Nota curatorului despre arhetipul tău</div>
-            <div class="archetype-item-val">{{ arch.curator_message_about_archetype }}</div>
-          </div>
-          {% endif %}
-          {% if arch.coaching_note %}
-          <div class="archetype-item" style="grid-column:1/-1">
-            <div class="archetype-item-label">🧭 Cum să îl amplifici pe scenă</div>
-            <div class="archetype-item-val">{{ arch.coaching_note }}</div>
-          </div>
-          {% endif %}
-        </div>
-        {% if arch.archetype_authenticity_score is defined %}
-        <div class="archetype-auth">
-          <div class="archetype-auth-score">{{ arch.archetype_authenticity_score }}<span style="font-size:14px;color:#666">/10</span></div>
-          <div>
-            <div style="font-size:10px;color:#be123c;text-transform:uppercase;margin-bottom:4px">Autenticitate Arhetipală</div>
-            <div class="archetype-auth-note">{{ arch.archetype_authenticity_note }}</div>
-          </div>
-        </div>
-        {% endif %}
-        {% if arch.shadow_present and arch.shadow_present != 'Nu' %}
-        <div class="shadow-alert">⚠️ <strong>Umbra arhetipului detectată:</strong> {{ arch.shadow_present }}</div>
-        {% endif %}
-      </div>
-      {% endif %}
-
-      {% if result.tier == 'free' and result.analysis %}
-      <div class="grid">
-        {% for crit, data in result.analysis.items() %}
-        <div class="score-card">
-          <div class="score-name">{{ crit }}</div>
-          <div class="score-val">{{ data.score }}<span>/10</span></div>
-          <div class="score-rec">{{ data.recommendation }}</div>
-        </div>
-        {% endfor %}
-      </div>
-      <div class="chart-card">
-        <h3>Profil vizual</h3>
-        <canvas id="radarChart" height="260"></canvas>
-      </div>
-      <div class="upgrade-box">
-        <p><strong>Vrei mai mult?</strong> Nivelul Speaker analizează prin cele 9 principii Gallo + identifică arhetipul tău Pearson/Jung.</p>
-        <a href="/upgrade">Vezi planurile →</a>
-      </div>
-      {% endif %}
-
-      {% if result.tier == 'paid1' and result.analysis %}
-      <div class="grid">
-        {% for crit, data in result.analysis.items() %}
-        {% if crit != 'archetype' %}
-        <div class="score-card">
-          <div class="score-name">{{ crit }}</div>
-          <div class="score-val">{{ data.score }}<span>/10</span></div>
-          {% if data.present is defined %}
-          <div class="score-present {{ 'yes' if data.present else 'no' }}">{{ '✓ Prezent' if data.present else '✗ Lipsește' }}</div>
-          {% endif %}
-          {% if crit == 'Autenticitate' and data.reflection_questions %}
-          <div class="reflection-box">
-            <div class="reflection-label">Întrebări de reflecție profundă</div>
-            {% for q in data.reflection_questions %}
-            <div class="reflection-q">{{ loop.index }}. {{ q }}</div>
-            {% endfor %}
-          </div>
-          {% else %}
-          <div class="score-rec">{{ data.recommendation }}</div>
-          {% endif %}
-        </div>
-        {% endif %}
-        {% endfor %}
-      </div>
-      <div class="chart-card">
-        <h3>Radar — 9 principii Gallo</h3>
-        <canvas id="radarChart" height="260"></canvas>
-      </div>
-      {% endif %}
-
-      {% if result.tier == 'paid2' and result.analysis %}
-      {% set a = result.analysis %}
-      <div class="summary-row">
-        <div class="summary-card"><div class="summary-label">Scor general</div><div class="summary-val">{{ a.overall_score }}/10</div></div>
-        <div class="summary-card"><div class="summary-label">Puncte forte</div><div class="summary-val">{{ a.strengths|length }}</div></div>
-        <div class="summary-card"><div class="summary-label">Sesiuni plan</div><div class="summary-val">9</div></div>
-      </div>
-      <div class="score-card" style="margin-bottom:16px">
-        <div class="score-name">Rezumat</div>
-        <p style="font-size:12px;margin-top:8px;line-height:1.6">{{ a.summary }}</p>
-      </div>
-      <div class="sessions">
-        {% for s in a.coaching_sessions %}
-        <div class="session-card">
-          <div class="session-day">{{ s.day }}</div>
-          <div>
-            <div class="session-principle">{{ s.principle }} {% if s.score is defined %}— {{ s.score }}/10{% endif %}</div>
-            {% if s.text_evidence %}<div style="font-size:11px;color:#555;font-style:italic;margin-bottom:4px">"{{ s.text_evidence }}"</div>{% endif %}
-            <div class="session-ex">{{ s.exercise }}</div>
-            {% if s.example_question %}<div style="font-size:11px;color:#555;font-style:italic;margin-top:4px">{{ s.example_question }}</div>{% endif %}
-            {% if s.ted_example %}
-            <div class="ted-case">📺 Studiu de caz: {{ s.ted_example }} — {{ s.ted_speaker }}</div>
-            {% endif %}
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      {% endif %}
-
-      {% if result.tier == 'paid3' and result.analysis %}
-      {% set a = result.analysis %}
-      <div class="verdict">{{ a.curator_verdict }}</div>
-      <div class="curator-msg">
-        <div class="curator-name">Tibi Ruczui — Curator TEDxBrașov</div>
-        <div class="curator-text">{{ a.curator_message }}</div>
-      </div>
-      <div class="note-grid">
-        <div class="note-card"><div class="note-label">Ce m-a impresionat</div><div class="note-text">{{ a.what_moved_me }}</div></div>
-        <div class="note-card"><div class="note-label">Ce mă îngrijorează</div><div class="note-text">{{ a.what_worries_me }}</div></div>
-      </div>
-      <div class="grid">
-        {% for principle, data in a.nine_principles_check.items() %}
-        <div class="score-card">
-          <div class="score-name">{{ principle }}</div>
-          <div class="score-val">{{ data.score }}<span>/10</span></div>
-          {% if principle == 'Autenticitate' and data.reflection_questions %}
-          <div class="reflection-box">
-            <div class="reflection-label">Întrebări de reflecție profundă</div>
-            {% for q in data.reflection_questions %}
-            <div class="reflection-q">{{ loop.index }}. {{ q }}</div>
-            {% endfor %}
-          </div>
-          {% else %}
-          <div class="score-rec">{{ data.curator_note }}</div>
-          {% endif %}
-        </div>
-        {% endfor %}
-      </div>
-      {% if a.stage_readiness %}
-      <div class="upgrade-box" style="border-left-color:#be123c">
-        <p><strong>Pregătire scenă:</strong> {{ 'Gata! 🎤' if a.stage_readiness.ready_to_present else a.stage_readiness.priority_action }}</p>
-      </div>
-      {% endif %}
-      <div class="chart-card" style="margin-top:16px">
-        <h3>Radar — 9 principii</h3>
-        <canvas id="radarChart" height="260"></canvas>
-      </div>
-      {% endif %}
-
-    </div>
-
-    {% if result and result.analysis and not result.get('error') and result.tier != 'psych' %}
-    <script>
-    const ctx = document.getElementById('radarChart');
-    if(ctx){
-      {% if result.tier == 'free' %}
-      const labels = {{ result.analysis.keys()|list|tojson }};
-      const scores = [{% for k,v in result.analysis.items() %}{{ v.score if v.score is defined else 0 }},{% endfor %}];
-      {% elif result.tier == 'paid1' %}
-      const labels = [{% for k,v in result.analysis.items() %}{% if k != 'archetype' %}"{{ k }}",{% endif %}{% endfor %}];
-      const scores = [{% for k,v in result.analysis.items() %}{% if k != 'archetype' %}{{ v.score if v.score is defined else 0 }},{% endif %}{% endfor %}];
-      {% elif result.tier == 'paid3' %}
-      const labels = {{ result.analysis.nine_principles_check.keys()|list|tojson }};
-      const scores = [{% for k,v in result.analysis.nine_principles_check.items() %}{{ v.score if v.score is defined else 0 }},{% endfor %}];
-      {% else %}
-      const labels = [];const scores = [];
-      {% endif %}
-      new Chart(ctx,{type:'radar',data:{labels:labels,datasets:[{label:'Scor',data:scores,fill:true,backgroundColor:'rgba(190,18,60,0.15)',borderColor:'rgba(190,18,60,0.8)',pointBackgroundColor:'#be123c'}]},options:{responsive:true,scales:{r:{min:0,max:10,ticks:{color:'#666',stepSize:2,backdropColor:'transparent'},grid:{color:'#222'},pointLabels:{color:'#888',font:{size:10}}}},plugins:{legend:{display:false}}}});
-    }
-    </script>
-
-    <div class="archetype-section">
-      <div class="archetype-section-header">
-        <h2>🧠 Cele 12 Arhetipuri Pearson / Jung</h2>
-        <p class="archetype-section-subtitle">Arhetipul tau dominant este evidentiat mai jos. Descarca ghidul complet pentru o analiza aprofundata.</p>
-        <a href="/download-guide" class="btn-guide-download">📘 Descarca Ghidul Complet PDF</a>
-      </div>
-      <div class="archetypes-grid">
-        {% set dominant = result.analysis.archetype.primary if result.analysis.archetype else '' %}
-        {% set all_archetypes = [
-          {'name': 'Inocentul', 'emoji': '🌱', 'group': 'Ego-ul', 'essence': 'Optimism, puritate, speranta', 'speaker': 'Malala Yousafzai'},
-          {'name': 'Orfanul', 'emoji': '🌿', 'group': 'Ego-ul', 'essence': 'Conexiune, vulnerabilitate, empatie', 'speaker': 'Brene Brown'},
-          {'name': 'Razboinicul', 'emoji': '🦁', 'group': 'Ego-ul', 'essence': 'Curaj, disciplina, depasirea obstacolelor', 'speaker': 'Simon Sinek'},
-          {'name': 'Ingrijitorul', 'emoji': '❤️', 'group': 'Ego-ul', 'essence': 'Compasiune, protectie, servire', 'speaker': 'Jane Goodall'},
-          {'name': 'Exploratorul', 'emoji': '🚀', 'group': 'Sufletul', 'essence': 'Curiozitate, aventura, descoperire', 'speaker': 'Richard Feynman'},
-          {'name': 'Rebelul', 'emoji': '⚡', 'group': 'Sufletul', 'essence': 'Revolutie, schimbare radicala, provocare', 'speaker': 'Elon Musk'},
-          {'name': 'Indragostitul', 'emoji': '💫', 'group': 'Sufletul', 'essence': 'Pasiune, frumusete, intimitate', 'speaker': 'Isabel Allende'},
-          {'name': 'Creatorul', 'emoji': '🎨', 'group': 'Sufletul', 'essence': 'Inovatie, imaginatie, expresie', 'speaker': 'Jony Ive'},
-          {'name': 'Conducatorul', 'emoji': '👑', 'group': 'Sinele', 'essence': 'Ordine, responsabilitate, leadership', 'speaker': 'Nelson Mandela'},
-          {'name': 'Magicianul', 'emoji': '✨', 'group': 'Sinele', 'essence': 'Transformare, viziune, posibil', 'speaker': 'Steve Jobs'},
-          {'name': 'Inteleptul', 'emoji': '🔮', 'group': 'Sinele', 'essence': 'Cunoastere, claritate, adevar', 'speaker': 'Hans Rosling'},
-          {'name': 'Bufonul', 'emoji': '🤡', 'group': 'Sinele', 'essence': 'Joaca, umor, bucurie prezenta', 'speaker': 'Sir Ken Robinson'},
-        ] %}
-        {% for arch in all_archetypes %}
-        <div class="arch-card {% if dominant and arch.name in dominant %}arch-card-dominant{% endif %}">
-          <div class="arch-emoji">{{ arch.emoji }}</div>
-          <div class="arch-body">
-            <div class="arch-name">
-              {{ arch.name }}
-              {% if dominant and arch.name in dominant %}<span class="arch-badge">Arhetipul tau</span>{% endif %}
-            </div>
-            <div class="arch-group">{{ arch.group }}</div>
-            <div class="arch-essence">{{ arch.essence }}</div>
-            <div class="arch-speaker">🎤 {{ arch.speaker }}</div>
-          </div>
-        </div>
-        {% endfor %}
+        <div class="arch-group">{{ arch.group }}</div>
+        <div class="arch-essence">{{ arch.essence }}</div>
+        <div class="arch-speaker">🎤 {{ arch.speaker }}</div>
       </div>
     </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+</div><!-- end tab-analysis -->
+
+<!-- TAB 2: REGULI TED -->
+<div id="tab-ted-rules" class="tab-panel">
+  <div class="ted-rules-panel">
+    {% if ted_rules_result and not ted_rules_result.get('error') %}
+    {% set rules = ted_rules_result.get('ted_rules_score', {}) %}
+    {% set total = ted_rules_result.get('ted_rules_total', 0) %}
+    {% set label = ted_rules_result.get('ted_rules_label', '') %}
+    {% set summary = ted_rules_result.get('ted_rules_summary', '') %}
+    <div class="ted-rules-header">
+      <div>
+        <div class="ted-rules-score-big">{{ total }}<span class="ted-rules-score-max">/70</span></div>
+        <div class="ted-rules-label">{{ label }}</div>
+      </div>
+      <div class="ted-rules-summary">{{ summary }}</div>
+    </div>
+    {% for rule_name, rule_data in rules.items() %}
+    {% set score = rule_data.get('score', 0) %}
+    {% set met = rule_data.get('met', false) %}
+    <div class="ted-rule-item {% if met %}met{% else %}not-met{% endif %}">
+      <div class="ted-rule-score-circle {% if score >= 7 %}score-high{% elif score >= 5 %}score-mid{% else %}score-low{% endif %}">
+        {{ score }}
+      </div>
+      <div class="ted-rule-content">
+        <div class="ted-rule-name">
+          {{ rule_name }}
+          {% if met %}<span class="ted-rule-badge-met">✓ Respectat</span>
+          {% else %}<span class="ted-rule-badge-not">✗ De îmbunătățit</span>{% endif %}
+        </div>
+        {% if rule_data.get('evidence') %}
+        <div class="ted-rule-evidence">"{{ rule_data.evidence }}"</div>
+        {% endif %}
+        <div class="ted-rule-recommendation">💡 {{ rule_data.get('recommendation', '') }}</div>
+      </div>
+    </div>
+    {% endfor %}
+    <a href="/ted-rules" class="ted-rules-link">📖 Vezi ghidul complet cu regulile TED oficiale →</a>
+    {% else %}
+    <div style="color:#6b7280;font-size:14px;padding:20px">Analiza regulilor TED nu este disponibilă.</div>
     {% endif %}
+  </div>
+</div><!-- end tab-ted-rules -->
 
-  </div><!-- end tab-analysis -->
+{% endif %}<!-- end if user.tier != psych -->
 
-  <!-- TAB 2: REGULI TED -->
-  <div id="tab-ted-rules" class="tab-panel">
-    <div class="ted-rules-panel">
-      {% if ted_rules_result and not ted_rules_result.get('error') %}
-      {% set rules = ted_rules_result.get('ted_rules_score', {}) %}
-      {% set total = ted_rules_result.get('ted_rules_total', 0) %}
-      {% set label = ted_rules_result.get('ted_rules_label', '') %}
-      {% set summary = ted_rules_result.get('ted_rules_summary', '') %}
-      <div class="ted-rules-header">
-        <div>
-          <div class="ted-rules-score-big">{{ total }}<span class="ted-rules-score-max">/70</span></div>
-          <div class="ted-rules-label">{{ label }}</div>
-        </div>
-        <div class="ted-rules-summary">{{ summary }}</div>
-      </div>
-      {% for rule_name, rule_data in rules.items() %}
-      {% set score = rule_data.get('score', 0) %}
-      {% set met = rule_data.get('met', false) %}
-      <div class="ted-rule-item {% if met %}met{% else %}not-met{% endif %}">
-        <div class="ted-rule-score-circle {% if score >= 7 %}score-high{% elif score >= 5 %}score-mid{% else %}score-low{% endif %}">
-          {{ score }}
-        </div>
-        <div class="ted-rule-content">
-          <div class="ted-rule-name">
-            {{ rule_name }}
-            {% if met %}<span class="ted-rule-badge-met">✓ Respectat</span>
-            {% else %}<span class="ted-rule-badge-not">✗ De imbunatatit</span>{% endif %}
-          </div>
-          {% if rule_data.get('evidence') %}
-          <div class="ted-rule-evidence">"{{ rule_data.evidence }}"</div>
-          {% endif %}
-          <div class="ted-rule-recommendation">💡 {{ rule_data.get('recommendation', '') }}</div>
-        </div>
-      </div>
-      {% endfor %}
-      <a href="/ted-rules" class="ted-rules-link">📖 Vezi ghidul complet cu regulile TED oficiale →</a>
-      {% else %}
-      <div style="color:#6b7280;font-size:14px;padding:20px">Analiza regulilor TED nu este disponibila.</div>
-      {% endif %}
-    </div>
-  </div><!-- end tab-ted-rules -->
-
-  {% endif %}<!-- end if user.tier != psych -->
-
-  {% endif %}<!-- end if result -->
+{% endif %}<!-- end if result -->
 
 </div><!-- end container -->
 
@@ -743,12 +762,13 @@ document.addEventListener("DOMContentLoaded", function() {
   if (tabs[1]) tabs[1].textContent = t.tab_ted_rules;
   document.querySelectorAll("nav a").forEach(a => {
     if (a.href.includes("/ted-rules")) a.textContent = t.nav_rules;
-    if (a.href.includes("/history")) a.textContent = t.nav_history;
-    if (a.href.includes("/upgrade")) a.textContent = t.nav_upgrade;
-    if (a.href.includes("/logout")) a.textContent = t.nav_logout;
+    if (a.href.includes("/history"))   a.textContent = t.nav_history;
+    if (a.href.includes("/upgrade"))   a.textContent = t.nav_upgrade;
+    if (a.href.includes("/logout"))    a.textContent = t.nav_logout;
   });
   {% endif %}
 });
 </script>
+
 </body>
 </html>
