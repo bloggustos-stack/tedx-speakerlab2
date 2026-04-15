@@ -1124,7 +1124,7 @@ def upgrade():
 @login_required
 def set_tier():
     user = get_current_user()
-    if user["tier"] != "paid3":
+   if user["tier"] not in ["paid3", "psych"]:
         return "Unauthorized", 403
     email = request.form.get("email")
     tier = request.form.get("tier")
@@ -1138,9 +1138,7 @@ def set_tier():
 
 @app.route("/admin")
 @login_required
-def admin():
-    user = get_current_user()
-    if user["tier"] != "paid3":
+if user["tier"] not in ["paid3", "psych"]:
         return "Unauthorized", 403
     users = load_users()
     return render_template("admin.html", user=user, users=users, tiers=TIERS)
