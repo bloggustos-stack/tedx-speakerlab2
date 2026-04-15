@@ -1124,7 +1124,7 @@ def upgrade():
 @login_required
 def set_tier():
     user = get_current_user()
-   if user["tier"] not in ["paid3", "psych"]:
+        if user["tier"] not in ["paid3", "psych"]:
         return "Unauthorized", 403
     email = request.form.get("email")
     tier = request.form.get("tier")
