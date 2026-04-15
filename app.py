@@ -1166,7 +1166,10 @@ def serve_icon_512():
 @app.route('/service-worker.js')
 def service_worker():
     return send_file('templates/static/service-worker.js'), 200, {'Content-Type': 'application/javascript'}
-
+@app.route('/ghid')
+@login_required
+def ghid():
+    return render_template('ghid.html')
 @app.route('/ted-rules')
 @login_required
 def ted_rules():
