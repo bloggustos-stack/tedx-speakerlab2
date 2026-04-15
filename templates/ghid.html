@@ -1,1 +1,1309 @@
 
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghid Arhetipuri · TEDxBrașov SpeakerLab</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #161616;
+    --border: #222;
+    --border2: #2a2a2a;
+    --text: #e8e0d5;
+    --text2: #999;
+    --text3: #555;
+    --red: #be123c;
+    --red2: #9f1239;
+    --red-glow: rgba(190,18,60,0.15);
+    --gold: #b8860b;
+    --gold2: #d4a017;
+    --gold-dim: rgba(184,134,11,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav .brand { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text); letter-spacing: 0.05em; }
+  nav .brand span { color: var(--red); }
+  nav a { color: var(--text2); text-decoration: none; font-size: 12px; margin-left: 20px; transition: color 0.2s; }
+  nav a:hover { color: var(--red); }
+
+  /* HERO */
+  .hero {
+    padding: 80px 24px 60px;
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--red));
+  }
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: block;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero h1 em { color: var(--gold2); font-style: italic; }
+  .hero p {
+    font-size: 15px;
+    color: var(--text2);
+    max-width: 560px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+  }
+  .hero-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    color: var(--text3);
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+  }
+  .hero-divider::before, .hero-divider::after {
+    content: '';
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border2));
+  }
+  .hero-divider::after { background: linear-gradient(to left, transparent, var(--border2)); }
+
+  /* CONTAINER */
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 2px solid var(--gold);
+    background: var(--gold-dim);
+    padding: 20px 24px;
+    margin: 32px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .callout cite {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gold2);
+    letter-spacing: 0.1em;
+    margin-top: 10px;
+    font-style: normal;
+  }
+
+  /* PEARSON GROUPS */
+  .groups-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin: 32px 0 48px;
+    border: 1px solid var(--border);
+  }
+  .group-card {
+    padding: 20px 16px;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  .group-card:hover { transform: translateY(-2px); }
+  .group-card.siguranta { background: rgba(26,58,92,0.5); }
+  .group-card.realizare  { background: rgba(58,26,92,0.5); }
+  .group-card.apartenenta{ background: rgba(26,92,58,0.5); }
+  .group-card.mostenire  { background: rgba(92,58,26,0.5); }
+  .group-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .group-card.siguranta .group-label  { color: #7ab8f5; }
+  .group-card.realizare .group-label  { color: #c4a0f5; }
+  .group-card.apartenenta .group-label{ color: #7af5b8; }
+  .group-card.mostenire .group-label  { color: #f5c07a; }
+  .group-archetypes { display: flex; flex-direction: column; gap: 6px; }
+  .group-arch-item {
+    font-size: 12px;
+    color: var(--text2);
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .group-arch-item:last-child { border-bottom: none; }
+
+  /* ARCHETYPES GRID */
+  .archetypes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin: 32px 0;
+  }
+  .arch-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 24px 20px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .arch-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .arch-card:hover { background: var(--bg3); border-color: var(--border2); }
+  .arch-card:hover::before { transform: scaleX(1); }
+  .arch-card.active { background: var(--bg3); border-color: var(--red); }
+  .arch-card.active::before { transform: scaleX(1); }
+
+  .arch-emoji { font-size: 28px; margin-bottom: 10px; display: block; }
+  .arch-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .arch-name-en {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+  .arch-group-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    padding: 2px 8px;
+    border: 1px solid var(--border2);
+    color: var(--text3);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .arch-essence {
+    font-size: 12px;
+    color: var(--text2);
+    font-style: italic;
+    margin-bottom: 12px;
+    border-left: 1px solid var(--border2);
+    padding-left: 10px;
+  }
+  .arch-expand-hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .arch-expand-hint::after {
+    content: '↓';
+    transition: transform 0.2s;
+  }
+  .arch-card.active .arch-expand-hint::after { transform: rotate(180deg); }
+
+  /* ARCHETYPE DETAIL PANEL */
+  .arch-detail {
+    display: none;
+    background: var(--bg3);
+    border: 1px solid var(--red);
+    border-top: none;
+    padding: 28px 24px;
+    margin-top: -2px;
+    animation: slideDown 0.3s ease;
+  }
+  .arch-detail.open { display: block; }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .detail-block { }
+  .detail-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .detail-value { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .detail-value strong { color: var(--text); font-weight: 500; }
+
+  .signals-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .signal-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 3px 10px;
+    border: 1px solid var(--border2);
+    color: var(--text2);
+    letter-spacing: 0.05em;
+  }
+
+  .ted-example-box {
+    background: rgba(190,18,60,0.06);
+    border: 1px solid rgba(190,18,60,0.2);
+    padding: 12px 16px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ted-dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; flex-shrink: 0; }
+  .ted-example-text { font-size: 12px; color: var(--text2); }
+  .ted-example-text strong { color: var(--text); }
+
+  .ghid-link-btn {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+  .ghid-link-btn:hover { color: var(--text); }
+
+  /* AUTENTICITATE SECTION */
+  .auth-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 32px 0; }
+  .auth-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 24px 20px;
+    position: relative;
+  }
+  .auth-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    color: rgba(190,18,60,0.15);
+    position: absolute;
+    top: 8px; right: 16px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .auth-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .auth-card p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  /* SCORES TABLE */
+  .scores-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+  .scores-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+  .scores-table td {
+    font-size: 13px;
+    color: var(--text2);
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    vertical-align: top;
+  }
+  .scores-table tr:hover td { background: var(--bg3); }
+  .score-range {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  /* ELEMENT SECTION */
+  .element-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 32px 0;
+  }
+  .element-half {
+    padding: 32px 28px;
+  }
+  .element-half.left { background: rgba(26,58,92,0.2); border: 1px solid rgba(26,58,92,0.4); }
+  .element-half.right { background: rgba(92,58,26,0.2); border: 1px solid rgba(92,58,26,0.4); }
+  .element-half-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .element-half.left .element-half-label { color: #7ab8f5; }
+  .element-half.right .element-half-label { color: #f5c07a; }
+  .element-half h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .element-half p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  .comparison-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+  .comparison-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--text3);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    text-transform: uppercase;
+  }
+  .comparison-table th:first-child { color: #7ab8f5; }
+  .comparison-table th:last-child { color: #f5c07a; }
+  .comparison-table td {
+    font-size: 13px;
+    color: var(--text2);
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    vertical-align: top;
+    width: 50%;
+  }
+  .comparison-table tr:hover td { background: var(--bg3); }
+
+  /* ROBINSON CASE */
+  .robinson-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 32px;
+    margin: 32px 0;
+    position: relative;
+  }
+  .robinson-score {
+    position: absolute;
+    top: 24px; right: 24px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--red);
+    opacity: 0.3;
+    line-height: 1;
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    margin: 64px 0 48px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .section-divider::before, .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-divider span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.2em;
+  }
+
+  /* FOOTER */
+  .page-footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .page-footer p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--text2);
+  }
+  .page-footer .back-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text3);
+    text-decoration: none;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    padding: 8px 20px;
+    transition: all 0.2s;
+  }
+  .page-footer .back-link:hover { border-color: var(--red); color: var(--red); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .archetypes-grid { grid-template-columns: 1fr 1fr; }
+    .groups-grid { grid-template-columns: repeat(2, 1fr); }
+    .detail-grid { grid-template-columns: 1fr; }
+    .auth-grid { grid-template-columns: 1fr; }
+    .element-split { grid-template-columns: 1fr; }
+    .comparison-table { font-size: 11px; }
+  }
+  @media (max-width: 480px) {
+    .archetypes-grid { grid-template-columns: 1fr; }
+    .groups-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="brand"><span>TEDx</span>Brașov · SpeakerLab</div>
+  <div>
+    <a href="/">← Analiză</a>
+    <a href="/history">Istoric</a>
+    <a href="/logout" style="color:var(--red)">Ieși</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-label">Ghid · Psihologia Discursului</span>
+  <h1>Arhetipurile <em>Jungiene</em><br>în Discursul TED</h1>
+  <p>Înțelege de ce unele discursuri schimbă perspective — și altele nu. Ghid complet despre autenticitate arhetipală, modelul Carol S. Pearson și Elementul lui Sir Ken Robinson.</p>
+  <div class="hero-divider">Carol S. Pearson · Carl Jung · Sir Ken Robinson</div>
+</div>
+
+<div class="container">
+
+  <!-- SECTION 1: JUNG -->
+  <div class="section-divider"><span>01 · Fundamentul</span></div>
+  <div class="section-title">Carl Jung &amp; Inconștientul Colectiv</div>
+  <h2 class="section-heading">De ce contează arhetipurile?</h2>
+  <p class="section-sub">Dincolo de argumente logice și date statistice, mintea umană răspunde la simboluri și modele arhetipale existente în noi de mii de ani.</p>
+
+  <div class="callout">
+    <p>Oamenii nu-și amintesc ce ai spus. Nu-și amintesc ce ai făcut. Dar întotdeauna își amintesc cum i-ai făcut să se simtă.</p>
+    <cite>— Maya Angelou</cite>
+  </div>
+
+  <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:16px;">
+    Jung a propus că dincolo de inconștientul personal există un strat mai profund — <strong style="color:var(--text)">inconștientul colectiv</strong> — comun tuturor oamenilor, indiferent de cultură sau epocă. În acest ocean psihic trăiesc arhetipurile: structuri universale care se manifestă în mituri, basme, vise și... discursuri publice.
+  </p>
+  <p style="font-size:14px;color:var(--text2);line-height:1.8;">
+    Carol S. Pearson a sistematizat aceste arhetipuri într-un model aplicat comunicării și leadershipului: <strong style="color:var(--text)">12 arhetipuri</strong>, organizate în 4 grupe fundamentale.
+  </p>
+
+  <!-- SECTION 2: GROUPS -->
+  <div class="section-divider"><span>02 · Modelul Pearson</span></div>
+  <div class="section-title">Cele 4 Grupe Fundamentale</div>
+  <h2 class="section-heading">Harta arhetipurilor</h2>
+  <p class="section-sub">Fiecare grupă reflectă o motivație fundamentală a experienței umane. Arhetipul tău dominant aparține uneia dintre ele.</p>
+
+  <div class="groups-grid">
+    <div class="group-card siguranta">
+      <div class="group-label">Siguranță</div>
+      <div class="group-archetypes">
+        <div class="group-arch-item">🌱 Inocentul</div>
+        <div class="group-arch-item">🌿 Orfanul</div>
+        <div class="group-arch-item">🔮 Înțeleptul</div>
+      </div>
+    </div>
+    <div class="group-card realizare">
+      <div class="group-label">Realizare</div>
+      <div class="group-archetypes">
+        <div class="group-arch-item">🦁 Războinicul</div>
+        <div class="group-arch-item">⚡ Rebelul</div>
+        <div class="group-arch-item">✨ Magicianul</div>
+      </div>
+    </div>
+    <div class="group-card apartenenta">
+      <div class="group-label">Apartenența</div>
+      <div class="group-archetypes">
+        <div class="group-arch-item">❤️ Îngrijitorul</div>
+        <div class="group-arch-item">💫 Îndrăgostitul</div>
+        <div class="group-arch-item">🤡 Bufonul</div>
+      </div>
+    </div>
+    <div class="group-card mostenire">
+      <div class="group-label">Moștenire</div>
+      <div class="group-archetypes">
+        <div class="group-arch-item">👑 Conducătorul</div>
+        <div class="group-arch-item">🎨 Creatorul</div>
+        <div class="group-arch-item">🚀 Exploratorul</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: 12 ARCHETYPES -->
+  <div class="section-divider"><span>03 · Cele 12 Arhetipuri</span></div>
+  <div class="section-title">Explorează fiecare arhetip</div>
+  <h2 class="section-heading">Click pe un arhetip pentru detalii</h2>
+  <p class="section-sub">Fiecare arhetip are o dorință fundamentală, o teamă/umbră și semnale specifice în discurs. Identifică-ți propriul arhetip dominant.</p>
+
+  <div class="archetypes-grid" id="arch-grid">
+
+    <!-- INOCENTUL -->
+    <div class="arch-card" onclick="toggleArch('inocentul', this)">
+      <span class="arch-emoji">🌱</span>
+      <div class="arch-name">Inocentul</div>
+      <div class="arch-name-en">THE INNOCENT</div>
+      <div class="arch-group-badge">Siguranță · Ego-ul</div>
+      <div class="arch-essence">Puritate, optimism, credință în bine</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-inocentul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Să fie fericit și în siguranță</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Să fie pedepsit pentru o greșeală</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Inspiră prin simplitate și autenticitate pură</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Poate părea naiv, evită realitatea dificilă</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">optimism</span>
+        <span class="signal-tag">simplitate</span>
+        <span class="signal-tag">sinceritate</span>
+        <span class="signal-tag">încredere</span>
+        <span class="signal-tag">povești de speranță</span>
+        <span class="signal-tag">limbaj cald</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Malala Yousafzai</strong> — discurs pur din dorința arhetipului, fără umbra vizibilă.</div>
+      </div>
+    </div>
+
+    <!-- ORFANUL -->
+    <div class="arch-card" onclick="toggleArch('orfanul', this)">
+      <span class="arch-emoji">🌿</span>
+      <div class="arch-name">Orfanul</div>
+      <div class="arch-name-en">THE ORPHAN</div>
+      <div class="arch-group-badge">Siguranță · Ego-ul</div>
+      <div class="arch-essence">Realist, vulnerabil, caută conexiunea</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-orfanul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Să aparțină, să fie conectat</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Să fie abandonat sau exploatat</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Creează conexiune profundă prin vulnerabilitate</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Poate cădea în victimizare sau cinism</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">vulnerabilitate</span>
+        <span class="signal-tag">realitate</span>
+        <span class="signal-tag">conexiune</span>
+        <span class="signal-tag">empatie</span>
+        <span class="signal-tag">solidaritate</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Brené Brown</strong> — vulnerabilitatea ca forță de conexiune.</div>
+      </div>
+    </div>
+
+    <!-- INTELEPTUL -->
+    <div class="arch-card" onclick="toggleArch('inteleptul', this)">
+      <span class="arch-emoji">🔮</span>
+      <div class="arch-name">Înțeleptul</div>
+      <div class="arch-name-en">THE SAGE</div>
+      <div class="arch-group-badge">Siguranță · Sinele</div>
+      <div class="arch-essence">Claritate, cunoaștere, adevăr</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-inteleptul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Descoperirea adevărului</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Să fie indus în eroare sau ignorant</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Transformă complexul în simplu și clar</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Prea academic, detașat emoțional</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">date și cercetare</span>
+        <span class="signal-tag">limbaj precis</span>
+        <span class="signal-tag">structură logică</span>
+        <span class="signal-tag">autoritate calmă</span>
+        <span class="signal-tag">profunzime</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Hans Rosling</strong> — date transformate în spectacol cu miză.</div>
+      </div>
+    </div>
+
+    <!-- RAZBOINICUL -->
+    <div class="arch-card" onclick="toggleArch('razboinicul', this)">
+      <span class="arch-emoji">🦁</span>
+      <div class="arch-name">Războinicul</div>
+      <div class="arch-name-en">THE WARRIOR</div>
+      <div class="arch-group-badge">Realizare · Ego-ul</div>
+      <div class="arch-essence">Curaj, disciplină, depășirea obstacolelor</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-razboinicul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Să-și dovedească valoarea prin curaj</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Să pară slab sau vulnerabil</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Inspiră acțiune și curaj în fața obstacolelor</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Poate părea arogant, nu cere ajutor</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">curaj</span>
+        <span class="signal-tag">disciplină</span>
+        <span class="signal-tag">determinare</span>
+        <span class="signal-tag">verbe de acțiune</span>
+        <span class="signal-tag">povești de triumf</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Simon Sinek</strong> — curajul de a întreba „De ce?"</div>
+      </div>
+    </div>
+
+    <!-- REBELUL -->
+    <div class="arch-card" onclick="toggleArch('rebelul', this)">
+      <span class="arch-emoji">⚡</span>
+      <div class="arch-name">Rebelul</div>
+      <div class="arch-name-en">THE OUTLAW</div>
+      <div class="arch-group-badge">Realizare · Sufletul</div>
+      <div class="arch-essence">Revoluție, ruptură, schimbare radicală</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-rebelul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Revoluția, distrugerea a ce nu merge</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Să fie neputincios sau ineficient</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Schimbă paradigme și sparge tipare</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Poate aliena audiența, distruge fără a construi</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">nonconformism</span>
+        <span class="signal-tag">provocare</span>
+        <span class="signal-tag">ironie</span>
+        <span class="signal-tag">rupere de tipare</span>
+        <span class="signal-tag">energie</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Sir Ken Robinson</strong> — Rebelul Elegant. Critică sistemul cu umor și iubire.</div>
+      </div>
+    </div>
+
+    <!-- MAGICIANUL -->
+    <div class="arch-card" onclick="toggleArch('magicianul', this)">
+      <span class="arch-emoji">✨</span>
+      <div class="arch-name">Magicianul</div>
+      <div class="arch-name-en">THE MAGICIAN</div>
+      <div class="arch-group-badge">Realizare · Sinele</div>
+      <div class="arch-essence">Transformare, viziune, imposibilul posibil</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-magicianul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Înțelegerea legilor universului</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Consecințe negative neintenționate</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Surprinde și transformă perspectivele</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Poate părea manipulator sau deconectat de realitate</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">transformare</span>
+        <span class="signal-tag">surpriză</span>
+        <span class="signal-tag">metafore puternice</span>
+        <span class="signal-tag">viziune holistică</span>
+        <span class="signal-tag">WOW</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Brené Brown</strong> (secundar) · <strong>Steve Jobs</strong> — transformă percepția realității.</div>
+      </div>
+    </div>
+
+    <!-- INGRIJITORUL -->
+    <div class="arch-card" onclick="toggleArch('ingrijitorul', this)">
+      <span class="arch-emoji">❤️</span>
+      <div class="arch-name">Îngrijitorul</div>
+      <div class="arch-name-en">THE CAREGIVER</div>
+      <div class="arch-group-badge">Apartenența · Ego-ul</div>
+      <div class="arch-essence">Compasiune, protecție, servire</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-ingrijitorul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Să îi ajute pe ceilalți</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Egoismul și ingratitudinea</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Creează conexiune emoțională profundă</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Devine martir, neglijează propriile nevoi</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">limbaj „noi"</span>
+        <span class="signal-tag">empatie</span>
+        <span class="signal-tag">compasiune</span>
+        <span class="signal-tag">grijă pentru vulnerabili</span>
+        <span class="signal-tag">chemare colectivă</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Jane Goodall</strong>, <strong>Paul Farmer</strong> — misiune mai presus de sine.</div>
+      </div>
+    </div>
+
+    <!-- INDRAGOSTITUL -->
+    <div class="arch-card" onclick="toggleArch('indragostitul', this)">
+      <span class="arch-emoji">💫</span>
+      <div class="arch-name">Îndrăgostitul</div>
+      <div class="arch-name-en">THE LOVER</div>
+      <div class="arch-group-badge">Apartenența · Sufletul</div>
+      <div class="arch-essence">Pasiune, frumusețe, intensitate</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-indragostitul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Intimitatea și experiența senzorială</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Să fie singur sau nedorit</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Transmite pasiune contagioasă</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Dependență emoțională, pierderea limitelor</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">limbaj senzorial</span>
+        <span class="signal-tag">devotament vizibil</span>
+        <span class="signal-tag">intensitate emoțională</span>
+        <span class="signal-tag">pasiune</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Isabel Allende</strong> — pasiunea ca limbă maternă.</div>
+      </div>
+    </div>
+
+    <!-- BUFONUL -->
+    <div class="arch-card" onclick="toggleArch('bufonul', this)">
+      <span class="arch-emoji">🤡</span>
+      <div class="arch-name">Bufonul</div>
+      <div class="arch-name-en">THE JESTER</div>
+      <div class="arch-group-badge">Apartenența · Sinele</div>
+      <div class="arch-essence">Umor, joacă, adevăr prin râs</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-bufonul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Să trăiască clipa cu bucurie</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Să fie plictisit sau plictisitor</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Spune adevăruri incomode prin râs</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Perceput ca neserios, ascunde durerea prin umor</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">umor organic</span>
+        <span class="signal-tag">ironie</span>
+        <span class="signal-tag">autodepreciere inteligentă</span>
+        <span class="signal-tag">ușurință</span>
+        <span class="signal-tag">dezarmare</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Sir Ken Robinson</strong>, <strong>Rory Sutherland</strong> — umor cu substanță.</div>
+      </div>
+    </div>
+
+    <!-- CONDUCATORUL -->
+    <div class="arch-card" onclick="toggleArch('conducatorul', this)">
+      <span class="arch-emoji">👑</span>
+      <div class="arch-name">Conducătorul</div>
+      <div class="arch-name-en">THE RULER</div>
+      <div class="arch-group-badge">Moștenire · Sinele</div>
+      <div class="arch-essence">Ordine, responsabilitate, leadership</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-conducatorul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Controlul și ordinea</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Haosul, răsturnarea de la putere</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Creează mișcare și schimbare la scară mare</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Perceput ca rigid sau autoritar</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">autoritate naturală</span>
+        <span class="signal-tag">viziune sistemică</span>
+        <span class="signal-tag">responsabilitate</span>
+        <span class="signal-tag">structură</span>
+        <span class="signal-tag">leadership</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Nelson Mandela</strong>, <strong>Sheryl Sandberg</strong>.</div>
+      </div>
+    </div>
+
+    <!-- CREATORUL -->
+    <div class="arch-card" onclick="toggleArch('creatorul', this)">
+      <span class="arch-emoji">🎨</span>
+      <div class="arch-name">Creatorul</div>
+      <div class="arch-name-en">THE CREATOR</div>
+      <div class="arch-group-badge">Moștenire · Sufletul</div>
+      <div class="arch-essence">Inovație, imaginație, expresie</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-creatorul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Să realizeze ceva cu valoare durabilă</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Viziunea sau execuția mediocră</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Inspiră prin viziune, estetică și inovație</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Perfectionism paralizant, dificultate în colaborare</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">viziune</span>
+        <span class="signal-tag">originalitate</span>
+        <span class="signal-tag">inovație</span>
+        <span class="signal-tag">estetică</span>
+        <span class="signal-tag">„am creat / am construit"</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Jony Ive</strong>, <strong>Neri Oxman</strong>.</div>
+      </div>
+    </div>
+
+    <!-- EXPLORATORUL -->
+    <div class="arch-card" onclick="toggleArch('exploratorul', this)">
+      <span class="arch-emoji">🚀</span>
+      <div class="arch-name">Exploratorul</div>
+      <div class="arch-name-en">THE EXPLORER</div>
+      <div class="arch-group-badge">Moștenire · Sufletul</div>
+      <div class="arch-essence">Curiozitate, aventură, descoperire</div>
+      <div class="arch-expand-hint">detalii</div>
+    </div>
+    <div class="arch-detail" id="detail-exploratorul">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <div class="detail-label">Dorința</div>
+          <div class="detail-value">Libertatea de a se descoperi</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Teama / Umbra</div>
+          <div class="detail-value">Constrângerea, rutina, golul interior</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Superputerea pe scenă</div>
+          <div class="detail-value">Infectează audiența cu curiozitate</div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Riscul</div>
+          <div class="detail-value">Se pierde, nu finalizează nimic, fuge de profunzime</div>
+        </div>
+      </div>
+      <div class="detail-label">Semnale în discurs</div>
+      <div class="signals-list">
+        <span class="signal-tag">curiozitate</span>
+        <span class="signal-tag">descoperire</span>
+        <span class="signal-tag">aventură</span>
+        <span class="signal-tag">perspective noi</span>
+        <span class="signal-tag">fascinație genuină</span>
+      </div>
+      <div class="ted-example-box">
+        <div class="ted-dot"></div>
+        <div class="ted-example-text">Exemplu TED: <strong>Wade Davis</strong>, <strong>Richard Feynman</strong>.</div>
+      </div>
+    </div>
+
+  </div><!-- /archetypes-grid -->
+
+  <!-- SECTION 4: AUTENTICITATE -->
+  <div class="section-divider"><span>04 · Autenticitatea</span></div>
+  <div class="section-title">Cei 4 Piloni</div>
+  <h2 class="section-heading">Ce înseamnă autenticitate arhetipală?</h2>
+  <p class="section-sub">Autenticitatea este cel mai greu de definit și cel mai ușor de simțit. Publicul știe când un vorbitor este autentic — nu întotdeauna știe de ce.</p>
+
+  <div class="auth-grid">
+    <div class="auth-card">
+      <div class="auth-number">1</div>
+      <div class="auth-card-title">Coerența Arhetipală</div>
+      <p>Vorbitorul se manifestă consistent dintr-un singur arhetip pe parcursul discursului. Nu sare fără tranziție naturală de la Înțelept la Rebel.</p>
+    </div>
+    <div class="auth-card">
+      <div class="auth-number">2</div>
+      <div class="auth-card-title">Limbajul Incarnat</div>
+      <p>Cuvintele sunt organice arhetipului. Când limbajul nu se potrivește cu arhetipul declarat, apare o discordanță sesizabilă.</p>
+    </div>
+    <div class="auth-card">
+      <div class="auth-number">3</div>
+      <div class="auth-card-title">Emoția Congruentă</div>
+      <p>Emoția exprimată este reală și corespunde mesajului. Discordanța apare când un Povestitor vorbește despre tristețe dar zâmbește forțat.</p>
+    </div>
+    <div class="auth-card">
+      <div class="auth-number">4</div>
+      <div class="auth-card-title">Miza Personală</div>
+      <p>Vorbitorul are <em>skin in the game</em> — a trăit ceea ce povestește, crede cu adevărat în ceea ce susține. Aceasta e diferența fundamentală față de o prezentare corporativă standard.</p>
+    </div>
+  </div>
+
+  <!-- SCORES GUIDE -->
+  <div class="section-title" style="margin-top:40px;">Interpretarea Scorurilor</div>
+  <table class="scores-table">
+    <thead>
+      <tr>
+        <th>Scor</th>
+        <th>Ce înseamnă în practică</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="score-range">90 – 100</span></td>
+        <td>Vorbitorul trăiește arhetipul său. Publicul simte o conexiune profundă. Discursul poate schimba perspective.</td>
+      </tr>
+      <tr>
+        <td><span class="score-range">75 – 89</span></td>
+        <td>Arhetipul este clar și consistent. Mici inconsistențe de limbaj sau emoție. Discurs puternic și memorabil.</td>
+      </tr>
+      <tr>
+        <td><span class="score-range">60 – 74</span></td>
+        <td>Arhetipul este prezent dar fluctuează. Vorbitorul alternează între rolul arhipetipal și „modul de prezentare".</td>
+      </tr>
+      <tr>
+        <td><span class="score-range">45 – 59</span></td>
+        <td>Vorbitorul adoptă un arhetip care nu îi este natural. Discursul e competent tehnic dar lipsit de rezonanță.</td>
+      </tr>
+      <tr>
+        <td><span class="score-range">Sub 45</span></td>
+        <td>Mesajul, limbajul și emoția trag în direcții diferite. Publicul se simte derut sau neconvins.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 5: ELEMENTUL -->
+  <div class="section-divider"><span>05 · Elementul · Sir Ken Robinson</span></div>
+  <div class="section-title">Conceptul Elementului</div>
+  <h2 class="section-heading">Găsește-ți Elementul — și Arhetipul</h2>
+  <p class="section-sub">Sir Ken Robinson a numit intersecția dintre talent natural și pasiune autentică <em>„Elementul"</em>. Conexiunea cu arhetipul este mai profundă decât pare.</p>
+
+  <div class="callout">
+    <p>Elementul este locul unde talentele tale naturale întâlnesc pasiunile tale personale.</p>
+    <cite>— Sir Ken Robinson, „The Element"</cite>
+  </div>
+
+  <div class="element-split">
+    <div class="element-half left">
+      <div class="element-half-label">Elementul (Robinson)</div>
+      <h3>Ce faci?</h3>
+      <p>Intersecția dintre talent natural și pasiune autentică. Când le găsești pe amândouă, nu mai simți că muncești — ești pur și simplu acolo, prezent și viu.</p>
+    </div>
+    <div class="element-half right">
+      <div class="element-half-label">Arhetipul (Pearson / Jung)</div>
+      <h3>Cine ești când o faci?</h3>
+      <p>Modul tău fundamental de a fi și de a comunica. Doi oameni pot fi în același Element și totuși complet diferiți — prin arhetipul lor.</p>
+    </div>
+  </div>
+
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>Elementul (Robinson)</th>
+        <th>Arhetipul (Pearson / Jung)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Răspunde la: <strong style="color:var(--text)">„Ce faci?"</strong></td>
+        <td>Răspunde la: <strong style="color:var(--text)">„Cine ești când o faci?"</strong></td>
+      </tr>
+      <tr>
+        <td>Terenul de joacă al identității</td>
+        <td>Felul în care joci pe acel teren</td>
+      </tr>
+      <tr>
+        <td>Talent + Pasiune</td>
+        <td>Mod de a fi + Mod de a comunica</td>
+      </tr>
+      <tr>
+        <td>Descoperit prin experiență și încercare</td>
+        <td>Revelat prin reflecție și analiza discursului</td>
+      </tr>
+      <tr>
+        <td>Unic pentru fiecare om</td>
+        <td>Universal — 12 tipare împărtășite de toată umanitatea</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ROBINSON CASE -->
+  <div class="robinson-card">
+    <div class="robinson-score">91</div>
+    <div class="section-title">Studiu de caz · Rebelul Elegant</div>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--text);margin-bottom:12px;">Sir Ken Robinson — omul care vorbea despre Element din propriul Element</h3>
+    <p style="font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:16px;">
+      Robinson critica sistemul educațional cu umor și grație, nu cu ură. Arhetipul său de <strong style="color:var(--text)">Rebel Elegant</strong> este perfect aliniat cu pasiunea sa pentru creativitate și talent uman. El nu prezenta o teorie — el trăia dovada teoriei sale. Elementul său (educația, creativitatea) și Arhetipul său (Rebelul) erau perfect sincronizate.
+    </p>
+    <p style="font-size:13px;color:var(--text2);line-height:1.8;">
+      Un Rebel fără inimă devine cinic. Robinson evita această capcană — rebeliunea lui avea la bază <em style="color:var(--text)">iubire</em>. Asta îl făcea memorabil și autentic în același timp.
+    </p>
+    <div style="margin-top:16px;font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);">
+      SCOR AUTENTICITATE ESTIMAT: <span style="color:var(--red);">91/100</span> &nbsp;·&nbsp; Element + Arhetip aliniate perfect &nbsp;·&nbsp; 70M+ vizualizări
+    </div>
+  </div>
+
+  <!-- FINAL NOTE -->
+  <div class="section-divider"><span>Notă finală</span></div>
+  <div class="callout" style="border-color:var(--red);background:var(--red-glow);">
+    <p>Arhetipurile nu sunt cutii în care încăpem oamenii. Sunt oglinzi prin care ne recunoaștem. Cele mai bune discursuri TED nu sunt perfecte — sunt autentice. Și autenticitatea este întotdeauna imperfectă, tocmai pentru că este reală.</p>
+  </div>
+
+</div><!-- /container -->
+
+<div class="page-footer">
+  <p>„What you are speaks so loudly that I cannot hear what you say." — Ralph Waldo Emerson</p>
+  <a href="/" class="back-link">← Înapoi la analiză</a>
+</div>
+
+<script>
+  let activeCard = null;
+  let activeDetail = null;
+
+  function toggleArch(id, cardEl) {
+    const detail = document.getElementById('detail-' + id);
+
+    // Close previous
+    if (activeDetail && activeDetail !== detail) {
+      activeDetail.classList.remove('open');
+      activeCard.classList.remove('active');
+    }
+
+    if (detail.classList.contains('open')) {
+      detail.classList.remove('open');
+      cardEl.classList.remove('active');
+      activeCard = null;
+      activeDetail = null;
+    } else {
+      detail.classList.add('open');
+      cardEl.classList.add('active');
+      activeCard = cardEl;
+      activeDetail = detail;
+      // Scroll into view
+      setTimeout(() => {
+        detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
+    }
+  }
+</script>
+</body>
+</html>
