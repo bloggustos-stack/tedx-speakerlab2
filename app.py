@@ -1059,6 +1059,8 @@ def logout():
 @login_required
 def index():
     user = get_current_user()
+    if user["tier"] == "psych":
+        return redirect(url_for("psych"))
     result = None
     ted_rules_result = None
     detected_lang = "ro"
