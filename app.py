@@ -1144,6 +1144,7 @@ def admin():
         return "Unauthorized", 403
     users = load_users()
     return render_template("admin.html", user=user, users=users, tiers=TIERS)
+
 @app.route("/download/<path:filename>")
 @login_required
 def download_pdf(filename):
@@ -1165,10 +1166,12 @@ def serve_icon_512():
 @app.route('/service-worker.js')
 def service_worker():
     return send_file('templates/static/service-worker.js'), 200, {'Content-Type': 'application/javascript'}
+
 @app.route('/ghid')
 @login_required
 def ghid():
     return render_template('ghid.html')
+
 @app.route('/ted-rules')
 @login_required
 def ted_rules():
