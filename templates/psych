@@ -1,1 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archetypal Lab · Psychologist Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body{font-family:Arial;background:#0a0a0f;color:#e8e0f5;margin:0;padding:0}
+nav{background:#0f0f1a;border-bottom:1px solid #1e1040;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:52px}
+nav a{color:#c4b5fd;text-decoration:none;font-size:12px;margin-left:16px;transition:color 0.2s}
+nav a:hover{color:#7c3aed}
+.badge{font-size:10px;padding:3px 8px;border:1px solid #3b1f6e;color:#a78bfa;margin-left:12px}
+.container{max-width:900px;margin:0 auto;padding:40px 24px}
 
+/* HERO */
+.psych-hero{text-align:center;padding:40px 0 32px;border-bottom:1px solid #1e1040;margin-bottom:40px}
+.psych-hero-label{font-size:10px;letter-spacing:0.2em;color:#7c3aed;text-transform:uppercase;margin-bottom:12px}
+.psych-hero h1{font-size:36px;font-weight:bold;color:#e8e0f5;margin-bottom:8px}
+.psych-hero h1 em{color:#a78bfa;font-style:italic;font-weight:300}
+.psych-hero p{font-size:12px;color:#6b5f8a;font-style:italic;margin-bottom:0}
+
+/* TABS */
+.tabs{display:flex;gap:4px;border-bottom:1px solid #1e1040;margin-bottom:32px}
+.tab-btn{background:none;border:none;color:#6b5f8a;font-size:13px;padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:Arial;transition:color 0.2s}
+.tab-btn:hover{color:#e8e0f5;background:none}
+.tab-btn.active{color:#7c3aed;border-bottom-color:#7c3aed}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* FORM */
+.form-card{background:#0f0f1a;border:1px solid #1e1040;padding:24px;margin-bottom:24px}
+.form-card h3{font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:16px}
+textarea{width:100%;height:200px;background:#0a0a0f;border:1px solid #2d1f5e;color:#e8e0f5;font-family:Arial;font-size:13px;padding:14px;box-sizing:border-box;outline:none;resize:vertical}
+textarea:focus{border-color:#7c3aed}
+textarea::placeholder{color:#3b2f5e}
+.form-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px;flex-wrap:wrap;gap:10px}
+.form-hint{font-size:11px;color:#6b5f8a}
+button.analyze-btn{background:#7c3aed;color:white;border:none;font-size:12px;padding:11px 28px;cursor:pointer;transition:background 0.2s}
+button.analyze-btn:hover{background:#6d28d9}
+button.analyze-btn:disabled{background:#2d1f5e;color:#4b3f6e;cursor:not-allowed}
+.loading{display:none;font-size:12px;color:#7c3aed;margin-top:12px;font-style:italic}
+.loading.active{display:block}
+
+/* RESULTS */
+.results{margin-top:8px}
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid #1e1040}
+.results-header h2{font-size:20px;color:#e8e0f5}
+.download-btn{font-size:11px;color:#c4b5fd;text-decoration:none;border:1px solid #2d1f5e;padding:7px 14px;transition:all 0.2s}
+.download-btn:hover{border-color:#7c3aed;color:#7c3aed}
+
+/* PSYCH SUMMARY */
+.psych-summary{font-size:14px;color:#e8e0f5;line-height:1.7;font-style:italic;background:#0f0f1a;border-left:3px solid #7c3aed;padding:16px 20px;margin-bottom:24px}
+
+/* DOMINANT ARCHETYPE */
+.psych-header{background:linear-gradient(135deg,#1a0a2e,#0f0f1a);border:2px solid #7c3aed;padding:28px;margin-bottom:24px}
+.psych-title{font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:8px}
+.psych-archetype-name{font-size:32px;font-weight:bold;color:#e8e0f5;margin-bottom:4px}
+.psych-archetype-sub{font-size:13px;color:#9ca3af}
+.psych-speaks-from{display:inline-block;font-size:11px;padding:4px 12px;border-radius:20px;margin-top:8px}
+.psych-speaks-desire{background:rgba(34,197,94,0.15);color:#22c55e;border:1px solid rgba(34,197,94,0.3)}
+.psych-speaks-fear{background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3)}
+.psych-speaks-both{background:rgba(234,179,8,0.15);color:#eab308;border:1px solid rgba(234,179,8,0.3)}
+
+/* 3 ARCHETYPES GRID */
+.psych-trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+.psych-card{background:#0f0f1a;border:1px solid #1e1040;padding:16px}
+.psych-card-dominant{border-color:#7c3aed}
+.psych-card-label{font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px}
+.psych-card-val{font-size:13px;color:#e8e0f5;line-height:1.5}
+.psych-card-evidence{font-size:11px;color:#6b5f8a;font-style:italic;margin-top:6px}
+
+/* SHADOW */
+.psych-shadow{background:#1a0a0a;border:1px solid #7f1d1d;padding:16px;margin-bottom:20px}
+.psych-shadow-title{font-size:10px;color:#ef4444;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px}
+
+/* PROFILE GRID */
+.psych-profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+
+/* SECTIONS */
+.psych-section{background:#0f0f1a;border:1px solid #1e1040;padding:20px;margin-bottom:16px}
+.psych-section-title{font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px}
+.psych-question{font-size:13px;color:#e8e0f5;line-height:1.7;padding:10px 0;border-bottom:1px solid #1a1a2e}
+.psych-question:last-child{border-bottom:none}
+.psych-direction{font-size:12px;color:#9ca3af;line-height:1.6;padding:8px 0 8px 14px;border-left:2px solid #7c3aed;margin-bottom:8px}
+
+/* RADAR */
+.psych-radar-card{background:#0f0f1a;border:1px solid #1e1040;padding:20px;margin-bottom:20px}
+
+/* HISTORY TAB */
+.empty{text-align:center;padding:60px 0;color:#3b2f5e;font-size:13px}
+.empty a{color:#7c3aed;text-decoration:none}
+.best-banner{background:#0f0f1a;border:1px solid #2d1f5e;border-left:3px solid #7c3aed;padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between}
+.best-label{font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:3px}
+.best-val{font-size:22px;font-weight:bold;color:#e8e0f5}
+.best-date{font-size:11px;color:#3b2f5e}
+.progress-card{background:#0f0f1a;border:1px solid #1e1040;padding:20px;margin-bottom:24px}
+.progress-card h3{font-size:10px;color:#6b5f8a;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px}
+.history-list{display:flex;flex-direction:column;gap:12px}
+.history-item{background:#0f0f1a;border:1px solid #1e1040;padding:20px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start;transition:border-color 0.2s}
+.history-item:hover{border-color:#2d1f5e}
+.history-num{font-size:28px;font-weight:bold;color:#1e1040;min-width:32px;text-align:center;padding-top:4px}
+.history-date{font-size:11px;color:#3b2f5e}
+.history-tier-badge{font-size:9px;padding:2px 7px;border:1px solid #2d1f5e;color:#6b5f8a;text-transform:uppercase}
+.history-preview{font-size:11px;color:#4b3f6e;line-height:1.5;font-style:italic;margin-top:4px}
+.history-score-big{font-size:32px;font-weight:bold;color:#7c3aed;line-height:1;text-align:right}
+.history-score-max{font-size:12px;color:#3b2f5e;text-align:right}
+.diff-up{font-size:11px;color:#4ade80;font-weight:bold;text-align:right;margin-top:4px}
+.diff-down{font-size:11px;color:#f87171;font-weight:bold;text-align:right;margin-top:4px}
+.diff-same{font-size:11px;color:#3b2f5e;text-align:right;margin-top:4px}
+
+/* GHID TAB */
+.ghid-link-card{background:#0f0f1a;border:2px solid #7c3aed;padding:32px;text-align:center;margin-bottom:24px}
+.ghid-link-card h3{font-size:22px;color:#e8e0f5;margin-bottom:12px}
+.ghid-link-card p{font-size:13px;color:#6b5f8a;margin-bottom:24px;line-height:1.7}
+.ghid-open-btn{display:inline-block;background:#7c3aed;color:white;padding:12px 32px;text-decoration:none;font-size:13px;font-weight:bold;transition:background 0.2s}
+.ghid-open-btn:hover{background:#6d28d9}
+.arch-mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:24px}
+.arch-mini-card{background:#0f0f1a;border:1px solid #1e1040;padding:14px;display:flex;gap:10px;align-items:flex-start;transition:border-color 0.2s}
+.arch-mini-card:hover{border-color:#7c3aed}
+.arch-mini-emoji{font-size:24px;flex-shrink:0}
+.arch-mini-name{font-size:13px;font-weight:bold;color:#e8e0f5;margin-bottom:2px}
+.arch-mini-group{font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+.arch-mini-essence{font-size:11px;color:#6b5f8a;line-height:1.4}
+
+@media(max-width:600px){
+  .psych-trio{grid-template-columns:1fr 1fr}
+  .psych-profile-grid{grid-template-columns:1fr}
+  .arch-mini-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div>
+    <strong style="color:#a78bfa">Archetypal Lab</strong>
+    <span class="badge">Psychologist</span>
+  </div>
+  <div>
+    {% if user %}
+    <span style="font-size:12px;color:#4b3f6e">{{ user.get('name', user.email) }}</span>
+    <a href="/admin">Admin</a>
+    <a href="/ghid">📖 Ghid</a>
+    <a href="/logout" style="color:#7c3aed">Ieși</a>
+    {% endif %}
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="psych-hero">
+    <div class="psych-hero-label">Archetypal Lab · Psychologist</div>
+    <h1>Profil <em>Jungian</em> din orice text</h1>
+    <p>What you are speaks so loudly that I cannot hear what you say. — Ralph Waldo Emerson</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('tab-analyze', this)">🔍 Analiză Arhetipală</button>
+    <button class="tab-btn" onclick="switchTab('tab-history', this)">📊 Istoric</button>
+    <button class="tab-btn" onclick="switchTab('tab-ghid', this)">📖 Ghid Arhetipuri</button>
+  </div>
+
+  <!-- TAB 1: ANALIZĂ -->
+  <div id="tab-analyze" class="tab-panel active">
+
+    <div class="form-card">
+      <h3>Paste any text for archetypal analysis</h3>
+      <form method="post" id="psychForm">
+        <textarea name="speech_text"
+          placeholder="Paste any text here — journal entry, self-description, speech, essay, story, interview transcript, social media post...&#10;&#10;The model will identify dominant archetypes, shadow elements, desire vs. fear dynamics, and provide clinical reflection questions."
+          required id="psychInput"></textarea>
+        <div class="form-footer">
+          <span class="form-hint">Analyzing with <strong style="color:#a78bfa">GPT-4o</strong> · Carol S. Pearson / Carl Jung · 12 archetypes</span>
+          <button type="submit" class="analyze-btn" id="analyzeBtn">Analyze Archetypes →</button>
+        </div>
+      </form>
+      <div class="loading" id="loadingEl">Analyzing archetypal profile... this may take a moment.</div>
+    </div>
+
+    {% if result and result.tier == 'psych' and result.analysis %}
+    {% set a = result.analysis %}
+
+    <div class="results">
+      <div class="results-header">
+        <h2>Archetypal Profile</h2>
+        {% if pdf_file %}<a href="/download/{{ pdf_file }}" class="download-btn" target="_blank">↓ Download PDF</a>{% endif %}
+      </div>
+
+      {% if a.summary %}
+      <div class="psych-summary">{{ a.summary }}</div>
+      {% endif %}
+
+      {% if a.dominant_archetype %}
+      {% set da = a.dominant_archetype %}
+      <div class="psych-header">
+        <div class="psych-title">Dominant Archetype — Carol S. Pearson / Carl Jung</div>
+        <div style="font-size:52px;margin-bottom:10px">{{ da.emoji }}</div>
+        <div class="psych-archetype-name">{{ da.name }}</div>
+        <div class="psych-archetype-sub">{{ da.group }} · Confidence: {{ da.confidence }}</div>
+        {% if da.speaks_from %}
+        <span class="psych-speaks-from {% if da.speaks_from == 'desire' %}psych-speaks-desire{% elif da.speaks_from == 'fear' %}psych-speaks-fear{% else %}psych-speaks-both{% endif %}">
+          Speaking from: {{ da.speaks_from|upper }}
+        </span>
+        {% endif %}
+        {% if da.speaks_from_note %}
+        <div style="font-size:12px;color:#9ca3af;margin-top:12px;line-height:1.6">{{ da.speaks_from_note }}</div>
+        {% endif %}
+        {% if da.evidence %}
+        <div style="font-size:12px;color:#6b5f8a;font-style:italic;margin-top:12px;border-left:2px solid #7c3aed;padding-left:12px">"{{ da.evidence }}"</div>
+        {% endif %}
+        {% if da.authenticity_score is defined %}
+        <div style="margin-top:14px;display:flex;align-items:center;gap:12px">
+          <span style="font-size:32px;font-weight:bold;color:#7c3aed">{{ da.authenticity_score }}<span style="font-size:14px;color:#3b2f5e">/10</span></span>
+          <span style="font-size:11px;color:#6b5f8a">Archetypal Authenticity Score</span>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <!-- 3 ARCHETYPES -->
+      <div class="psych-trio">
+        {% if a.dominant_archetype %}
+        <div class="psych-card psych-card-dominant">
+          <div class="psych-card-label">🥇 Dominant</div>
+          <div style="font-size:28px">{{ a.dominant_archetype.emoji }}</div>
+          <div class="psych-card-val">{{ a.dominant_archetype.name }}</div>
+          <div class="psych-card-evidence">{{ a.dominant_archetype.desire }}</div>
+        </div>
+        {% endif %}
+        {% if a.secondary_archetype %}
+        <div class="psych-card">
+          <div class="psych-card-label">🥈 Secondary</div>
+          <div style="font-size:28px">{{ a.secondary_archetype.emoji }}</div>
+          <div class="psych-card-val">{{ a.secondary_archetype.name }}</div>
+          <div class="psych-card-evidence">{{ a.secondary_archetype.evidence }}</div>
+        </div>
+        {% endif %}
+        {% if a.tertiary_archetype %}
+        <div class="psych-card">
+          <div class="psych-card-label">🥉 Tertiary</div>
+          <div style="font-size:28px">{{ a.tertiary_archetype.emoji }}</div>
+          <div class="psych-card-val">{{ a.tertiary_archetype.name }}</div>
+          <div class="psych-card-evidence">{{ a.tertiary_archetype.evidence }}</div>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- SHADOW -->
+      {% if a.shadow_analysis %}
+      {% set sh = a.shadow_analysis %}
+      <div class="psych-shadow">
+        <div class="psych-shadow-title">🌑 Shadow Analysis</div>
+        {% if sh.shadow_present %}
+        <div style="font-size:12px;color:#f87171;margin-bottom:8px">Shadow active: <strong>{{ sh.shadow_archetype }}</strong></div>
+        {% if sh.shadow_evidence %}<div style="font-size:12px;color:#6b5f8a;font-style:italic;margin-bottom:8px">"{{ sh.shadow_evidence }}"</div>{% endif %}
+        <div style="font-size:12px;color:#9ca3af;line-height:1.6">{{ sh.shadow_note }}</div>
+        {% else %}
+        <div style="font-size:12px;color:#4ade80">No significant shadow elements detected in this text.</div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <!-- PSYCHOLOGICAL PROFILE -->
+      {% if a.psychological_profile %}
+      {% set pp = a.psychological_profile %}
+      <div class="psych-profile-grid">
+        <div class="psych-card">
+          <div class="psych-card-label">💔 Core Wound</div>
+          <div class="psych-card-val">{{ pp.core_wound }}</div>
+        </div>
+        <div class="psych-card">
+          <div class="psych-card-label">✨ Core Gift</div>
+          <div class="psych-card-val">{{ pp.core_gift }}</div>
+        </div>
+        <div class="psych-card" style="grid-column:1/-1">
+          <div class="psych-card-label">🔄 Integration Level: {{ pp.integration_level|upper }}</div>
+          <div class="psych-card-val">{{ pp.integration_note }}</div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- CLINICAL REFLECTION QUESTIONS -->
+      {% if a.clinical_reflection_questions %}
+      <div class="psych-section">
+        <div class="psych-section-title">🔍 Clinical Reflection Questions</div>
+        {% for q in a.clinical_reflection_questions %}
+        <div class="psych-question">{{ loop.index }}. {{ q }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- THERAPEUTIC DIRECTIONS -->
+      {% if a.therapeutic_directions %}
+      <div class="psych-section">
+        <div class="psych-section-title">🧭 Therapeutic Directions</div>
+        {% for d in a.therapeutic_directions %}
+        <div class="psych-direction">{{ d }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- RADAR -->
+      {% if a.archetype_scores %}
+      <div class="psych-radar-card">
+        <div class="psych-section-title">📊 Archetypal Landscape</div>
+        <canvas id="radarChart" height="300"></canvas>
+      </div>
+      <script>
+      const ctx = document.getElementById('radarChart');
+      if(ctx){
+        const labels = {{ a.archetype_scores.keys()|list|tojson }};
+        const scores = {{ a.archetype_scores.values()|list|tojson }};
+        new Chart(ctx,{type:'radar',data:{labels:labels,datasets:[{label:'Score',data:scores,fill:true,backgroundColor:'rgba(124,58,237,0.15)',borderColor:'rgba(124,58,237,0.8)',pointBackgroundColor:'#7c3aed'}]},options:{responsive:true,scales:{r:{min:0,max:10,ticks:{color:'#4b3f6e',stepSize:2,backdropColor:'transparent'},grid:{color:'#1e1040'},pointLabels:{color:'#6b5f8a',font:{size:10}}}},plugins:{legend:{display:false}}}});
+      }
+      </script>
+      {% endif %}
+
+    </div><!-- end results -->
+    {% endif %}
+
+  </div><!-- end tab-analyze -->
+
+  <!-- TAB 2: ISTORIC -->
+  <div id="tab-history" class="tab-panel">
+
+    {% if not history or history|length == 0 %}
+    <div class="empty">
+      <p>No analyses saved yet.</p>
+      <p><a href="#" onclick="switchTab('tab-analyze', document.querySelector('.tab-btn'))">Start your first analysis →</a></p>
+    </div>
+    {% else %}
+
+    {% set best = namespace(score=0, max=0, date='') %}
+    {% for h in history %}
+      {% if h.total_score > best.score %}
+        {% set best.score = h.total_score %}
+        {% set best.max = h.max_score %}
+        {% set best.date = h.timestamp %}
+      {% endif %}
+    {% endfor %}
+
+    <div class="best-banner">
+      <div>
+        <div class="best-label">🏆 Best score</div>
+        <div class="best-val">{{ best.score }}/{{ best.max }}</div>
+      </div>
+      <div class="best-date">{{ best.date[:16]|replace('T',' ') }}</div>
+    </div>
+
+    {% if history|length > 1 %}
+    <div class="progress-card">
+      <h3>Score evolution</h3>
+      <canvas id="progressChart" height="120"></canvas>
+    </div>
+    {% endif %}
+
+    <div class="history-list">
+      {% for h in history %}
+      {% set prev_h = history[loop.index] if loop.index < history|length else none %}
+      <div class="history-item">
+        <div class="history-num">{{ loop.revcount }}</div>
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+            <span class="history-date">{{ h.timestamp[:16]|replace('T',' ') }}</span>
+            <span class="history-tier-badge">{{ h.tier }}</span>
+          </div>
+          <div class="history-preview">{{ h.text_preview[:120] }}...</div>
+        </div>
+        <div>
+          <div class="history-score-big">{{ h.total_score }}</div>
+          <div class="history-score-max">/{{ h.max_score }}</div>
+          {% if prev_h %}
+            {% set diff = h.total_score - prev_h.total_score %}
+            {% if diff > 0 %}<div class="diff-up">↑ +{{ diff }}</div>
+            {% elif diff < 0 %}<div class="diff-down">↓ {{ diff }}</div>
+            {% else %}<div class="diff-same">= —</div>{% endif %}
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if history|length > 1 %}
+    <script>
+    const progressLabels = [{% for h in history|reverse %}"{{ h.timestamp[:10] }}",{% endfor %}];
+    const progressScores = [{% for h in history|reverse %}{{ h.total_score }},{% endfor %}];
+    const progressMax = [{% for h in history|reverse %}{{ h.max_score }},{% endfor %}];
+    const pctScores = progressScores.map((s,i) => progressMax[i] > 0 ? Math.round(s/progressMax[i]*100) : 0);
+    new Chart(document.getElementById('progressChart'),{type:'line',data:{labels:progressLabels,datasets:[{label:'Score %',data:pctScores,fill:true,backgroundColor:'rgba(124,58,237,0.1)',borderColor:'#7c3aed',pointBackgroundColor:'#7c3aed',tension:0.3}]},options:{responsive:true,scales:{y:{min:0,max:100,ticks:{color:'#4b3f6e',callback:v=>v+'%'},grid:{color:'#1e1040'}},x:{ticks:{color:'#4b3f6e'},grid:{color:'#1e1040'}}},plugins:{legend:{display:false}}}});
+    </script>
+    {% endif %}
+
+    {% endif %}
+  </div><!-- end tab-history -->
+
+  <!-- TAB 3: GHID -->
+  <div id="tab-ghid" class="tab-panel">
+
+    <div class="ghid-link-card">
+      <h3>📖 Ghidul Complet al Arhetipurilor</h3>
+      <p>Cele 12 arhetipuri Pearson/Jung, grupele fundamentale, autenticitatea arhetipală,<br>
+      cei 4 piloni, interpretarea scorurilor și Elementul lui Sir Ken Robinson.</p>
+      <a href="/ghid" class="ghid-open-btn">Deschide Ghidul Interactiv →</a>
+    </div>
+
+    <div style="font-size:10px;color:#4b3f6e;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:16px">Cele 12 Arhetipuri — Carol S. Pearson / Carl Jung</div>
+
+    <div class="arch-mini-grid">
+      {% set archetypes_list = [
+        {'name': 'Inocentul',    'emoji': '🌱', 'group': 'Ego-ul',   'essence': 'Optimism, puritate, speranță'},
+        {'name': 'Orfanul',      'emoji': '🌿', 'group': 'Ego-ul',   'essence': 'Conexiune, vulnerabilitate, empatie'},
+        {'name': 'Războinicul',  'emoji': '🦁', 'group': 'Ego-ul',   'essence': 'Curaj, disciplină, depășirea obstacolelor'},
+        {'name': 'Îngrijitorul', 'emoji': '❤️', 'group': 'Ego-ul',   'essence': 'Compasiune, protecție, servire'},
+        {'name': 'Exploratorul', 'emoji': '🚀', 'group': 'Sufletul', 'essence': 'Curiozitate, aventură, descoperire'},
+        {'name': 'Rebelul',      'emoji': '⚡', 'group': 'Sufletul', 'essence': 'Revoluție, schimbare radicală'},
+        {'name': 'Îndrăgostitul','emoji': '💫', 'group': 'Sufletul', 'essence': 'Pasiune, frumusețe, intensitate'},
+        {'name': 'Creatorul',    'emoji': '🎨', 'group': 'Sufletul', 'essence': 'Inovație, imaginație, expresie'},
+        {'name': 'Conducătorul', 'emoji': '👑', 'group': 'Sinele',   'essence': 'Ordine, responsabilitate, leadership'},
+        {'name': 'Magicianul',   'emoji': '✨', 'group': 'Sinele',   'essence': 'Transformare, viziune, posibil'},
+        {'name': 'Înțeleptul',   'emoji': '🔮', 'group': 'Sinele',   'essence': 'Cunoaștere, claritate, adevăr'},
+        {'name': 'Bufonul',      'emoji': '🤡', 'group': 'Sinele',   'essence': 'Umor, joacă, adevăr prin râs'},
+      ] %}
+      {% for arch in archetypes_list %}
+      <div class="arch-mini-card">
+        <div class="arch-mini-emoji">{{ arch.emoji }}</div>
+        <div>
+          <div class="arch-mini-name">{{ arch.name }}</div>
+          <div class="arch-mini-group">{{ arch.group }}</div>
+          <div class="arch-mini-essence">{{ arch.essence }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div><!-- end tab-ghid -->
+
+</div><!-- end container -->
+
+<script>
+document.getElementById('psychForm').addEventListener('submit', function(){
+  document.getElementById('analyzeBtn').disabled = true;
+  document.getElementById('analyzeBtn').textContent = 'Analyzing...';
+  document.getElementById('loadingEl').classList.add('active');
+});
+
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+</body>
+</html>
