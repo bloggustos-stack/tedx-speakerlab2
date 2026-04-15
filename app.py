@@ -1138,11 +1138,12 @@ def set_tier():
 
 @app.route("/admin")
 @login_required
-if user["tier"] not in ["paid3", "psych"]:
+def admin():
+    user = get_current_user()
+    if user["tier"] not in ["paid3", "psych"]:
         return "Unauthorized", 403
     users = load_users()
     return render_template("admin.html", user=user, users=users, tiers=TIERS)
-
 @app.route("/download/<path:filename>")
 @login_required
 def download_pdf(filename):
