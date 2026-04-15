@@ -44,13 +44,19 @@ def load_users():
         with open(users_file) as f:
             return json.load(f)
     return {
-        "tibiruczui@yahoo.com": {
-            "password": hash_password("admin123"),
-            "name": "Tibi Ruczui",
-            "tier": "paid3",
-            "created": datetime.now().isoformat()
-        }
+    "tibiruczui@yahoo.com": {
+        "password": hash_password("admin123"),
+        "name": "Tibi Ruczui",
+        "tier": "paid3",
+        "created": datetime.now().isoformat()
+    },
+    "psych@test.com": {
+        "password": hash_password("psych123"),
+        "name": "Psych Test",
+        "tier": "psych",
+        "created": datetime.now().isoformat()
     }
+}
 
 def save_users(users):
     with open(users_file, "w") as f:
