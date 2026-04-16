@@ -516,6 +516,22 @@ button.analyze-btn:disabled{background:#2d1f5e;color:#4b3f6e;cursor:not-allowed}
       <div style="font-size:11px;color:#4b3f6e;margin-top:12px;font-style:italic">→ Săgeata de la Căutător spre Înțelept reprezintă mișcarea arhetipală pe care aplicația trebuie să o detecteze.</div>
     </div>
 
+    <!-- LEGENDA -->
+    <div style="background:#0a0a0f;border:1px solid #1e1040;padding:16px 20px;margin-bottom:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <div>
+        <div style="font-size:9px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:4px">Autenticitate Arhetipală</div>
+        <div style="font-size:11px;color:#6b5f8a;line-height:1.5">Cât de fidel exprimă textul arhetipul identificat. 8-10 = foarte fidel, 1-4 = performativ.</div>
+      </div>
+      <div>
+        <div style="font-size:9px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:4px">Dorință vs. Teamă</div>
+        <div style="font-size:11px;color:#6b5f8a;line-height:1.5"><strong style="color:#22c55e">Dorință</strong> = energia pozitivă a arhetipului. <strong style="color:#ef4444">Teamă</strong> = umbra arhetipului — acționează din anxietate, nu din forță.</div>
+      </div>
+      <div>
+        <div style="font-size:9px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:4px">Shadow Prezent</div>
+        <div style="font-size:11px;color:#6b5f8a;line-height:1.5">Umbra jungiană — aspecte neintegrate ale psihicului active în text. Nu e negativ — e material de lucru.</div>
+      </div>
+    </div>
+
     <!-- CELE 5 ACTE -->
     <div style="font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:20px">Analizează fiecare act separat</div>
 
@@ -833,8 +849,8 @@ async function analyzeAct(event, actNum) {
           <div class="act-result-val">${desire}</div>
         </div>
         <div class="act-result-block">
-          <div class="act-result-label">Vorbește din</div>
-          <div class="act-result-val">${speaksFrom === 'desire' ? '💚 Dorință' : speaksFrom === 'fear' ? '⚠ Teamă' : '⟳ Ambele'}</div>
+          <div class="act-result-label">Vorbește din <span style="color:#3b2f5e;font-size:9px;font-style:italic;text-transform:none;letter-spacing:0">(dorință = energie pozitivă · teamă = umbra arhetipului)</span></div>
+          <div class="act-result-val">${speaksFrom === 'desire' ? '💚 Dorință — acționează din forța pozitivă a arhetipului' : speaksFrom === 'fear' ? '⚠ Teamă — acționează din umbra arhetipului, nu din curaj' : '⟳ Ambele — tranziție între umbră și lumină'}</div>
         </div>
         <div class="act-result-block" style="grid-column:1/-1">
           <div class="act-result-label">Rezumat</div>
