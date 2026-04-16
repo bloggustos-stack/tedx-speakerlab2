@@ -1211,9 +1211,10 @@ def analyze_act():
         return {"error": "Unauthorized"}, 403
     data = request.get_json()
     text = data.get("text", "")
+    lang = data.get("lang", "ro")
     if not text:
         return {"error": "No text"}, 400
-    result = analyze_psychologist(text, "ro")
+    result = analyze_psychologist(text, lang)
     return result
 @app.route('/ghid')
 @login_required
