@@ -1203,7 +1203,18 @@ def psych():
 @app.route('/service-worker.js')
 def service_worker():
     return send_file('templates/static/service-worker.js'), 200, {'Content-Type': 'application/javascript'}
-
+@app.route('/api/analyze-act', methods=["POST"])
+@login_required
+def analyze_act():
+    user = get_current_user()
+    if user["tier"] != "psych":
+        return {"error": "Unauthorized"}, 403
+    data = request.get_json()
+    text = data.get("text", "")
+    if not text:
+        return {"error": "No text"}, 400
+    result = analyze_psychologist(text, "ro")
+    return result
 @app.route('/ghid')
 @login_required
 def ghid():
