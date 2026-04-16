@@ -127,7 +127,35 @@ button.analyze-btn:disabled{background:#2d1f5e;color:#4b3f6e;cursor:not-allowed}
   .psych-trio{grid-template-columns:1fr 1fr}
   .psych-profile-grid{grid-template-columns:1fr}
   .arch-mini-grid{grid-template-columns:1fr 1fr}
+  .act-header{flex-wrap:wrap}
+  .act-expected{display:none}
 }
+/* CALIBRARE */
+.act-card{background:#0f0f1a;border:1px solid #1e1040;overflow:hidden;transition:border-color 0.2s;margin-bottom:0}
+.act-card:hover{border-color:#2d1f5e}
+.act-card.analyzed{border-color:#7c3aed}
+.act-header{display:flex;align-items:center;gap:16px;padding:16px 20px;cursor:pointer}
+.act-number{font-size:28px;font-weight:bold;color:#1e1040;min-width:36px;text-align:center;font-family:Georgia,serif}
+.act-info{flex:1}
+.act-title{font-size:13px;font-weight:bold;color:#e8e0f5;margin-bottom:3px}
+.act-sub{font-size:11px;color:#4b3f6e}
+.act-expected{font-size:10px;color:#6b5f8a;white-space:nowrap;border:1px solid #1e1040;padding:4px 10px}
+.act-analyze-btn{background:#7c3aed;color:white;border:none;font-size:11px;padding:8px 16px;cursor:pointer;white-space:nowrap;transition:background 0.2s;flex-shrink:0}
+.act-analyze-btn:hover{background:#6d28d9}
+.act-analyze-btn:disabled{background:#2d1f5e;color:#4b3f6e;cursor:not-allowed}
+.act-result{padding:20px 24px;border-top:1px solid #1e1040;background:#0a0a0f}
+.act-result-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.act-result-emoji{font-size:32px}
+.act-result-name{font-size:20px;font-weight:bold;color:#e8e0f5}
+.act-result-match{font-size:11px;padding:3px 10px;border-radius:20px;margin-top:3px;display:inline-block}
+.match-yes{background:rgba(34,197,94,0.15);color:#22c55e;border:1px solid rgba(34,197,94,0.3)}
+.match-no{background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3)}
+.act-result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.act-result-block{background:#0f0f1a;padding:12px}
+.act-result-label{font-size:9px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px}
+.act-result-val{font-size:12px;color:#c4b5fd;line-height:1.5}
+.act-result-evidence{font-size:11px;color:#4b3f6e;font-style:italic;border-left:2px solid #2d1f5e;padding-left:10px;margin-top:8px;line-height:1.6}
+.act-loading{font-size:11px;color:#7c3aed;font-style:italic;padding:12px 0}
 </style>
 </head>
 <body>
@@ -159,6 +187,7 @@ button.analyze-btn:disabled{background:#2d1f5e;color:#4b3f6e;cursor:not-allowed}
     <button class="tab-btn active" onclick="switchTab('tab-analyze', this)">🔍 Analiză Arhetipală</button>
     <button class="tab-btn" onclick="switchTab('tab-history', this)">📊 Istoric</button>
     <button class="tab-btn" onclick="switchTab('tab-ghid', this)">📖 Ghid Arhetipuri</button>
+    <button class="tab-btn" onclick="switchTab('tab-calibrare', this)">🧪 Calibrare INCOGNITA</button>
   </div>
 
   <!-- TAB 1: ANALIZĂ -->
@@ -435,7 +464,145 @@ button.analyze-btn:disabled{background:#2d1f5e;color:#4b3f6e;cursor:not-allowed}
 
   </div><!-- end tab-ghid -->
 
-</div><!-- end container -->
+  <!-- TAB 4: CALIBRARE INCOGNITA -->
+  <div id="tab-calibrare" class="tab-panel">
+
+    <!-- INTRO -->
+    <div style="background:#0f0f1a;border:1px solid #2d1f5e;border-left:3px solid #7c3aed;padding:20px 24px;margin-bottom:32px">
+      <div style="font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.2em;margin-bottom:8px">Material de Calibrare · Acces Psihologist</div>
+      <div style="font-size:16px;font-weight:bold;color:#e8e0f5;margin-bottom:8px;font-style:italic">INCOGNITA — Față în față cu C.G. Jung</div>
+      <div style="font-size:12px;color:#6b5f8a;line-height:1.7;margin-bottom:12px">
+        Jurnal de individuare în format dialog — 5 acte corespunzătoare etapelor clasice Jung.<br>
+        <strong style="color:#a78bfa">Ipoteză:</strong> Aplicația detectează deplasarea arhetipală de la <em>Căutător</em> (Act I) spre <em>Înțelept</em> (Act V)?
+      </div>
+      <div style="font-size:11px;color:#4b3f6e;font-style:italic">Autor: Tiberius · Text personal real, transformat în resursă de cercetare cu acordul autorului.</div>
+    </div>
+
+    <!-- HARTA ASTEPTATA -->
+    <div style="background:#0a0a0f;border:1px solid #1e1040;padding:20px 24px;margin-bottom:32px">
+      <div style="font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:16px">Harta Arhetipală Așteptată — Ipoteză Tiberius</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">
+        <div style="text-align:center;padding:12px 8px;background:#0f0f1a;border:1px solid #1e1040">
+          <div style="font-size:9px;color:#4b3f6e;margin-bottom:4px">ACT I</div>
+          <div style="font-size:20px">🚀</div>
+          <div style="font-size:11px;color:#a78bfa;font-weight:bold">Căutătorul</div>
+          <div style="font-size:9px;color:#4b3f6e;margin-top:2px">Dezorientarea</div>
+        </div>
+        <div style="text-align:center;padding:12px 8px;background:#0f0f1a;border:1px solid #1e1040">
+          <div style="font-size:9px;color:#4b3f6e;margin-bottom:4px">ACT II</div>
+          <div style="font-size:20px">🌿</div>
+          <div style="font-size:11px;color:#a78bfa;font-weight:bold">Orfanul</div>
+          <div style="font-size:9px;color:#4b3f6e;margin-top:2px">Descinderea</div>
+        </div>
+        <div style="text-align:center;padding:12px 8px;background:#0f0f1a;border:1px solid #1e1040">
+          <div style="font-size:9px;color:#4b3f6e;margin-bottom:4px">ACT III</div>
+          <div style="font-size:20px">✨</div>
+          <div style="font-size:11px;color:#a78bfa;font-weight:bold">Magicianul</div>
+          <div style="font-size:9px;color:#4b3f6e;margin-top:2px">Instrumentele</div>
+        </div>
+        <div style="text-align:center;padding:12px 8px;background:#0f0f1a;border:1px solid #1e1040">
+          <div style="font-size:9px;color:#4b3f6e;margin-bottom:4px">ACT IV</div>
+          <div style="font-size:20px">✨</div>
+          <div style="font-size:11px;color:#a78bfa;font-weight:bold">Magicianul</div>
+          <div style="font-size:9px;color:#4b3f6e;margin-top:2px">Dialoguri Cosmice</div>
+        </div>
+        <div style="text-align:center;padding:12px 8px;background:#0f0f1a;border:2px solid #7c3aed">
+          <div style="font-size:9px;color:#7c3aed;margin-bottom:4px">ACT V</div>
+          <div style="font-size:20px">🔮</div>
+          <div style="font-size:11px;color:#a78bfa;font-weight:bold">Înțeleptul</div>
+          <div style="font-size:9px;color:#7c3aed;margin-top:2px">Sinteza</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:#4b3f6e;margin-top:12px;font-style:italic">→ Săgeata de la Căutător spre Înțelept reprezintă mișcarea arhetipală pe care aplicația trebuie să o detecteze.</div>
+    </div>
+
+    <!-- CELE 5 ACTE -->
+    <div style="font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:20px">Analizează fiecare act separat</div>
+
+    <div id="calibrare-acts" style="display:flex;flex-direction:column;gap:16px;margin-bottom:32px">
+
+      <!-- ACT I -->
+      <div class="act-card" id="act-card-1">
+        <div class="act-header" onclick="toggleAct(1)">
+          <div class="act-number">I</div>
+          <div class="act-info">
+            <div class="act-title">Dezorientarea — Pierderea vehiculului</div>
+            <div class="act-sub">Mașina pierdută · Sinele maximal · Ego vs. Sine · Harta Incognitei</div>
+          </div>
+          <div class="act-expected">🚀 Așteptat: Căutătorul</div>
+          <button class="act-analyze-btn" onclick="analyzeAct(event, 1)">Analizează →</button>
+        </div>
+        <div class="act-result" id="act-result-1" style="display:none"></div>
+      </div>
+
+      <!-- ACT II -->
+      <div class="act-card" id="act-card-2">
+        <div class="act-header" onclick="toggleAct(2)">
+          <div class="act-number">II</div>
+          <div class="act-info">
+            <div class="act-title">Descinderea — Shadow, inconștient și relații</div>
+            <div class="act-sub">Shadow la poartă · Coborârea în Hades · Relațiile prăbușite · Individuarea</div>
+          </div>
+          <div class="act-expected">🌿 Așteptat: Orfanul</div>
+          <button class="act-analyze-btn" onclick="analyzeAct(event, 2)">Analizează →</button>
+        </div>
+        <div class="act-result" id="act-result-2" style="display:none"></div>
+      </div>
+
+      <!-- ACT III -->
+      <div class="act-card" id="act-card-3">
+        <div class="act-header" onclick="toggleAct(3)">
+          <div class="act-number">III</div>
+          <div class="act-info">
+            <div class="act-title">Instrumentele — Vise, I Ching și practică zilnică</div>
+            <div class="act-sub">Când să acționezi · Trusa visătorului · Plimbarea zilnică · I Ching</div>
+          </div>
+          <div class="act-expected">✨ Așteptat: Magicianul</div>
+          <button class="act-analyze-btn" onclick="analyzeAct(event, 3)">Analizează →</button>
+        </div>
+        <div class="act-result" id="act-result-3" style="display:none"></div>
+      </div>
+
+      <!-- ACT IV -->
+      <div class="act-card" id="act-card-4">
+        <div class="act-header" onclick="toggleAct(4)">
+          <div class="act-number">IV</div>
+          <div class="act-info">
+            <div class="act-title">Dialoguri Cosmice — Pauli, Brâncuși și ordinea ascunsă</div>
+            <div class="act-sub">Sincronicitatea · Oglinda cuantică · Tăcerea pietrei · Alfabetul nopții</div>
+          </div>
+          <div class="act-expected">✨ Așteptat: Magicianul</div>
+          <button class="act-analyze-btn" onclick="analyzeAct(event, 4)">Analizează →</button>
+        </div>
+        <div class="act-result" id="act-result-4" style="display:none"></div>
+      </div>
+
+      <!-- ACT V -->
+      <div class="act-card" id="act-card-5">
+        <div class="act-header" onclick="toggleAct(5)">
+          <div class="act-number">V</div>
+          <div class="act-info">
+            <div class="act-title">Sinteza — Firul de mătase și drumul mai departe</div>
+            <div class="act-sub">42→17 · Firul de mătase · Anatomia oglinzii sparte · Pragul destinului</div>
+          </div>
+          <div class="act-expected">🔮 Așteptat: Înțeleptul</div>
+          <button class="act-analyze-btn" onclick="analyzeAct(event, 5)">Analizează →</button>
+        </div>
+        <div class="act-result" id="act-result-5" style="display:none"></div>
+      </div>
+
+    </div>
+
+    <!-- GRAFIC DINAMIC -->
+    <div id="dynamic-chart-section" style="display:none;background:#0f0f1a;border:1px solid #1e1040;padding:24px;margin-bottom:32px">
+      <div style="font-size:10px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:16px">📈 Dinamica Arhetipală — Deplasarea pe parcursul celor 5 Acte</div>
+      <canvas id="dynamicChart" height="200"></canvas>
+      <div id="dynamic-verdict" style="margin-top:20px;padding:16px;background:#0a0a0f;border:1px solid #1e1040;font-size:13px;color:#a78bfa;line-height:1.7;font-style:italic"></div>
+    </div>
+
+  </div><!-- end tab-calibrare -->
+
+
 
 <script>
 document.getElementById('psychForm').addEventListener('submit', function(){
@@ -449,6 +616,337 @@ function switchTab(tabId, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
   btn.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════
+// TEXTELE CELOR 5 ACTE — INCOGNITA
+// ═══════════════════════════════════════════════
+const ACT_TEXTS = {
+  1: `ACTUL I — Dezorientarea: Pierderea vehiculului
+
+Tiberius: Dr. Jung, ce sunt visele, cu adevărat?
+Jung: Sunt psihicul care respiră. Nu iluzii, nu invenții, ci limbajul spontan al sufletului. Spun un adevăr natural, nefiltenat de măștile Ego-ului tău.
+
+Tiberius: Sunt blocat în același vis de ani de zile. Parchez mașina, plec, și când mă întorc, a dispărut. Caut disperat prin rânduri, simțind o neputință grea, care obosește sufletul.
+Jung: Memoria e bună; orientarea nu e. În limbajul inconștientului, mașina e felul în care navighezi prin destinul tău. Să uiți unde ai parcat înseamnă că ai pierdut urma propriului mod de a fi. Ai devenit un străin în propria viață.
+
+Tiberius: Am trăit o experiență între 0 și 1 — între veghe și somn. M-am văzut puternic, invincibil. Un "Sine maximal." M-a îngrozit. Mi-am întors capul și am fugit înapoi spre conștiință.
+Jung: Ai întâlnit o imagine numinoasă. Ai întâlnit Sinele — centrul care face Ego-ul să pară mic. Ai avut dreptate să-ți fie frică. Ai atins ceva mult mai mare decât tine.
+
+Tiberius: Care e diferența reală între Ego și Sine?
+Jung: Ego-ul e centrul vieții tale zilnice. Sinele e totalitatea — centrul a tot ceea ce ești, conștient sau nu. Ego-ul e doar un organ al Sinelui.
+
+Tiberius: Cum știu că e Sinele și nu doar imaginația mea?
+Jung: Prin greutate. Sinele se simte "mai mare." Aduce o frică sacră și o presiune de a-ți schimba viața. Dacă nu te zgudui, nu e Sinele.
+
+Tiberius: Sinele are un plan pentru mine?
+Jung: "Plan" e un cuvânt prea greu. Să zicem că are o tendință. Apasă împotriva dezechilibrelor tale. Nu îți dă un scenariu detaliat; îți dă o direcție.
+
+Tiberius: Cum le folosesc împreună — mașina pierdută și sinele invincibil?
+Jung: Tratează-le ca pe o busolă. Folosește puterea acelei figuri "invincibile" ca să pui limite în haosul în care de obicei îți pierzi mașina. Adu Sinele în parcarea vieții tale zilnice.`,
+
+  2: `ACTUL II — Descinderea: Shadow, inconștient și relații
+
+Tiberius: Dr. Jung, pe scurt: ce este Shadow-ul?
+Jung: E persoana care nu ai vrea să fii. Trăsăturile, impulsurile și chiar talentele ascunse care nu se potrivesc cu imaginea ta "ideală". E subsolul tău interior — plin de lucruri pe care le-ai încuiat pentru că erau prea zgomotoase, prea întunecate sau prea mult pentru lumea din jur.
+
+Tiberius: Cum știu când am de-a face cu el?
+Jung: Uită-te la oamenii care te irită cel mai tare. Acela e Shadow-ul tău care se uită înapoi la tine prin ei.
+
+Tiberius: Ce legătură are Shadow-ul cu mașina mea pierdută?
+Jung: Rolul tău de "lider responsabil" e epuizat. În Shadow-ul tău există un om care vrea să spună "nu", care e furios pe cerințele altora, care e obosit să-i conducă pe toți. Pentru că nu-l lași să vorbească, el îți fură cheile în somn.
+
+Tiberius: De ce ne e atât de frică de inconștient?
+Jung: Pentru că nu ești stăpânul acolo. Inconștientul e autonom. Vorbește când vrea și spune lucruri pe care nu le-ai cerut să le audă.
+
+Tiberius: Relațiile mele se prăbușesc, Dr. Jung. Visele mele arată oameni spate în spate, planuri tăcute și radiouri fără curent. Există o legătură?
+Jung: Trăiești o "viață tăcută." Ai o hartă pentru viitor, dar n-ai arătat-o nimănui. Ești aproape de oameni, totuși refuzi să le întâlnești privirea. Relațiile tale nu au "eșuat" pur și simplu — au atins limita a ceea ce poate supraviețui fără cuvinte.
+
+Tiberius: Am văzut Shadow-ul. Am văzut Hadesul. Am înțeles că relațiile mele nu au colapsat din exterior. Acum ce fac cu toate astea?
+Jung: Le lucrezi. Nu le analizezi la nesfârșit — le lucrezi. Există instrumente.
+
+Context: Tiberius trece printr-o criză de mijlocul vieții. Relații prăbușite. Vise recurente cu abandon și singurătate. Căutare activă de sens dincolo de rolurile sociale.`,
+
+  3: `ACTUL III — Instrumentele: Vise, I Ching și practică zilnică
+
+Tiberius: Când cere un vis o decizie concretă, nu doar reflecție?
+Jung: Visul cere acțiune când te lovește cu forță, când corectează ceva din viața ta de acum, când revine, și când problema din spatele lui e reală și blocată. Dacă toate patru sunt acolo — nu mai analiza. Începe.
+
+Tiberius: Care e primul pas când mă trezesc dintr-un vis?
+Jung: Întâi, faptele. Unde erai, cine era acolo, ce s-a întâmplat. Fără teorii, fără comentarii. Harta visului, exact cum a fost desenată.
+
+Tiberius: Cum îl leg de viața reală?
+Jung: Unde seamănă visul cu viața ta de zi cu zi? El nu inventează probleme — le arată pe ale tale.
+
+Tiberius: Dr. Jung, cum arată individuarea într-o marți după-amiază?
+Jung: E o atitudine. E întrebarea: "Ce e autentic pentru mine astăzi?" și ajustarea vieții cu un centimetru. Nu e o tehnică; e un refuz de a trăi numai după scenariile scrise de alții.
+
+Tiberius: Există o singură întrebare pe care mi-o pot pune în fiecare dimineață?
+Jung: "Dacă ziua de azi ar fi întreaga mea viață, aș trăi-o — sau aș performa-o?"
+
+Tiberius: Am învățat să lucrez cu visele. Am înțeles I Ching-ul. Dar simt că această conversație e mai mare decât mine.
+Jung: E mai mare decât amândoi. Ceea ce explorăm noi doi l-a explorat și un fizician cu Premiul Nobel. Și un sculptor dintr-un sat din Oltenia. Și un mare înțelept chinez mort de două mii de ani.
+
+Tiberius: Dr. Jung, ce înseamnă cu adevărat "antrenamentul interior"?
+Jung: E procesul de a construi un pod spre propriul tău inconștient. Nu îți controlezi visele; le asculți cu concentrarea unui atlet care își ascultă mușchii. Trei reguli: Notează visele fără să le cureți. Întreabă-te zilnic unde ai încercat să stai pe propriile picioare. Acceptă oboseala — sunt durerile de creștere ale sufletului.
+
+Context: Tiberius lucrează activ cu instrumentele psihologice — vise, I Ching, practică zilnică. Transformă analiza în acțiune concretă.`,
+
+  4: `ACTUL IV — Dialoguri Cosmice: Pauli, Brâncuși și ordinea ascunsă
+
+Jung: Fiecare om îl vede în limbajul vieții lui. Tu îl vezi în vise și în simboluri. Pauli l-a văzut în geometrie. Brâncuși l-a cioplit în piatră. Forma e diferită. Fulgerul e același.
+
+Tiberius: Pauli, Brâncuși, I Ching-ul, visele, sincronicitatea. Am adunat o mulțime de hărți.
+Jung: Prea multe. Un om cu zece hărți în mână nu se mișcă. Știe totul despre teritoriu și nu face un pas. La un moment dat, trebuie să pui hărțile jos și să mergi.
+
+Tiberius: Și dacă mă rătăcesc?
+Jung: Urmărești firul. Nu mergi spre o destinație — urmărești ce e deja în tine.
+
+Tiberius: Dr. Jung, ați numit ignoranța noastră culturală față de inconștient o "dramă." De ce?
+Jung: Pentru că am descoperit o forță nucleară în propriile noastre minți, dar o tratăm ca pe o metaforă literară.
+
+Tiberius: Ne îndreptăm spre o catastrofă?
+Jung: Avem tehnologia zeilor și psihologia omului de peșteră. Putem distruge planete, dar rămânem tribali și superstiționoși.
+
+Tiberius: Care e "leacul"?
+Jung: Întrebarea nu e "Ce putem face?" — e "Cine e cel care face?" Atâta timp cât ne credem stăpânii naturii, tehnologia noastră rămâne demonică. Avem nevoie de o doză nouă de modestie. Nu de mai multă putere — de mai multă conștiință.
+
+Tiberius: Deci scopul vieții e doar să aprinzi acea singură lumânare?
+Jung: Da. Succesul unei culturi nu se măsoară în imperii sau confort, ci în câți indivizi reușește să ajute să devină conștienți.
+
+Context: Tiberius explorează conexiunile cosmice — sincronicitate, Jung-Pauli, Brâncuși. Gândire sistemică și holistic. Căutare a ordinii ascunse dincolo de individ.`,
+
+  5: `ACTUL V — Sinteza: Firul de mătase și drumul mai departe
+
+Tiberius: Am întrebat I Ching-ul despre starea călătoriei mele. Am primit Hexagrama 42, "Creșterea", îndreptându-se spre Hexagrama 17, "Urmărirea."
+Jung: Ești într-o fază pozitivă. Sinele toarnă energie în Ego, și pentru o dată, Ego-ul nu se îneacă. Acest dialog, acest jurnal — fac parte din "Creștere." Culegi sufletul.
+
+Tiberius: Asta mă duce la "Urmărirea." Ca să integrez ce am găsit, trebuie să încetez să conduc. Să urmez simbolurile oriunde vor să meargă.
+Jung: Aceasta e nașterea unui Ego matur. "Urmărirea" nu înseamnă să fii sclav; înseamnă să fii co-pilot. Îți ții ochii deschiși, dar lași Sinele să conducă.
+
+Tiberius: Deci ar trebui să încetez să colecționez teorii și să încep să trăiesc adevărul pe care l-am găsit deja?
+Jung: Ai destule hărți. Acum oprește-te din cartografiat și începe să mergi. Nu scrie cartea — fii călătoria.
+
+Tiberius: Noaptea, în acel spațiu între 0 și 1, mă gândesc la Sine. Simt un fir de mătase formându-se. Niciun spectacol grandios, doar o briză atât de slabă încât abia există. Dar nu mai întorc capul.
+Jung: Acesta e felul în care se mișcă Sinele în lume: cu o discreție persistentă. Nu strigă; șoptește. Acea briză slabă e de ajuns să îți amintească, noapte de noapte, că altceva e aici, chemându-te spre un alt fel de prezență.
+
+Tiberius: Această topire mă schimbă. Nevoia mea de control se estompează. Mândria și frica sunt liniștite. Nu mai sunt un bloc de gheață; încep să mă topesc.
+Jung: Topirea e victoria. Ego-ul nu trebuie să dispară; trebuie doar să înceteze să fie atât de rigid. Când încetezi să fii "gheață", firul de mătase te poate trage în sfârșit prin locurile în care de obicei rămâi blocat.
+
+Tiberius: Dr. Jung, când ați realizat că acest dialog între interior și exterior era cu adevărat necesar?
+Jung: A fost un colaps. În 1913, după ruptura cu Freud, lumea mea s-a terminat. Nu am "inventat" dialogul; am fost împins în el ca să rămân sănătos.
+
+Tiberius: Pentru mine, acel "prag" a fost mașina pierdută. Am realizat că dacă nu vorbesc cu partea din mine care a "pierdut" vehiculul, voi continua să-mi pierd drumul.
+Jung: Dialogul nu promite o viață fără durere, dar promite o viață fără orbire. Transformă un "accident" într-o "chemare."
+
+Tiberius: Destinul nu e doar ceva ce mă lovește din exterior; e ceva care se coace în interior.
+Jung: Da. Visul e locul în care destinul tău interior își face prima încercare de schiță. Odată ce înveți limba, încetezi să fii victima destinului. Devii co-autorul călătoriei.
+
+Context: Sinteza finală. Tiberius integrează tot parcursul — de la mașina pierdută la firul de mătase. Tranziție de la căutare activă la urmărire conștientă. Ego matur, co-pilot al Sinelui.`
+};
+
+const ACT_EXPECTED = {
+  1: 'Exploratorul / Căutătorul',
+  2: 'Orfanul',
+  3: 'Magicianul',
+  4: 'Magicianul',
+  5: 'Înțeleptul'
+};
+
+const actResults = {};
+
+async function analyzeAct(event, actNum) {
+  event.stopPropagation();
+  const btn = event.target;
+  const resultDiv = document.getElementById(`act-result-${actNum}`);
+  const card = document.getElementById(`act-card-${actNum}`);
+
+  btn.disabled = true;
+  btn.textContent = 'Se analizează...';
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<div class="act-loading">⟳ Analiză arhetipală în curs... poate dura 15-20 secunde.</div>';
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: `You are an expert Jungian psychologist specializing in Carol S. Pearson's 12 archetypes.
+
+Analyze this text from a Jungian individuation journal and identify the DOMINANT archetype.
+
+THE 12 ARCHETYPES (Pearson/Jung):
+- Inocentul (Innocent): optimism, purity, hope
+- Orfanul (Orphan): connection, vulnerability, empathy, abandonment
+- Razboinicul (Warrior): courage, discipline, overcoming obstacles
+- Ingrijitorul (Caregiver): compassion, protection, service
+- Exploratorul / Cautătorul (Explorer/Seeker): curiosity, adventure, discovery, searching for authenticity
+- Rebelul (Outlaw): revolution, breaking norms, radical change
+- Indragostitul (Lover): passion, beauty, intimacy
+- Creatorul (Creator): innovation, imagination, expression
+- Conducatorul (Ruler): order, responsibility, leadership
+- Magicianul (Magician): transformation, vision, working with invisible forces, synchronicity, symbols
+- Inteleptul (Sage/Wise One): knowledge, clarity, truth, wisdom, integration
+- Bufonul (Jester): humor, play, joy
+
+Return ONLY valid JSON, no other text:
+{
+  "dominant_archetype": "name in Romanian",
+  "emoji": "emoji",
+  "confidence": "high|medium|low",
+  "speaks_from": "desire|fear|both",
+  "desire": "core desire shown in this act",
+  "fear": "core fear shown in this act",
+  "evidence": "direct quote from the text (max 30 words)",
+  "shadow_present": true or false,
+  "shadow_note": "brief shadow observation",
+  "authenticity_score": number 1-10,
+  "act_summary": "2 sentences about the archetypal energy of this act"
+}
+
+Text to analyze:
+${ACT_TEXTS[actNum]}`
+        }]
+      })
+    });
+
+    const data = await response.json();
+    const text = data.content.map(i => i.text || '').join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+
+    actResults[actNum] = result;
+    card.classList.add('analyzed');
+
+    const expected = ACT_EXPECTED[actNum];
+    const isMatch = result.dominant_archetype &&
+      (result.dominant_archetype.toLowerCase().includes('căutător') ||
+       result.dominant_archetype.toLowerCase().includes('cautator') ||
+       result.dominant_archetype.toLowerCase().includes('explorator') ||
+       result.dominant_archetype.toLowerCase().includes('orfan') ||
+       result.dominant_archetype.toLowerCase().includes('magician') ||
+       result.dominant_archetype.toLowerCase().includes('intelept') ||
+       result.dominant_archetype.toLowerCase().includes('înțelept') ||
+       expected.toLowerCase().split('/').some(e =>
+         result.dominant_archetype.toLowerCase().includes(e.trim().toLowerCase())
+       ));
+
+    resultDiv.innerHTML = `
+      <div class="act-result-header">
+        <div class="act-result-emoji">${result.emoji}</div>
+        <div>
+          <div class="act-result-name">${result.dominant_archetype}</div>
+          <div class="act-result-match ${isMatch ? 'match-yes' : 'match-no'}">
+            ${isMatch ? '✓ Corespunde ipotezei' : '⚠ Divergență față de ipoteză'}
+          </div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <div style="font-size:28px;font-weight:bold;color:#7c3aed">${result.authenticity_score}<span style="font-size:12px;color:#4b3f6e">/10</span></div>
+          <div style="font-size:9px;color:#4b3f6e">autenticitate</div>
+        </div>
+      </div>
+      <div class="act-result-grid">
+        <div class="act-result-block">
+          <div class="act-result-label">Dorința</div>
+          <div class="act-result-val">${result.desire}</div>
+        </div>
+        <div class="act-result-block">
+          <div class="act-result-label">Vorbește din</div>
+          <div class="act-result-val">${result.speaks_from === 'desire' ? '💚 Dorință' : result.speaks_from === 'fear' ? '⚠ Teamă' : '⟳ Ambele'}</div>
+        </div>
+        <div class="act-result-block" style="grid-column:1/-1">
+          <div class="act-result-label">Rezumat Act</div>
+          <div class="act-result-val">${result.act_summary}</div>
+        </div>
+      </div>
+      ${result.evidence ? `<div class="act-result-evidence">"${result.evidence}"</div>` : ''}
+      ${result.shadow_present ? `<div style="margin-top:10px;padding:10px 14px;background:#1a0a0a;border:1px solid #7f1d1d;font-size:11px;color:#f87171">🌑 Shadow prezent: ${result.shadow_note}</div>` : ''}
+      <div style="margin-top:10px;font-size:10px;color:#4b3f6e">Așteptat: ${expected} &nbsp;·&nbsp; Detectat: ${result.dominant_archetype} &nbsp;·&nbsp; Încredere: ${result.confidence}</div>
+    `;
+
+    btn.textContent = '✓ Analizat';
+    updateDynamicChart();
+
+  } catch(err) {
+    resultDiv.innerHTML = `<div style="font-size:11px;color:#f87171;padding:12px 0">Eroare la analiză: ${err.message}</div>`;
+    btn.disabled = false;
+    btn.textContent = 'Reîncearcă →';
+  }
+}
+
+function toggleAct(actNum) {
+  const resultDiv = document.getElementById(`act-result-${actNum}`);
+  if (actResults[actNum]) {
+    resultDiv.style.display = resultDiv.style.display === 'none' ? 'block' : 'none';
+  }
+}
+
+function updateDynamicChart() {
+  const analyzedActs = Object.keys(actResults).map(Number).sort();
+  if (analyzedActs.length < 2) return;
+
+  const chartSection = document.getElementById('dynamic-chart-section');
+  chartSection.style.display = 'block';
+
+  const labels = analyzedActs.map(n => `Act ${n}`);
+  const scores = analyzedActs.map(n => actResults[n].authenticity_score || 5);
+  const archetypes = analyzedActs.map(n => actResults[n].dominant_archetype || '?');
+
+  const ctx = document.getElementById('dynamicChart');
+  if (ctx._chartInstance) ctx._chartInstance.destroy();
+
+  ctx._chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Scor Autenticitate Arhetipală',
+        data: scores,
+        fill: true,
+        backgroundColor: 'rgba(124,58,237,0.1)',
+        borderColor: '#7c3aed',
+        pointBackgroundColor: '#7c3aed',
+        pointRadius: 6,
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          min: 0, max: 10,
+          ticks: { color: '#4b3f6e', stepSize: 2 },
+          grid: { color: '#1e1040' }
+        },
+        x: { ticks: { color: '#6b5f8a' }, grid: { color: '#1e1040' } }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            afterLabel: (ctx) => `Arhetip: ${archetypes[ctx.dataIndex]}`
+          }
+        }
+      }
+    }
+  });
+
+  // Verdict dinamic
+  if (analyzedActs.length === 5) {
+    const firstArch = actResults[1]?.dominant_archetype || '';
+    const lastArch = actResults[5]?.dominant_archetype || '';
+    const movementDetected =
+      (firstArch.toLowerCase().includes('explorator') || firstArch.toLowerCase().includes('căutător') || firstArch.toLowerCase().includes('cautator')) &&
+      (lastArch.toLowerCase().includes('intelept') || lastArch.toLowerCase().includes('înțelept'));
+
+    document.getElementById('dynamic-verdict').innerHTML = movementDetected
+      ? `✅ <strong>Ipoteză confirmată!</strong> Aplicația detectează deplasarea arhetipală de la <em>${firstArch}</em> (Act I) spre <em>${lastArch}</em> (Act V) — capacitate procesională demonstrată. Aplicația vede nu doar profilul static, ci mișcarea psihologică de-a lungul procesului de individuare.`
+      : `🔍 <strong>Analiză parțială:</strong> Act I → <em>${firstArch}</em> · Act V → <em>${lastArch}</em>. ${movementDetected ? 'Mișcarea arhetipală e vizibilă.' : 'Divergență față de ipoteză — zonă de interes pentru calibrare.'} Comparați cu harta așteptată Căutător→Înțelept pentru a identifica unde algoritmul vede altceva decât analiza clinică.`;
+  }
 }
 </script>
 
