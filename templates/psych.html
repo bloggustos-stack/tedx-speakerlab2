@@ -519,9 +519,22 @@ button.analyze-btn:disabled{background:#2d1f5e;color:#4b3f6e;cursor:not-allowed}
     <!-- LEGENDA -->
     <div style="background:#0a0a0f;border:1px solid #1e1040;padding:16px 20px;margin-bottom:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
       <div>
-        <div style="font-size:9px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:4px">Autenticitate Arhetipală</div>
-        <div style="font-size:11px;color:#6b5f8a;line-height:1.5">Cât de fidel exprimă textul arhetipul identificat. 8-10 = foarte fidel, 1-4 = performativ.</div>
+        <div style="font-size:9px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:4px">Shadow Prezent</div>
+        <div style="font-size:11px;color:#6b5f8a;line-height:1.5">Umbra jungiană — aspecte neintegrate ale psihicului active în text. Nu e negativ — e material de lucru.</div>
       </div>
+      <div>
+        <div style="font-size:9px;color:#22c55e;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:4px">✓ Corespunde ipotezei</div>
+        <div style="font-size:11px;color:#6b5f8a;line-height:1.5">Arhetipul detectat coincide cu cel așteptat din analiza clinică a lui Tiberius — algoritmul vede același lucru.</div>
+      </div>
+      <div>
+        <div style="font-size:9px;color:#ef4444;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:4px">⚠ Divergență față de ipoteză</div>
+        <div style="font-size:11px;color:#6b5f8a;line-height:1.5">Aplicația detectează alt arhetip decât cel așteptat. Nu e eroare — e o întrebare de cercetare: de ce algoritmul vede altceva decât analiza clinică?</div>
+      </div>
+      <div>
+        <div style="font-size:9px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:4px">📈 Dinamica Arhetipală</div>
+        <div style="font-size:11px;color:#6b5f8a;line-height:1.5">Graficul arată deplasarea arhetipului dominant de la Act I la Act V. Ipoteza lui Tiberius: de la Căutător spre Înțelept — dovada unui proces real, nu un profil static. Crește pe măsură ce analizezi fiecare act.</div>
+      </div>
+    </div>
       <div>
         <div style="font-size:9px;color:#7c3aed;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:4px">Dorință vs. Teamă</div>
         <div style="font-size:11px;color:#6b5f8a;line-height:1.5"><strong style="color:#22c55e">Dorință</strong> = energia pozitivă a arhetipului. <strong style="color:#ef4444">Teamă</strong> = umbra arhetipului — acționează din anxietate, nu din forță.</div>
@@ -786,7 +799,7 @@ async function analyzeAct(event, actNum) {
     const response = await fetch('/api/analyze-act', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: ACT_TEXTS[actNum] })
+     body: JSON.stringify({ text: ACT_TEXTS[actNum], lang: 'ro' })
     });
 
     const data = await response.json();
