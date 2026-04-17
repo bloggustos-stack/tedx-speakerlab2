@@ -1216,6 +1216,34 @@ def analyze_act():
         return {"error": "No text"}, 400
     result = analyze_psychologist(text, lang)
     return result
+@app.route('/dreams', methods=["GET", "POST"])
+@login_required
+def dreams():
+    user = get_current_user()
+    result = None
+    pdf_file = ""
+    total_score = 0
+    max_score = 0
+    if request.method == "POST":
+        text = request.form.get("dream_text", "")
+        if text.strip():
+            result = analyze_psychologist(text, "ro")
+            total_score, max_score = calculate_total_score(result)
+            save_history(user["email"], text, result, total_score, max_score)
+            try:
+                pdf_file = generate_pdf(text, result, user.get("name", "Speaker"), "psych", total_score, max_score)
+            except Exception as e:
+                print(f"PDF error: {e}")
+    history = get_user_history(user["email"], limit=20)
+    return render_template("dreams.html",
+        result=result,
+        pdf_file=pdf_file,
+        user=user,
+        tiers=TIERS,
+        total_score=total_score,
+        max_score=max_score,
+        history=history
+    )
 @app.route('/ghid')
 @login_required
 def ghid():
